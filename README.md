@@ -57,7 +57,7 @@ Taip pat reikia įsidiegti [Kitematic](https://github.com/docker/kitematic/relea
 
 * JavaScript/CSS įrankiams (atsidaryti atskirame lange)
 ```
-docker-compose -f .docker/docker-compose.yml run frontend.symfony
+docker-compose -f .docker/docker-compose.yml run --rm frontend.symfony
 ```
   * Pirmą kartą (įsirašome JavaScript bilbiotekas)
   ```
