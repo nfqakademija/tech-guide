@@ -48,7 +48,7 @@ Taip pat reikia įsidiegti [Kitematic](https://github.com/docker/kitematic/relea
     `.docker` kataloge žr. failų su `APP_SECRET` ir `DATABASE_URL` reikšmėmis
   * Pasileidžiame:
   ```
-  sudo su -c 'echo "127.0.0.1 symfony.local" >> /etc/hosts'
+  sudo su -c 'echo "127.0.0.1 techguide.local" >> /etc/hosts'
   docker build .docker/php -t php.symfony 
   docker build .docker/frontend/ -t frontend.symfony
   docker-compose -f .docker/docker-compose.yml up -d
