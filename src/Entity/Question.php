@@ -37,7 +37,7 @@ class Question
     private $answers;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Category", inversedBy="questions")
+     * @ORM\ManyToMany(targetEntity="Category", mappedBy="questions")
      */
     private $categories;
 
@@ -47,7 +47,7 @@ class Question
         $this->categories = new ArrayCollection();
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }

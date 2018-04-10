@@ -27,7 +27,7 @@ class Answer
      */
     private $question;
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }

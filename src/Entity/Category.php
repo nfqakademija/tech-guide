@@ -29,6 +29,10 @@ class Category
 
     /**
      * @ORM\ManyToMany(targetEntity="Question", inversedBy="categories")
+     * @ORM\JoinTable(name="category_question",
+     *     joinColumns={@ORM\JoinColumn(name="question_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")}
+     * )
      */
     private $questions;
 
@@ -38,7 +42,7 @@ class Category
         $this->questions = new ArrayCollection();
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }

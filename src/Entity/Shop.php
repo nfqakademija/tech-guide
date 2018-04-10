@@ -31,7 +31,7 @@ class Shop
         $this->shopCategories = new ArrayCollection();
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
