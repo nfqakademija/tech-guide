@@ -13,7 +13,7 @@ class Guidebot extends Component {
 
   componentWillMount () {
     const min = 0;
-    const max = 2;
+    const max = 3;
     const randomNumber = Math.floor(min + Math.random() * (max - min));
     const randomGreeting = `${data.messages.greeting[randomNumber]}`;
     this.setState({ randomGreeting: randomGreeting });
