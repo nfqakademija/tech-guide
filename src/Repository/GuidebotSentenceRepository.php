@@ -14,6 +14,12 @@ class GuidebotSentenceRepository extends ServiceEntityRepository
         parent::__construct($registry, GuidebotSentence::class);
     }
 
+    /**
+     * @param string $purpose : available purposes: introduction, greetings, reply
+     *
+     * @return array
+     */
+
     public function getByPurpose(string $purpose) : array
     {
         return $this->getEntityManager()

@@ -1,16 +1,22 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: matas
- * Date: 4/11/18
- * Time: 5:09 PM
- */
 
 namespace App\Utils;
 
 use App\Entity\GuidebotSentence;
 use Doctrine\ORM\EntityManager;
 
+/**
+ * Guidebot is responsible for logic when retrieving the sentences from the database
+ *
+ * Guidebot class can generate a set of greeting messages for the user
+ *
+ * Example usage:
+ * $guidebot = new Guidebot($entityManager)
+ * foreach($guidebot->generateGreeting() as $greeting) {
+ *    //do something
+ * }
+ *
+ */
 class Guidebot
 {
     private $entityManager;
@@ -23,6 +29,11 @@ class Guidebot
             ->getRepository(GuidebotSentence::class);
     }
 
+    /**
+     * generate a set of greeting messages
+     *
+     * @return array of strings
+     */
     public function generateGreeting() : array
     {
         $allGreetings = $this->makePriorityArray(
@@ -36,6 +47,12 @@ class Guidebot
         );
     }
 
+    /**
+     * @param array $items that are GuidebotSentence entities
+     *
+     * @return array with GuidebotSentence priority attribute as key
+     *               and array of GuidebotSentence entities as value
+     */
     private function makePriorityArray(array $items) : array
     {
         $result = array();
@@ -50,6 +67,11 @@ class Guidebot
         return $result;
     }
 
+    /**
+     * @param array $items that is made in makePriorityFunction
+     *
+     * @return array of strings
+     */
     private function pickItemsRandomly(array $items) : array
     {
         $result = array();
