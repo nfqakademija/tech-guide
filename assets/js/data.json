@@ -1,5 +1,41 @@
 {
   "messages" : {
-    "greeting" : ["Hey! How are you doing?", "Hello sir! How`re you doing?", "Nice to see you! How`s your day?"]
+    "greeting" : [
+      {
+        "id": "1",
+        "message": ["Hey! How are you doing?", "Hello, how`s your day?", "What`s up?"],
+        "trigger": "2"
+      }
+    ],
+    "questions": [
+      {
+        "id": "3",
+        "message": "What type of tech would you like to know more about?",
+        "trigger": "4"
+      },
+      {
+        "id": "5",
+        "message": "Here you go your results!",
+        "end": true
+      }
+    ],
+    "options": [
+      {
+        "id": "2",
+        "options": [
+          { "value": "1", "label": "Number 1", "trigger": "3" },
+          { "value": "2", "label": "Number 2", "trigger": "3" },
+          { "value": "3", "label": "Number 3", "trigger": "3" }
+        ]
+      },
+      {
+        "id": "4",
+        "options": [
+          { "value": "1", "label": "Number 1", "trigger": "5" },
+          { "value": "2", "label": "Number 2", "trigger": "5" },
+          { "value": "3", "label": "Number 3", "trigger": "5" }
+        ]
+      }
+    ]
   }
 }
