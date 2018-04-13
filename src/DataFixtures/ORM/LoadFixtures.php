@@ -11,6 +11,7 @@ class LoadFixtures extends Fixture
     {
         $loader = new AppNativeLoader();
         $objectSet = $loader->loadFiles([
+            __DIR__ . '/guidebot_fixtures.yaml',
             __DIR__ . '/question_fixtures.yaml',
             __DIR__ . '/answer_fixtures.yaml'
         ])->getObjects();
