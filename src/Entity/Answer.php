@@ -27,16 +27,27 @@ class Answer
      */
     private $question;
 
+    /**
+     * @return int
+     */
     public function getId(): int
     {
         return $this->id;
     }
 
+    /**
+     * @return null|string
+     */
     public function getValue(): ?string
     {
         return $this->value;
     }
 
+    /**
+     * @param string $value
+     *
+     * @return Answer
+     */
     public function setValue(string $value): self
     {
         $this->value = $value;

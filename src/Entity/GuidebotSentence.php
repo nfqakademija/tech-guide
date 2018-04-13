@@ -31,16 +31,27 @@ class GuidebotSentence
      */
     private $purpose;
 
+    /**
+     * @return int
+     */
     public function getId(): int
     {
         return $this->id;
     }
 
+    /**
+     * @return null|string
+     */
     public function getSentence(): ?string
     {
         return $this->sentence;
     }
 
+    /**
+     * @param string $sentence
+     *
+     * @return GuidebotSentence
+     */
     public function setSentence(string $sentence): self
     {
         $this->sentence = $sentence;
@@ -48,11 +59,19 @@ class GuidebotSentence
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getPriority(): ?int
     {
         return $this->priority;
     }
 
+    /**
+     * @param int $priority
+     *
+     * @return GuidebotSentence
+     */
     public function setPriority(int $priority): self
     {
         $this->priority = $priority;
@@ -60,11 +79,19 @@ class GuidebotSentence
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getPurpose(): ?string
     {
         return $this->purpose;
     }
 
+    /**
+     * @param string $purpose
+     *
+     * @return GuidebotSentence
+     */
     public function setPurpose(string $purpose): self
     {
         $this->purpose = $purpose;
