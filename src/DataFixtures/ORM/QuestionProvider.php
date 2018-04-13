@@ -19,12 +19,12 @@ class QuestionProvider extends BaseProvider
         parent::__construct($generator);
     }
 
-    public function question_value($question_num)
+    public function question_value($question_num) : string
     {
         return array_keys($this->questions)[$question_num - 1];
     }
 
-    public function question_priority($question_num)
+    public function question_priority($question_num) : int
     {
         return array_values($this->questions)[$question_num - 1];
     }

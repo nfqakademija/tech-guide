@@ -28,12 +28,12 @@ class AnswerProvider extends BaseProvider
         parent::__construct($generator);
     }
 
-    public function answer_value($answer_num)
+    public function answer_value($answer_num) : string
     {
         return array_keys($this->answers)[$answer_num - 1];
     }
 
-    public function question_for_answer($answer_num)
+    public function question_for_answer($answer_num) : int
     {
         return array_values($this->answers)[$answer_num - 1];
     }

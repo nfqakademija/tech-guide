@@ -42,22 +42,22 @@ class GuidebotSentenceProvider extends BaseProvider
         parent::__construct($generator);
     }
 
-    public function introduction_value($introduction_num)
+    public function introduction_value($introduction_num) : string
     {
         return array_keys($this->introductions)[$introduction_num - $this->noOfGreetings];
     }
 
-    public function introduction_priority($introduction_num)
+    public function introduction_priority($introduction_num) : int
     {
         return array_values($this->introductions)[$introduction_num - $this->noOfGreetings];
     }
 
-    public function greetings_value($greeting_num)
+    public function greetings_value($greeting_num) : string
     {
         return array_keys($this->greetings)[$greeting_num - 1];
     }
 
-    public function greetings_priority($greeting_num)
+    public function greetings_priority($greeting_num) : int
     {
         return array_values($this->greetings)[$greeting_num - 1];
     }

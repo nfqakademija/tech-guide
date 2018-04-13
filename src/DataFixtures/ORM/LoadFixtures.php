@@ -7,7 +7,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class LoadFixtures extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager) : void
     {
         $loader = new AppNativeLoader();
         $objectSet = $loader->loadFiles([
