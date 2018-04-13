@@ -1,0 +1,4 @@
+App\Entity\Answer:
+    answer_{1..13}:
+        value: <answer_value($current)>
+        question: '@question_<question_for_answer($current)>'

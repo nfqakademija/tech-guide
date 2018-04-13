@@ -43,4 +43,24 @@ class Answer
 
         return $this;
     }
+
+    /**
+     * @return Question
+     */
+    public function getQuestion() : Question
+    {
+        return $this->question;
+    }
+
+    /**
+     * @param Question $question
+     *
+     * @return Answer
+     */
+    public function setQuestion(Question $question): self
+    {
+        $this->question = $question;
+
+        return $this;
+    }
 }

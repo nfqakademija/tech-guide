@@ -10,7 +10,11 @@ class LoadFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $loader = new AppNativeLoader();
-        $objectSet = $loader->loadFile(__DIR__ . '/question_fixtures.yaml')->getObjects();
+        $objectSet = $loader->loadFiles([
+            __DIR__ . '/question_fixtures.yaml',
+            __DIR__ . '/answer_fixtures.yaml'
+        ])->getObjects();
+
         foreach($objectSet as $object)
         {
             $manager->persist($object);

@@ -13,17 +13,18 @@ class QuestionProvider extends BaseProvider
         'How often do you post on social media' => 11,
         'What`s the color you prefer for your device?' => 101
     );
+
     public function __construct(Generator $generator)
     {
         parent::__construct($generator);
     }
 
-    public function question($question_num)
+    public function question_value($question_num)
     {
         return array_keys($this->questions)[$question_num - 1];
     }
 
-    public function priority($question_num)
+    public function question_priority($question_num)
     {
         return array_values($this->questions)[$question_num - 1];
     }

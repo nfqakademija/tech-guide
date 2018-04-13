@@ -11,6 +11,7 @@ class AppNativeLoader extends NativeLoader
     {
         $generator = parent::createFakerGenerator();
         $generator->addProvider(new QuestionProvider($generator));
+        $generator->addProvider(new AnswerProvider($generator));
         return $generator;
     }
 }
