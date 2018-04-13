@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import ChatBot from 'react-simple-chatbot';
-import data from '../../data.json';
+import data from '../../demodata.json';
 
 class Guidebot extends Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class Guidebot extends Component {
       messages.push(data.messages.questions[i]);
     }
 
-    for (var i = 0; i < data.messages.options.length; i++){
+    for (var i = 0; i < data.messages.options.length; i++) {
       messages.push(data.messages.options[i]);
     }
     this.setState({ data: messages });
