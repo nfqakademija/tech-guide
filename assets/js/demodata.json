@@ -1,0 +1,47 @@
+{
+  "messages" : {
+    "greeting" : [
+      {
+        "id": "1",
+        "message": ["Hey! How are you doing?", "Hello, how`s your day?", "What`s up?"],
+        "trigger": "2"
+      }
+    ],
+    "questions": [
+      {
+        "id": "2",
+        "message": "What type of tech would you like to know more about?",
+        "trigger": "3"
+      },
+      {
+        "id": "4",
+        "message": "What color device would you like to have?",
+        "trigger": "5"
+      },
+      {
+        "id": "6",
+        "message": "Here you go your results!",
+        "end": true
+      }
+    ],
+    "options": [
+      {
+        "id": "3",
+        "options": [
+          { "value": "1", "label": "Mobile device", "trigger": "4" },
+          { "value": "2", "label": "Laptop", "trigger": "4" },
+          { "value": "3", "label": "Smart watch", "trigger": "4" }
+        ]
+      },
+      {
+        "id": "5",
+        "options": [
+          { "value": "1", "label": "Black", "trigger": "6" },
+          { "value": "2", "label": "White", "trigger": "6" },
+          { "value": "3", "label": "Gold", "trigger": "6" },
+          { "value": "4", "label": "Silver", "trigger": "6" }
+        ]
+      }
+    ]
+  }
+}
