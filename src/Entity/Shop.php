@@ -31,16 +31,27 @@ class Shop
         $this->shopCategories = new ArrayCollection();
     }
 
+    /**
+     * @return int
+     */
     public function getId(): int
     {
         return $this->id;
     }
 
+    /**
+     * @return null|string
+     */
     public function getHomepage(): ?string
     {
         return $this->homepage;
     }
 
+    /**
+     * @param string $homepage
+     *
+     * @return Shop
+     */
     public function setHomepage(string $homepage): self
     {
         $this->homepage = $homepage;

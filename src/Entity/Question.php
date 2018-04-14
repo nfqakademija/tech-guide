@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -47,16 +48,27 @@ class Question
         $this->categories = new ArrayCollection();
     }
 
+    /**
+     * @return int
+     */
     public function getId(): int
     {
         return $this->id;
     }
 
+    /**
+     * @return int|null
+     */
     public function getPriority(): ?int
     {
         return $this->priority;
     }
 
+    /**
+     * @param int $priority
+     *
+     * @return Question
+     */
     public function setPriority(int $priority): self
     {
         $this->priority = $priority;
@@ -64,11 +76,19 @@ class Question
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getFollowUpQuestion(): ?int
     {
         return $this->followUpQuestion;
     }
 
+    /**
+     * @param int|null $followUpQuestion
+     *
+     * @return Question
+     */
     public function setFollowUpQuestion(?int $followUpQuestion): self
     {
         $this->followUpQuestion = $followUpQuestion;
@@ -76,11 +96,19 @@ class Question
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getValue(): ?string
     {
         return $this->value;
     }
 
+    /**
+     * @param string $value
+     *
+     * @return Question
+     */
     public function setValue(string $value): self
     {
         $this->value = $value;
