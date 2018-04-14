@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-
+import { ThemeProvider } from 'styled-components';
 import ChatBot from 'react-simple-chatbot';
-import data from '../../demodata.json';
+import data from '../../data.json';
 
 class Guidebot extends Component {
   constructor(props) {
@@ -18,15 +18,16 @@ class Guidebot extends Component {
 
     const randomNumber = Math.floor(min + Math.random() * (max - min));
     const randomGreeting = data.messages.greeting[0].message[randomNumber];
-    data.messages.greeting[0].message = randomGreeting;
-    messages.push(data.messages.greeting[0]);
 
+    for (let i = 0; i < data.messages.greeting.length; i++) {
+      messages.push(data.messages.greeting[i]);
+    }
 
-    for (var i = 0; i < data.messages.questions.length; i++) {
+    for (let i = 0; i < data.messages.questions.length; i++) {
       messages.push(data.messages.questions[i]);
     }
 
-    for (var i = 0; i < data.messages.options.length; i++) {
+    for (let i = 0; i < data.messages.options.length; i++) {
       messages.push(data.messages.options[i]);
     }
     this.setState({ data: messages });
@@ -34,13 +35,31 @@ class Guidebot extends Component {
   }
 
   render () {
-    const randomGreeting = this.state.randomGreeting;
+    const theme = {
+      background: '#f5f8fb',
+      fontFamily: 'Helvetica Neue',
+      botBubbleColor: 'white',
+      botFontColor: 'black',
+      userBubbleColor: '#fff',
+      userFontColor: '#4a4a4a',
+    }
+
+    const inputStyle = {
+      display: 'none'
+    }
+    
     return (
-      <ChatBot
-        headerTitle="Guidebot"
-        handleEnd={this.handleEnd}
-        steps={this.state.data}
-      />
+        <ThemeProvider theme={theme}>
+            <ChatBot
+              headerTitle="Guidebot"
+              steps={this.state.data}
+              width="100%"
+              hideHeader="true"
+              botDelay="1500"
+              hideUserAvatar="true"
+              inputStyle={inputStyle}
+            />
+        </ThemeProvider>
     );
   }
 }
