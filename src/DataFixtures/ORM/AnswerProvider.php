@@ -8,9 +8,6 @@ use Faker\Generator;
 class AnswerProvider extends BaseProvider
 {
     private $answers = array(
-        'Mobile device' => 1,
-        'Smartwatch' => 1,
-        'Laptop' => 1,
         'I don`t like travelling' => 2,
         'I`m always on the road!' => 2,
         'Only a few times a year' => 2,

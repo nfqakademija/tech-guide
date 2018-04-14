@@ -13,6 +13,7 @@ class AppNativeLoader extends NativeLoader
         $generator->addProvider(new GuidebotSentenceProvider($generator));
         $generator->addProvider(new QuestionProvider($generator));
         $generator->addProvider(new AnswerProvider($generator));
+        $generator->addProvider(new CategoryProvider($generator));
         return $generator;
     }
 }

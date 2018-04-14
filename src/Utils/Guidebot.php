@@ -2,7 +2,11 @@
 
 namespace App\Utils;
 
+use App\Entity\Answer;
+use App\Entity\Category;
 use App\Entity\GuidebotSentence;
+use App\Entity\Question;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -21,12 +25,27 @@ class Guidebot
 {
     private $entityManager;
     private $sentence_repository;
+    private $answer_repository;
+    private $question_repository;
+    private $category_repository;
+
+    private $last_id = 0;
+    private $entityList;
 
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
+
         $this->sentence_repository = $this->entityManager
             ->getRepository(GuidebotSentence::class);
+        $this->answer_repository = $this->entityManager
+            ->getRepository(Answer::class);
+        $this->question_repository = $this->entityManager
+            ->getRepository(Question::class);
+        $this->category_repository = $this->entityManager
+            ->getRepository(Category::class);
+
+        $this->entityList = array();
     }
 
     /**
@@ -45,6 +64,91 @@ class Guidebot
             $this->pickItemsRandomly($allGreetings),
             $this->pickItemsRandomly($allIntroductions)
         );
+    }
+
+    public function makeTriggeringMessages()
+    {
+        $allMessages = array();
+
+        foreach ($this->generateGreeting() as $greeting) {
+            $allMessages['messages']['greeting'][] = array(
+                'id' => $this->createUniqueId(),
+                'message' => $greeting->getSentence(),
+                'trigger' => $this->last_id + 1
+            );
+        }
+
+        $firstQuestion = $this->question_repository->getFirst();
+        $allMessages['messages']['questions'][] = array(
+            'id' => $this->createUniqueId(),
+            'message' => $firstQuestion->getValue(),
+            'trigger' => $this->last_id + 1
+        );
+
+        $categories = $this->category_repository->getAll();
+        $allMessages['messages']['options'][] =
+            $this->makeCategoryOptions($categories);
+
+        foreach ($categories as $category) {
+
+            foreach ($category->getQuestions() as $question) {
+                $allMessages['messages']['questions'][] = array(
+                    'id' => $this->createUniqueId(),
+                    'message' => $question->getValue(),
+                    'trigger' => $this->last_id + 1
+                );
+
+                $allMessages['messages']['options'][] =
+                    $this->makeAnswerOptions($question->getAnswers());
+            }
+        }
+
+        $allMessages['messages']['questions'][] = array(
+            'id' => $this->createUniqueId(),
+            'message' => "Your results will be offered soon.. or on the next sprint ;)",
+            'end' => true
+        );
+
+        return $allMessages;
+    }
+
+    private function makeAnswerOptions(Collection $questions) : array
+    {
+        $arr = array('id' => $this->createUniqueId());
+
+        $i = 1;
+        foreach ($questions as $question) {
+            $arr['options'][] = array(
+                'value'   => $i,
+                'label' => $question->getValue(),
+                'trigger' => $this->last_id + 1
+            );
+            $i++;
+        }
+
+        return $arr;
+    }
+
+    private function makeCategoryOptions(array $categories) : array
+    {
+        $arr = array('id' => $this->createUniqueId());
+
+        $i = 1;
+        foreach ($categories as $category) {
+            $arr['options'][] = array(
+                'value'   => $i,
+                'label' => $category->getCategoryName(),
+                'trigger' => $this->last_id + 1
+            );
+            $i++;
+        }
+
+        return $arr;
+    }
+
+    private function createUniqueId() : int
+    {
+        return ++$this->last_id;
     }
 
     /**
@@ -77,7 +181,7 @@ class Guidebot
         $result = array();
         foreach ($items as $priority => $setOfItems) {
             $result[] = $setOfItems[
-                rand(0, count($setOfItems) - 1)]->getSentence();
+                rand(0, count($setOfItems) - 1)];
 
             if (rand(0, 1)) {
                 break;

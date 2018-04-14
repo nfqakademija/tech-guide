@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import ChatBot from 'react-simple-chatbot';
-import data from '../../demodata.json';
+import data from '../../data.json';
 
 class Guidebot extends Component {
   constructor(props) {
@@ -16,11 +16,15 @@ class Guidebot extends Component {
     const max = 3;
     const messages = [];
 
-    const randomNumber = Math.floor(min + Math.random() * (max - min));
+    /*const randomNumber = Math.floor(min + Math.random() * (max - min));
     const randomGreeting = data.messages.greeting[0].message[randomNumber];
     data.messages.greeting[0].message = randomGreeting;
-    messages.push(data.messages.greeting[0]);
+    messages.push(data.messages.greeting[0]);*/
 
+
+    for (var i = 0; i < data.messages.greeting.length; i++) {
+        messages.push(data.messages.greeting[i]);
+    }
 
     for (var i = 0; i < data.messages.questions.length; i++) {
       messages.push(data.messages.questions[i]);
