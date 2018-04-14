@@ -1,0 +1,18 @@
+.main {
+  height: 100%;
+  position: relative;
+
+  .action-box {
+    position: absolute;
+    top: 20%;
+
+    &__text {
+      font-size: 1.8rem;
+    }
+  }
+}
+
+.photo-background {
+  background-size: cover;
+  background-image: url("https://svgshare.com/i/6G2.svg");
+}

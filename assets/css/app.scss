@@ -1,3 +1,41 @@
 
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
+
+@import "variables.scss";
+@import "buttons.scss";
+@import "home.scss";
+@import "guidebot.scss";
+
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;;
+  font-size: 1.6rem;
+  height: 100vh;
+  padding: 3rem 10rem;
+  color: $color-grey-dark;
+}
+
+#root {
+  height: 100%;
+}
+
+main {
+  height: 100%;
+}
+
+h1 {
+  font-size: 3.5rem;
+}
