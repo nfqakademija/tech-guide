@@ -1,0 +1,32 @@
+// MEDIA QUERIES
+
+// 0 - 544px:  Phone
+// 544px - 992px:  Landscape phones, Tablets
+// 992px - 1200px:   Medium devices
+// 1200px +:   Desktops
+
+
+// Breakpoint Choices
+// - phone
+// - phone-tab
+// - md-dev
+// - desktop
+
+@mixin respond($breakpoint) {
+
+  @if $breakpoint == phone {
+    @media (max-width: 544px) { @content };
+  }
+
+  @if $breakpoint == phone-tab {
+    @media (max-width: 992px) { @content };
+  }
+
+  @if $breakpoint == md-dev {
+    @media (max-width: 1200px) { @content };
+  }
+
+  @if $breakpoint == desktop {
+    @media (min-width: 1200px) { @content };
+  }
+}
