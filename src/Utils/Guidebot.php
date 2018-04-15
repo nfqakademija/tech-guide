@@ -6,7 +6,6 @@ use App\Entity\Answer;
 use App\Entity\Category;
 use App\Entity\GuidebotSentence;
 use App\Entity\Question;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -30,7 +29,6 @@ class Guidebot
     private $category_repository;
 
     private $last_id = 0;
-    private $entityList;
 
     public function __construct(EntityManager $entityManager)
     {
@@ -44,8 +42,6 @@ class Guidebot
             ->getRepository(Question::class);
         $this->category_repository = $this->entityManager
             ->getRepository(Category::class);
-
-        $this->entityList = array();
     }
 
     /**
@@ -65,6 +61,14 @@ class Guidebot
             $this->pickItemsRandomly($allIntroductions)
         );
     }
+
+    /**
+     * takes questions, answers, categories and questions from database
+     * and makes them as trigger messages
+     * (one message triggers another)
+     *
+     * @return array
+     */
 
     public function makeTriggeringMessages()
     {
@@ -86,12 +90,26 @@ class Guidebot
         );
 
         $categories = $this->category_repository->getAll();
-        $allMessages['messages']['options'][] =
-            $this->makeCategoryOptions($categories);
+        $categoriesWithTriggers = array('id' => $this->createUniqueId());
 
+        $offerId = $this->createUniqueId();
+        $allMessages['messages']['questions'][] = array(
+            'id' => $offerId,
+            'message' => "Your results will be offered soon.. or, on the next sprint ;)",
+            'end' => true
+        );
+
+        $i = 1;
         foreach ($categories as $category) {
+            $categoriesWithTriggers['options'][] = array(
+                'value'   => $i,
+                'label' => $category->getCategoryName(),
+                'trigger' => $this->last_id + 1
+            );
+            $i++;
 
-            foreach ($category->getQuestions() as $question) {
+            $questions = $category->getQuestions();
+            foreach ($questions as $question) {
                 $allMessages['messages']['questions'][] = array(
                     'id' => $this->createUniqueId(),
                     'message' => $question->getValue(),
@@ -99,56 +117,55 @@ class Guidebot
                 );
 
                 $allMessages['messages']['options'][] =
-                    $this->makeAnswerOptions($question->getAnswers());
+                    $this->makeOptionsArray($offerId, $question, $questions->last());
             }
         }
 
-        $allMessages['messages']['questions'][] = array(
-            'id' => $this->createUniqueId(),
-            'message' => "Your results will be offered soon.. or on the next sprint ;)",
-            'end' => true
-        );
+        $allMessages['messages']['options'][] = $categoriesWithTriggers;
 
         return $allMessages;
     }
 
-    private function makeAnswerOptions(Collection $questions) : array
-    {
-        $arr = array('id' => $this->createUniqueId());
-
-        $i = 1;
-        foreach ($questions as $question) {
-            $arr['options'][] = array(
-                'value'   => $i,
-                'label' => $question->getValue(),
-                'trigger' => $this->last_id + 1
-            );
-            $i++;
-        }
-
-        return $arr;
-    }
-
-    private function makeCategoryOptions(array $categories) : array
-    {
-        $arr = array('id' => $this->createUniqueId());
-
-        $i = 1;
-        foreach ($categories as $category) {
-            $arr['options'][] = array(
-                'value'   => $i,
-                'label' => $category->getCategoryName(),
-                'trigger' => $this->last_id + 1
-            );
-            $i++;
-        }
-
-        return $arr;
-    }
-
+    /**
+     * creates new unique id for messages
+     *
+     * @return int
+     */
     private function createUniqueId() : int
     {
         return ++$this->last_id;
+    }
+
+    /**
+     * makes an array of possible answers to a specific question
+     *
+     * @param int      $offerId
+     * @param Question $question
+     * @param Question $last
+     *
+     * @return array
+     */
+    private function makeOptionsArray(int $offerId, Question $question, Question $last) : array
+    {
+        $arr = array('id' => $this->createUniqueId());
+
+        if($question === $last) {
+            $trigger = $offerId;
+        } else {
+            $trigger = $this->last_id + 1;
+        }
+
+        $i = 1;
+        foreach ($question->getAnswers() as $answer) {
+            $arr['options'][] = array(
+                'value'   => $i,
+                'label'   => $answer->getValue(),
+                'trigger' => $trigger
+            );
+            $i++;
+        }
+
+        return $arr;
     }
 
     /**

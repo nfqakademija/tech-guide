@@ -8,9 +8,9 @@ use Faker\Generator;
 class CategoryProvider extends BaseProvider
 {
     private $categories = array(
-        'Mobile device',
-        'Smartwatch',
-        'Laptop'
+        'Smartphones',
+        'Smart watches',
+        'Laptops'
     );
 
     public function __construct(Generator $generator)
