@@ -23,10 +23,10 @@ use Doctrine\ORM\EntityManager;
 class Guidebot
 {
     private $entityManager;
-    private $sentence_repository;
-    private $answer_repository;
-    private $question_repository;
-    private $category_repository;
+    private $sentenceRepository;
+    private $answerRepository;
+    private $questionRepository;
+    private $categoryRepository;
 
     private $last_id = 0;
 
@@ -34,13 +34,13 @@ class Guidebot
     {
         $this->entityManager = $entityManager;
 
-        $this->sentence_repository = $this->entityManager
+        $this->sentenceRepository = $this->entityManager
             ->getRepository(GuidebotSentence::class);
-        $this->answer_repository = $this->entityManager
+        $this->answerRepository = $this->entityManager
             ->getRepository(Answer::class);
-        $this->question_repository = $this->entityManager
+        $this->questionRepository = $this->entityManager
             ->getRepository(Question::class);
-        $this->category_repository = $this->entityManager
+        $this->categoryRepository = $this->entityManager
             ->getRepository(Category::class);
     }
 
@@ -52,9 +52,9 @@ class Guidebot
     public function generateGreeting() : array
     {
         $allGreetings = $this->makePriorityArray(
-            $this->sentence_repository->getByPurpose('greetings'));
+            $this->sentenceRepository->getByPurpose('greetings'));
         $allIntroductions = $this->makePriorityArray(
-            $this->sentence_repository->getByPurpose('introduction'));
+            $this->sentenceRepository->getByPurpose('introduction'));
 
         return array_merge(
             $this->pickItemsRandomly($allGreetings),
@@ -72,7 +72,7 @@ class Guidebot
 
     public function makeTriggeringMessages()
     {
-        $allMessages = array();
+        $allMessages = [];
 
         foreach ($this->generateGreeting() as $greeting) {
             $allMessages['messages']['greeting'][] = array(
@@ -82,14 +82,14 @@ class Guidebot
             );
         }
 
-        $firstQuestion = $this->question_repository->getFirst();
+        $firstQuestion = $this->questionRepository->getFirst();
         $allMessages['messages']['questions'][] = array(
             'id' => $this->createUniqueId(),
             'message' => $firstQuestion->getValue(),
             'trigger' => $this->last_id + 1
         );
 
-        $categories = $this->category_repository->getAll();
+        $categories = $this->categoryRepository->getAll();
         $categoriesWithTriggers = array('id' => $this->createUniqueId());
 
         $offerId = $this->createUniqueId();
