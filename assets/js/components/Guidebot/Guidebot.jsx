@@ -47,7 +47,7 @@ class Guidebot extends Component {
     const inputStyle = {
       display: 'none'
     }
-    
+
     return (
         <ThemeProvider theme={theme}>
             <ChatBot
@@ -58,6 +58,7 @@ class Guidebot extends Component {
               botDelay="1500"
               hideUserAvatar="true"
               inputStyle={inputStyle}
+              hideSubmitButton="true"
             />
         </ThemeProvider>
     );

@@ -2,9 +2,17 @@
   height: 100%;
   position: relative;
 
+  @include respond(phone) {
+    padding: 0.5rem 1.5rem;
+  }
+
   .action-box {
     position: absolute;
     top: 20%;
+
+    @include respond(phone-tab) {
+      top: 10%;
+    }
 
     &__text {
       font-size: 1.8rem;
@@ -13,6 +21,11 @@
 }
 
 .photo-background {
+  height: 90%;
   background-size: cover;
   background-image: url("https://svgshare.com/i/6G2.svg");
+
+  @include respond(phone-tab) {
+    display: none;
+  }
 }
