@@ -1,0 +1,48 @@
+.button {
+  font-weight: 500;
+  font-size: 1.6rem;
+  border-radius: 0;
+  border: none;
+}
+
+.button:hover, .button:active {
+  background-color: $color-dark-blue;
+  color: $color-white;
+}
+
+.nav-button {
+    background-color: $color-white;
+    color: $color-grey-dark;
+    padding: .7rem 1.2rem;
+    margin: 0 1rem;
+}
+
+.signup-button {
+  background-color: $color-dark-blue;
+  color: $color-white;
+}
+
+.main-button {
+  background-color: $color-primary;
+  color: $color-white;
+  margin: 2rem 0 0 0;
+  font-size: 1.8rem;
+  transition: all .2s;
+
+  &:hover {
+    background-color: $color-primary;
+    transform: translateY(-3px);
+    box-shadow: 0 1rem 2rem rgba($color-black,.2);
+
+    &::after {
+        transform: scaleX(1.4) scaleY(1.6);
+        opacity: 0;
+    }
+  }
+
+  &:active,
+  &:focus {
+        transform: translateY(-1px);
+        box-shadow: 0 .5rem 1rem rgba($color-black,.2);
+  }
+}
