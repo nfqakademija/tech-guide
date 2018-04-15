@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -69,4 +70,46 @@ class Category
 
         return $this;
     }
+
+    /**
+     * @return Collection
+     */
+    public function getCategoryShops() : Collection
+    {
+        return $this->categoryShops;
+    }
+
+    /**
+     * @param Collection $categoryShops
+     *
+     * @return Category
+     */
+    public function setCategoryShops(Collection $categoryShops): self
+    {
+        $this->categoryShops = $categoryShops;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getQuestions() : Collection
+    {
+        return $this->questions;
+    }
+
+    /**
+     * @param Collection $questions
+     *
+     * @return Category
+     */
+    public function setQuestions(array $questions): self
+    {
+        $this->questions = $questions;
+
+        return $this;
+    }
+
+
 }

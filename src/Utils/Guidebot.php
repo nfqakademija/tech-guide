@@ -2,8 +2,11 @@
 
 namespace App\Utils;
 
+use App\Entity\Answer;
+use App\Entity\Category;
 use App\Entity\GuidebotSentence;
-use Doctrine\ORM\EntityManager;
+use App\Entity\Question;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Guidebot is responsible for logic when retrieving the sentences from the database
@@ -20,13 +23,25 @@ use Doctrine\ORM\EntityManager;
 class Guidebot
 {
     private $entityManager;
-    private $sentence_repository;
+    private $sentenceRepository;
+    private $answerRepository;
+    private $questionRepository;
+    private $category_repository;
 
-    public function __construct(EntityManager $entityManager)
+    private $last_id = 0;
+
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->sentence_repository = $this->entityManager
+
+        $this->sentenceRepository = $this->entityManager
             ->getRepository(GuidebotSentence::class);
+        $this->answerRepository = $this->entityManager
+            ->getRepository(Answer::class);
+        $this->questionRepository = $this->entityManager
+            ->getRepository(Question::class);
+        $this->category_repository = $this->entityManager
+            ->getRepository(Category::class);
     }
 
     /**
@@ -37,14 +52,120 @@ class Guidebot
     public function generateGreeting() : array
     {
         $allGreetings = $this->makePriorityArray(
-            $this->sentence_repository->getByPurpose('greetings'));
+            $this->sentenceRepository->getByPurpose('greetings'));
         $allIntroductions = $this->makePriorityArray(
-            $this->sentence_repository->getByPurpose('introduction'));
+            $this->sentenceRepository->getByPurpose('introduction'));
 
         return array_merge(
             $this->pickItemsRandomly($allGreetings),
             $this->pickItemsRandomly($allIntroductions)
         );
+    }
+
+    /**
+     * takes questions, answers, categories and questions from database
+     * and makes them as trigger messages
+     * (one message triggers another)
+     *
+     * @return array
+     */
+
+    public function makeTriggeringMessages()
+    {
+        $allMessages = [];
+
+        foreach ($this->generateGreeting() as $greeting) {
+            $allMessages['messages']['greeting'][] = [
+                'id' => $this->createUniqueId(),
+                'message' => $greeting->getSentence(),
+                'trigger' => $this->last_id + 1
+            ];
+        }
+
+        $firstQuestion = $this->questionRepository->getFirst();
+        $allMessages['messages']['questions'][] = [
+            'id' => $this->createUniqueId(),
+            'message' => $firstQuestion->getValue(),
+            'trigger' => $this->last_id + 1
+        ];
+
+        $categories = $this->category_repository->getAll();
+        $categoriesWithTriggers = ['id' => $this->createUniqueId()];
+
+        $offerId = $this->createUniqueId();
+        $allMessages['messages']['questions'][] = [
+            'id' => $offerId,
+            'message' => "Your results will be offered soon.. or, on the next sprint ;)",
+            'end' => true
+        ];
+
+        $i = 1;
+        foreach ($categories as $category) {
+            $categoriesWithTriggers['options'][] = [
+                'value'   => $i,
+                'label' => $category->getCategoryName(),
+                'trigger' => $this->last_id + 1
+            ];
+            $i++;
+
+            $questions = $category->getQuestions();
+            foreach ($questions as $question) {
+                $allMessages['messages']['questions'][] = [
+                    'id' => $this->createUniqueId(),
+                    'message' => $question->getValue(),
+                    'trigger' => $this->last_id + 1
+                ];
+
+                $allMessages['messages']['options'][] =
+                    $this->makeOptionsArray($offerId, $question, $questions->last());
+            }
+        }
+
+        $allMessages['messages']['options'][] = $categoriesWithTriggers;
+
+        return $allMessages;
+    }
+
+    /**
+     * creates new unique id for messages
+     *
+     * @return int
+     */
+    private function createUniqueId() : int
+    {
+        return ++$this->last_id;
+    }
+
+    /**
+     * makes an array of possible answers to a specific question
+     *
+     * @param int      $offerId
+     * @param Question $question
+     * @param Question $last
+     *
+     * @return array
+     */
+    private function makeOptionsArray(int $offerId, Question $question, Question $last) : array
+    {
+        $arr = ['id' => $this->createUniqueId()];
+
+        if($question === $last) {
+            $trigger = $offerId;
+        } else {
+            $trigger = $this->last_id + 1;
+        }
+
+        $i = 1;
+        foreach ($question->getAnswers() as $answer) {
+            $arr['options'][] = [
+                'value'   => $i,
+                'label'   => $answer->getValue(),
+                'trigger' => $trigger
+            ];
+            $i++;
+        }
+
+        return $arr;
     }
 
     /**
@@ -55,10 +176,10 @@ class Guidebot
      */
     private function makePriorityArray(array $items) : array
     {
-        $result = array();
+        $result = [];
         foreach ($items as $item) {
             if(!array_key_exists($item->getPriority(), $result)) {
-                $result[$item->getPriority()] = array();
+                $result[$item->getPriority()] = [];
             }
 
             $result[$item->getPriority()][] = $item;
@@ -74,10 +195,10 @@ class Guidebot
      */
     private function pickItemsRandomly(array $items) : array
     {
-        $result = array();
+        $result = [];
         foreach ($items as $priority => $setOfItems) {
             $result[] = $setOfItems[
-                rand(0, count($setOfItems) - 1)]->getSentence();
+                rand(0, count($setOfItems) - 1)];
 
             if (rand(0, 1)) {
                 break;

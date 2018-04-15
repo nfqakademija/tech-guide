@@ -12,4 +12,16 @@ class QuestionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Question::class);
     }
+
+    public function getFirst() : Question
+    {
+        return $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('question')
+            ->from('App:Question', 'question')
+            ->orderBy('question.id', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getSingleResult();
+    }
 }

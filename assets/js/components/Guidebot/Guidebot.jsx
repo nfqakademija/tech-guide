@@ -16,9 +16,6 @@ class Guidebot extends Component {
     const max = 3;
     const messages = [];
 
-    const randomNumber = Math.floor(min + Math.random() * (max - min));
-    const randomGreeting = data.messages.greeting[0].message[randomNumber];
-
     for (let i = 0; i < data.messages.greeting.length; i++) {
       messages.push(data.messages.greeting[i]);
     }
