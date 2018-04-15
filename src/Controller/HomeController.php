@@ -13,12 +13,10 @@ class HomeController extends Controller
     /**
      * @Route("/", name="home")
      */
-    public function index()
+    public function index(Filesystem $fs, Guidebot $guidebot)
     {
-        $guidebot = new Guidebot($this->getDoctrine()->getManager());
+        //$guidebot = new Guidebot($this->getDoctrine()->getManager());
         $json = json_encode($guidebot->makeTriggeringMessages());
-
-        $fs = new Filesystem();
 
         try {
             $fs->dumpFile('../assets/js/data.json', $json);

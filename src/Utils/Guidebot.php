@@ -6,7 +6,7 @@ use App\Entity\Answer;
 use App\Entity\Category;
 use App\Entity\GuidebotSentence;
 use App\Entity\Question;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Guidebot is responsible for logic when retrieving the sentences from the database
@@ -26,11 +26,11 @@ class Guidebot
     private $sentenceRepository;
     private $answerRepository;
     private $questionRepository;
-    private $categoryRepository;
+    private $category_repository;
 
     private $last_id = 0;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
 
@@ -40,7 +40,7 @@ class Guidebot
             ->getRepository(Answer::class);
         $this->questionRepository = $this->entityManager
             ->getRepository(Question::class);
-        $this->categoryRepository = $this->entityManager
+        $this->category_repository = $this->entityManager
             ->getRepository(Category::class);
     }
 
@@ -89,7 +89,7 @@ class Guidebot
             'trigger' => $this->last_id + 1
         );
 
-        $categories = $this->categoryRepository->getAll();
+        $categories = $this->category_repository->getAll();
         $categoriesWithTriggers = array('id' => $this->createUniqueId());
 
         $offerId = $this->createUniqueId();
