@@ -75,46 +75,46 @@ class Guidebot
         $allMessages = [];
 
         foreach ($this->generateGreeting() as $greeting) {
-            $allMessages['messages']['greeting'][] = array(
+            $allMessages['messages']['greeting'][] = [
                 'id' => $this->createUniqueId(),
                 'message' => $greeting->getSentence(),
                 'trigger' => $this->last_id + 1
-            );
+            ];
         }
 
         $firstQuestion = $this->questionRepository->getFirst();
-        $allMessages['messages']['questions'][] = array(
+        $allMessages['messages']['questions'][] = [
             'id' => $this->createUniqueId(),
             'message' => $firstQuestion->getValue(),
             'trigger' => $this->last_id + 1
-        );
+        ];
 
         $categories = $this->category_repository->getAll();
-        $categoriesWithTriggers = array('id' => $this->createUniqueId());
+        $categoriesWithTriggers = ['id' => $this->createUniqueId()];
 
         $offerId = $this->createUniqueId();
-        $allMessages['messages']['questions'][] = array(
+        $allMessages['messages']['questions'][] = [
             'id' => $offerId,
             'message' => "Your results will be offered soon.. or, on the next sprint ;)",
             'end' => true
-        );
+        ];
 
         $i = 1;
         foreach ($categories as $category) {
-            $categoriesWithTriggers['options'][] = array(
+            $categoriesWithTriggers['options'][] = [
                 'value'   => $i,
                 'label' => $category->getCategoryName(),
                 'trigger' => $this->last_id + 1
-            );
+            ];
             $i++;
 
             $questions = $category->getQuestions();
             foreach ($questions as $question) {
-                $allMessages['messages']['questions'][] = array(
+                $allMessages['messages']['questions'][] = [
                     'id' => $this->createUniqueId(),
                     'message' => $question->getValue(),
                     'trigger' => $this->last_id + 1
-                );
+                ];
 
                 $allMessages['messages']['options'][] =
                     $this->makeOptionsArray($offerId, $question, $questions->last());
@@ -147,7 +147,7 @@ class Guidebot
      */
     private function makeOptionsArray(int $offerId, Question $question, Question $last) : array
     {
-        $arr = array('id' => $this->createUniqueId());
+        $arr = ['id' => $this->createUniqueId()];
 
         if($question === $last) {
             $trigger = $offerId;
@@ -157,11 +157,11 @@ class Guidebot
 
         $i = 1;
         foreach ($question->getAnswers() as $answer) {
-            $arr['options'][] = array(
+            $arr['options'][] = [
                 'value'   => $i,
                 'label'   => $answer->getValue(),
                 'trigger' => $trigger
-            );
+            ];
             $i++;
         }
 
@@ -176,10 +176,10 @@ class Guidebot
      */
     private function makePriorityArray(array $items) : array
     {
-        $result = array();
+        $result = [];
         foreach ($items as $item) {
             if(!array_key_exists($item->getPriority(), $result)) {
-                $result[$item->getPriority()] = array();
+                $result[$item->getPriority()] = [];
             }
 
             $result[$item->getPriority()][] = $item;
@@ -195,7 +195,7 @@ class Guidebot
      */
     private function pickItemsRandomly(array $items) : array
     {
-        $result = array();
+        $result = [];
         foreach ($items as $priority => $setOfItems) {
             $result[] = $setOfItems[
                 rand(0, count($setOfItems) - 1)];

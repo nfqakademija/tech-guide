@@ -15,7 +15,6 @@ class HomeController extends Controller
      */
     public function index(Filesystem $fs, Guidebot $guidebot)
     {
-        //$guidebot = new Guidebot($this->getDoctrine()->getManager());
         $json = json_encode($guidebot->makeTriggeringMessages());
 
         try {
