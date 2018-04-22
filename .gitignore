@@ -36,8 +36,4 @@ yarn-error.log
 .env
 .DS_Store
 npm-debug.log
-<<<<<<< HEAD
-.idea/
-=======
->>>>>>> f3bfc50be1b2497b5ab995b4531f25457bda321d
 ###< Old symfony and common infrastructure ###
