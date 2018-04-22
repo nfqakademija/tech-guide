@@ -34,5 +34,6 @@ yarn-error.log
 /web/fonts
 /node_modules
 .env
+.DS_Store
 npm-debug.log
 ###< Old symfony and common infrastructure ###
