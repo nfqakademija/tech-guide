@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Utils\Guidebot;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -27,5 +28,14 @@ class GuidebotController extends Controller
         return $this->render('guidebot/index.html.twig', [
             'controller_name' => 'GuidebotController',
         ]);
+        //return new JsonResponse($guidebot->makeTriggeringMessages());
+    }
+
+    /**
+     * @Route("/guidebotSentences", name="guidebotSentences")
+     */
+    public function retrieveSentences(Guidebot $guidebot)
+    {
+        return new JsonResponse($guidebot->makeTriggeringMessages());
     }
 }
