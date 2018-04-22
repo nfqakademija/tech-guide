@@ -34,6 +34,7 @@ class Category
      *     joinColumns={@ORM\JoinColumn(name="question_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")}
      * )
+     * @ORM\OrderBy({"priority" = "ASC"})
      */
     private $questions;
 
