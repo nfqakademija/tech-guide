@@ -48,10 +48,16 @@ class Question
      */
     private $shops;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\InfluenceArea", mappedBy="questions")
+     */
+    private $influenceAreas;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->influenceAreas = new ArrayCollection();
     }
 
     /**
@@ -123,7 +129,7 @@ class Question
     }
 
     /**
-     * @return array
+     * @return Collection
      */
     public function getAnswers() : Collection
     {
@@ -138,6 +144,44 @@ class Question
     public function setAnswers($answers): self
     {
         $this->answers = $answers;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|InfluenceArea[]
+     */
+    public function getInfluenceAreas(): Collection
+    {
+        return $this->influenceAreas;
+    }
+
+    /**
+     * @param InfluenceArea $influenceArea
+     *
+     * @return Question
+     */
+    public function addInfluenceArea(InfluenceArea $influenceArea): self
+    {
+        if (!$this->influenceAreas->contains($influenceArea)) {
+            $this->influenceAreas[] = $influenceArea;
+            $influenceArea->addQuestion($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param InfluenceArea $influenceArea
+     *
+     * @return Question
+     */
+    public function removeInfluenceArea(InfluenceArea $influenceArea): self
+    {
+        if ($this->influenceAreas->contains($influenceArea)) {
+            $this->influenceAreas->removeElement($influenceArea);
+            $influenceArea->removeQuestion($this);
+        }
 
         return $this;
     }

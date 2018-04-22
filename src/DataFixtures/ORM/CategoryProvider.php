@@ -7,11 +7,11 @@ use Faker\Generator;
 
 class CategoryProvider extends BaseProvider
 {
-    private $categories = array(
+    private $categories = [
         'Smartphones',
         'Smart watches',
         'Laptops'
-    );
+    ];
 
     public function __construct(Generator $generator)
     {

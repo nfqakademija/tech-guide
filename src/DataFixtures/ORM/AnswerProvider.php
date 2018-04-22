@@ -9,7 +9,7 @@ class AnswerProvider extends BaseProvider
 {
     private $currQuestion = 2;
     private $currValue = 0;
-    private $answers = array(
+    private $answers = [
         'I don`t like travelling' => 2,
         'Only a few times a year' => 2,
         'I`m always on the road!' => 2,
@@ -19,8 +19,11 @@ class AnswerProvider extends BaseProvider
         'Black' => 4,
         'White' => 4,
         'Gold' => 4,
-        'Silver' => 4
-    );
+        'Silver' => 4,
+        'I want a cheap phone' => 5,
+        'Not really, I guess..' => 5,
+        'Luxury is what I strive for!' => 5,
+    ];
 
     public function __construct(Generator $generator)
     {

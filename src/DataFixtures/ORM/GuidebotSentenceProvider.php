@@ -9,7 +9,7 @@ class GuidebotSentenceProvider extends BaseProvider
 {
     private $noOfGreetings = 10;
 
-    private $greetings = array(
+    private $greetings = [
         'Hello!' => 1,
         'Hey!' => 1,
         'Hi!' => 1,
@@ -21,15 +21,15 @@ class GuidebotSentenceProvider extends BaseProvider
         'How are you doing?' => 3,
         'What`s new?' => 3,
         'I hope you are having a great day.' => 3
-    );
+    ];
 
-    private $introductions = array(
+    private $introductions = [
         'I`m Guidebot - your personal tech assistant.' => 1,
         'I`m Guidebot - a technology advisor.' => 1,
         'I`ll be helping you pick your desired technology.' => 2,
         'I`ll be helping you with technology today.' => 2,
         'I`m here to help you.' => 2
-    );
+    ];
 
     public function __construct(Generator $generator)
     {
