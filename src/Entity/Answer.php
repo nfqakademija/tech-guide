@@ -19,6 +19,11 @@ class Answer
     /**
      * @ORM\Column(type="string", length=100)
      */
+    private $content;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
     private $value;
 
     /**
@@ -38,19 +43,19 @@ class Answer
     /**
      * @return null|string
      */
-    public function getValue(): ?string
+    public function getContent(): ?string
     {
-        return $this->value;
+        return $this->content;
     }
 
     /**
-     * @param string $value
+     * @param string $content
      *
      * @return Answer
      */
-    public function setValue(string $value): self
+    public function setContent(string $content): self
     {
-        $this->value = $value;
+        $this->content = $content;
 
         return $this;
     }
@@ -74,4 +79,26 @@ class Answer
 
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getValue() : int
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param int $value
+     *
+     * @return Answer
+     */
+    public function setValue(int $value): self
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
+
 }

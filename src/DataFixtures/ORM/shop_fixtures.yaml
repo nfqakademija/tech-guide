@@ -1,6 +1,7 @@
 App\Entity\Shop:
     shop_1:
         homepage: "https://www.topocentras.lt/"
+        questions: ['@question_2', '@question_3', '@question_4']
 
 App\Entity\ShopCategory:
     shopCategory_1:

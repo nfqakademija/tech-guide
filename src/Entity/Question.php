@@ -31,7 +31,7 @@ class Question
     /**
      * @ORM\Column(type="string", length=100)
      */
-    private $value;
+    private $content;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Answer", mappedBy="question")
@@ -42,6 +42,11 @@ class Question
      * @ORM\ManyToMany(targetEntity="Category", mappedBy="questions")
      */
     private $categories;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Shop", mappedBy="questions")
+     */
+    private $shops;
 
     public function __construct()
     {
@@ -98,21 +103,21 @@ class Question
     }
 
     /**
-     * @return null|string
+     * @return string
      */
-    public function getValue(): ?string
+    public function getContent(): string
     {
-        return $this->value;
+        return $this->content;
     }
 
     /**
-     * @param string $value
+     * @param string $content
      *
      * @return Question
      */
-    public function setValue(string $value): self
+    public function setContent(string $content): self
     {
-        $this->value = $value;
+        $this->content = $content;
 
         return $this;
     }

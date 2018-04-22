@@ -1,4 +1,4 @@
 App\Entity\Question:
     question_{1..4}:
-        value: <question_value($current)>
+        content: <question_value($current)>
         priority: <question_priority($current)>
