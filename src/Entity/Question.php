@@ -31,7 +31,7 @@ class Question
     /**
      * @ORM\Column(type="string", length=100)
      */
-    private $value;
+    private $content;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Answer", mappedBy="question")
@@ -43,10 +43,22 @@ class Question
      */
     private $categories;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Shop", mappedBy="questions")
+     */
+    private $shops;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\InfluenceArea", mappedBy="questions")
+     * @ORM\OrderBy({"priority" = "ASC"})
+     */
+    private $influenceAreas;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->influenceAreas = new ArrayCollection();
     }
 
     /**
@@ -98,27 +110,27 @@ class Question
     }
 
     /**
-     * @return null|string
+     * @return string
      */
-    public function getValue(): ?string
+    public function getContent(): string
     {
-        return $this->value;
+        return $this->content;
     }
 
     /**
-     * @param string $value
+     * @param string $content
      *
      * @return Question
      */
-    public function setValue(string $value): self
+    public function setContent(string $content): self
     {
-        $this->value = $value;
+        $this->content = $content;
 
         return $this;
     }
 
     /**
-     * @return array
+     * @return Collection
      */
     public function getAnswers() : Collection
     {
@@ -137,5 +149,41 @@ class Question
         return $this;
     }
 
+    /**
+     * @return Collection|InfluenceArea[]
+     */
+    public function getInfluenceAreas(): Collection
+    {
+        return $this->influenceAreas;
+    }
 
+    /**
+     * @param InfluenceArea $influenceArea
+     *
+     * @return Question
+     */
+    public function addInfluenceArea(InfluenceArea $influenceArea): self
+    {
+        if (!$this->influenceAreas->contains($influenceArea)) {
+            $this->influenceAreas[] = $influenceArea;
+            $influenceArea->addQuestion($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param InfluenceArea $influenceArea
+     *
+     * @return Question
+     */
+    public function removeInfluenceArea(InfluenceArea $influenceArea): self
+    {
+        if ($this->influenceAreas->contains($influenceArea)) {
+            $this->influenceAreas->removeElement($influenceArea);
+            $influenceArea->removeQuestion($this);
+        }
+
+        return $this;
+    }
 }

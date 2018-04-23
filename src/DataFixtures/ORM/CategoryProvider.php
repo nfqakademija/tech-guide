@@ -7,19 +7,19 @@ use Faker\Generator;
 
 class CategoryProvider extends BaseProvider
 {
-    private $categories = array(
+    private $categories = [
         'Smartphones',
         'Smart watches',
         'Laptops'
-    );
+    ];
 
     public function __construct(Generator $generator)
     {
         parent::__construct($generator);
     }
 
-    public function category_value($cat_num) : string
+    public function categoryValue($catNum) : string
     {
-        return $this->categories[$cat_num - 1];
+        return $this->categories[$catNum - 1];
     }
 }

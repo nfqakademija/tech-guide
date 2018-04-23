@@ -9,7 +9,7 @@ class GuidebotSentenceProvider extends BaseProvider
 {
     private $noOfGreetings = 10;
 
-    private $greetings = array(
+    private $greetings = [
         'Hello!' => 1,
         'Hey!' => 1,
         'Hi!' => 1,
@@ -21,38 +21,38 @@ class GuidebotSentenceProvider extends BaseProvider
         'How are you doing?' => 3,
         'What`s new?' => 3,
         'I hope you are having a great day.' => 3
-    );
+    ];
 
-    private $introductions = array(
+    private $introductions = [
         'I`m Guidebot - your personal tech assistant.' => 1,
         'I`m Guidebot - a technology advisor.' => 1,
         'I`ll be helping you pick your desired technology.' => 2,
         'I`ll be helping you with technology today.' => 2,
         'I`m here to help you.' => 2
-    );
+    ];
 
     public function __construct(Generator $generator)
     {
         parent::__construct($generator);
     }
 
-    public function introduction_value($introduction_num) : string
+    public function introductionValue($introductionNum) : string
     {
-        return array_keys($this->introductions)[$introduction_num - $this->noOfGreetings];
+        return array_keys($this->introductions)[$introductionNum - $this->noOfGreetings];
     }
 
-    public function introduction_priority($introduction_num) : int
+    public function introductionPriority($introductionNum) : int
     {
-        return array_values($this->introductions)[$introduction_num - $this->noOfGreetings];
+        return array_values($this->introductions)[$introductionNum - $this->noOfGreetings];
     }
 
-    public function greetings_value($greeting_num) : string
+    public function greetingsValue($greetingNum) : string
     {
-        return array_keys($this->greetings)[$greeting_num - 1];
+        return array_keys($this->greetings)[$greetingNum - 1];
     }
 
-    public function greetings_priority($greeting_num) : int
+    public function greetingsPriority($greetingNum) : int
     {
-        return array_values($this->greetings)[$greeting_num - 1];
+        return array_values($this->greetings)[$greetingNum - 1];
     }
 }

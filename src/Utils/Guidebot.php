@@ -85,7 +85,7 @@ class Guidebot
         $firstQuestion = $this->questionRepository->getFirst();
         $allMessages['messages']['questions'][] = [
             'id' => $this->createUniqueId(),
-            'message' => $firstQuestion->getValue(),
+            'message' => $firstQuestion->getContent(),
             'trigger' => $this->last_id + 1
         ];
 
@@ -112,7 +112,7 @@ class Guidebot
             foreach ($questions as $question) {
                 $allMessages['messages']['questions'][] = [
                     'id' => $this->createUniqueId(),
-                    'message' => $question->getValue(),
+                    'message' => $question->getContent(),
                     'trigger' => $this->last_id + 1
                 ];
 
@@ -159,7 +159,7 @@ class Guidebot
         foreach ($question->getAnswers() as $answer) {
             $arr['options'][] = [
                 'value'   => $i,
-                'label'   => $answer->getValue(),
+                'label'   => $answer->getContent(),
                 'trigger' => $trigger
             ];
             $i++;

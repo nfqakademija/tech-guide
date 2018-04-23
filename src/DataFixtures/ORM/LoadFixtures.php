@@ -14,7 +14,9 @@ class LoadFixtures extends Fixture
             __DIR__ . '/guidebot_fixtures.yaml',
             __DIR__ . '/question_fixtures.yaml',
             __DIR__ . '/answer_fixtures.yaml',
-            __DIR__ . '/category_fixtures.yaml'
+            __DIR__ . '/category_fixtures.yaml',
+            __DIR__ . '/shop_fixtures.yaml',
+            __DIR__ . '/influenceArea_fixtures.yaml'
         ])->getObjects();
 
         foreach($objectSet as $object)

@@ -1,0 +1,13 @@
+App\Entity\InfluenceArea:
+    area_1:
+        content: "Memory"
+        questions: ['@question_2']
+    area_2:
+        content: "Price"
+        questions: ['@question_5']
+    area_3:
+        content: "Color"
+        questions: ['@question_4']
+    area_4:
+        content: "Camera"
+        questions: ['@question_2']
