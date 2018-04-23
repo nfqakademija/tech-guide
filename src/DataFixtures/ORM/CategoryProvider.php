@@ -18,8 +18,8 @@ class CategoryProvider extends BaseProvider
         parent::__construct($generator);
     }
 
-    public function category_value($cat_num) : string
+    public function categoryValue($catNum) : string
     {
-        return $this->categories[$cat_num - 1];
+        return $this->categories[$catNum - 1];
     }
 }

@@ -30,25 +30,25 @@ class AnswerProvider extends BaseProvider
         parent::__construct($generator);
     }
 
-    public function answer_value($answer_num) : string
+    public function answerValue($answerNum) : string
     {
-        return array_keys($this->answers)[$answer_num - 1];
+        return array_keys($this->answers)[$answerNum - 1];
     }
 
-    public function question_for_answer($answer_num) : int
+    public function questionForAnswer($answerNum) : int
     {
-        return array_values($this->answers)[$answer_num - 1];
+        return array_values($this->answers)[$answerNum - 1];
     }
 
-    public function calculate_value($answer_num) : int
+    public function calculateValue($answerNum) : int
     {
-        if($this->question_for_answer($answer_num) == $this->currQuestion) {
+        if($this->questionForAnswer($answerNum) === $this->currQuestion) {
             $this->currValue++;
             return $this->currValue;
         }
 
         $this->currValue = 1;
-        $this->currQuestion = $this->question_for_answer($answer_num);
+        $this->currQuestion = $this->questionForAnswer($answerNum);
         return $this->currValue;
     }
 

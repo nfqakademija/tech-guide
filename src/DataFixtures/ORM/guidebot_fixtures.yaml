@@ -1,9 +1,9 @@
 App\Entity\GuidebotSentence:
     guidebot_sentence_{1..11}:
-        sentence: <greetings_value($current)>
-        priority: <greetings_priority($current)>
+        sentence: <greetingsValue($current)>
+        priority: <greetingsPriority($current)>
         purpose: greetings
     guidebot_sentence_{11..14}:
-        sentence: <introduction_value($current)>
-        priority: <introduction_priority($current)>
+        sentence: <introductionValue($current)>
+        priority: <introductionPriority($current)>
         purpose: introduction

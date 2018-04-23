@@ -1,5 +1,5 @@
 App\Entity\Answer:
     answer_{1..13}:
-        content: <answer_value($current)>
-        question: '@question_<question_for_answer($current)>'
-        value: <calculate_value($current)>
+        content: <answerValue($current)>
+        question: '@question_<questionForAnswer($current)>'
+        value: <calculateValue($current)>

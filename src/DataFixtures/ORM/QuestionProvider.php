@@ -10,7 +10,7 @@ class QuestionProvider extends BaseProvider
     private $questions = [
         'What type of tech would you like to know more about?' => 1,
         'How often do you travel?' => 10,
-        'How often do you post on social media' => 11,
+        'How often do you post on social media?' => 11,
         'What`s the color you prefer for your device?' => 101,
         'Does price matter?' => 2
     ];
@@ -20,13 +20,13 @@ class QuestionProvider extends BaseProvider
         parent::__construct($generator);
     }
 
-    public function question_value($question_num) : string
+    public function questionValue($questionNum) : string
     {
-        return array_keys($this->questions)[$question_num - 1];
+        return array_keys($this->questions)[$questionNum - 1];
     }
 
-    public function question_priority($question_num) : int
+    public function questionPriority($questionNum) : int
     {
-        return array_values($this->questions)[$question_num - 1];
+        return array_values($this->questions)[$questionNum - 1];
     }
 }
