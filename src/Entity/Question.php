@@ -50,7 +50,6 @@ class Question
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\InfluenceArea", mappedBy="questions")
-     * @ORM\OrderBy({"priority" = "ASC"})
      */
     private $influenceAreas;
 
