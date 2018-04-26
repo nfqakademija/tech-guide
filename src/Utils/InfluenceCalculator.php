@@ -37,7 +37,7 @@ class InfluenceCalculator
     }
 
     /**
-     * Calculates min value and
+     * Calculate min value and max value ratios for given answers
      * @return array
      */
     public function calculateInfluenceBounds() : array
@@ -79,6 +79,11 @@ class InfluenceCalculator
         return $influenceBounds;
     }
 
+    /**
+     * @param array $values
+     *
+     * @return array
+     */
     private function calculateInfluencePoints(array $values) : array
     {
         $influencePoints = [];
@@ -98,6 +103,11 @@ class InfluenceCalculator
         return $influencePoints;
     }
 
+    /**
+     * @param array $values
+     *
+     * @return array
+     */
     private function calculateClosestValues(array $values) : array
     {
         $closestValues = [];
