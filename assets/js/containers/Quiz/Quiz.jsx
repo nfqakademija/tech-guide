@@ -15,7 +15,7 @@ class Quiz extends Component {
     }
 
     componentDidMount () {
-        axios.get( '/guidebotSentences' )
+        axios.get( '/api/guidebotSentences' )
             .then( response => {
                 const messages = [];
 
@@ -38,7 +38,7 @@ class Quiz extends Component {
     }
 
     handleEnd ({steps, values}) {
-        axios.post('/guidebotAnswers', {
+        axios.post('/api/guidebotOffer', {
             data: [40, 1, 3, 2, 2]
         })
             .then(function (response) {

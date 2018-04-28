@@ -24,7 +24,7 @@ class GuidebotController extends Controller
     }
 
     /**
-     * @Route("/guidebotSentences", name="guidebotSentences")
+     * @Route("/api/guidebotSentences", name="guidebotSentences")
      * @Method({"GET"})
      */
     public function retrieveSentences(Guidebot $guidebot)
@@ -33,7 +33,7 @@ class GuidebotController extends Controller
     }
 
     /**
-     * @Route("/guidebotAnswers", name="guidebotAnswers")
+     * @Route("/api/guidebotOffer", name="guidebotOffer")
      * @Method({"POST"})
      */
     public function retrieveAnswers(Request $request, EntityManagerInterface $entityManager)
