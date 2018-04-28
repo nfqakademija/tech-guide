@@ -13,6 +13,11 @@ class UrlBuilder
     private $url;
     private $firstParamAdded = false;
 
+    /**
+     * @param string $homepage
+     *
+     * @return UrlBuilder
+     */
     public function addHomePage(string $homepage) : self
     {
         $this->url .= $homepage;
@@ -20,6 +25,11 @@ class UrlBuilder
         return $this;
     }
 
+    /**
+     * @param string $prefix
+     *
+     * @return UrlBuilder
+     */
     public function addPrefix(string $prefix) : self
     {
         if($prefix[0] !== '/' && $this->url[strlen($this->url) - 1] !== '/') {
@@ -30,9 +40,15 @@ class UrlBuilder
         return $this;
     }
 
-    public function addFilter(string $filter, string $value) : self
+    /**
+     * @param string $filter
+     * @param array  $values
+     *
+     * @return UrlBuilder
+     */
+    public function addFilter(string $filter, array $values) : self
     {
-        if($filter === null || $value === null) {
+        if($filter === null || empty($values)) {
             return $this;
         }
 
@@ -51,11 +67,21 @@ class UrlBuilder
         if($this->url[strlen($this->url) - 1] !== '=') {
             $this->url .= '=';
         }
-        $this->url .= $value;
+
+        $and = '';
+        foreach ($values as $value) {
+            $this->url .= $and . $value;
+            $and = '%2C';
+        }
 
         return $this;
     }
 
+    /**
+     * @param array $filtersAndValues
+     *
+     * @return UrlBuilder
+     */
     public function addFilterArray(array $filtersAndValues) : self
     {
         foreach ($filtersAndValues as $filterAndValue) {
@@ -65,6 +91,9 @@ class UrlBuilder
         return $this;
     }
 
+    /**
+     * @return UrlBuilder
+     */
     public function reset() : self
     {
         $this->url = '';

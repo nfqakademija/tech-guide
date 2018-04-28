@@ -55,11 +55,11 @@ class InfluenceCalculator
             }
 
             foreach ($question->getInfluenceAreas() as $influenceArea) {
-                if(!array_key_exists($influenceArea->getId(), $maxInfluencePoints)) {
-                    $maxInfluencePoints[$influenceArea->getId()] = $maxValue;
+                if(!array_key_exists($influenceArea->getContent(), $maxInfluencePoints)) {
+                    $maxInfluencePoints[$influenceArea->getContent()] = $maxValue;
                 }
                 else {
-                    $maxInfluencePoints[$influenceArea->getId()] += $maxValue;
+                    $maxInfluencePoints[$influenceArea->getContent()] += $maxValue;
                 }
             }
         }
@@ -70,10 +70,16 @@ class InfluenceCalculator
             $this->calculateClosestValues($this->answerValues));
         $influenceBounds = [];
         foreach($currInfluencePoints as $key => $value) {
-            $influenceBounds[$key] = [
-                $closestInfluencePoints[$key] / $maxInfluencePoints[$key],
-                $value / $maxInfluencePoints[$key]
-            ];
+            if ($key === 'Color') {
+                $influenceBounds[$key] = [$value, $value];
+            }
+
+            else {
+                $influenceBounds[$key] = [
+                    $closestInfluencePoints[$key] / $maxInfluencePoints[$key],
+                    $value / $maxInfluencePoints[$key]
+                ];
+            }
         }
 
         return $influenceBounds;
@@ -90,11 +96,11 @@ class InfluenceCalculator
         $i = 0;
         foreach ($this->questions as $question) {
             foreach ($question->getInfluenceAreas() as $influenceArea) {
-                if(!array_key_exists($influenceArea->getId(), $influencePoints)) {
-                    $influencePoints[$influenceArea->getId()] = $values[$i];
+                if(!array_key_exists($influenceArea->getContent(), $influencePoints)) {
+                    $influencePoints[$influenceArea->getContent()] = $values[$i];
                 }
                 else {
-                    $influencePoints[$influenceArea->getId()] += $values[$i];
+                    $influencePoints[$influenceArea->getContent()] += $values[$i];
                 }
             }
             $i++;

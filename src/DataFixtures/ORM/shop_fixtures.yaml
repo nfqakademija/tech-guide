@@ -6,10 +6,10 @@ App\Entity\Shop:
 App\Entity\ShopCategory:
     shopCategory_1:
         prefix: "telefonai-navigacijos-auto-iranga/mobilieji-telefonai.html"
-        colorFilter: "ext_param_1004="
+        colorFilter: "ext_param_1004"
         categoryFilter: "catp=378"
-        priceFilter: "price="
-        memoryFilter: "ext_param_2609="
+        priceFilter: "price"
+        memoryFilter: "ext_param_2609"
         shop: '@shop_1'
-        category: '@category_2'
+        category: '@category_1'
 

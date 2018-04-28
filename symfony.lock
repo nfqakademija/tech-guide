@@ -71,6 +71,15 @@
     "fzaninotto/faker": {
         "version": "v1.7.1"
     },
+    "guzzlehttp/guzzle": {
+        "version": "6.3.3"
+    },
+    "guzzlehttp/promises": {
+        "version": "v1.3.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.4.2"
+    },
     "hautelook/alice-bundle": {
         "version": "1.4",
         "recipe": {
@@ -104,6 +113,9 @@
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/log": {
         "version": "1.0.2"
     },
@@ -118,6 +130,9 @@
             "version": "4.0",
             "ref": "aaddfdf43cdecd4cf91f992052d76c2cadc04543"
         }
+    },
+    "stichoza/google-translate-php": {
+        "version": "v3.2.13"
     },
     "symfony/asset": {
         "version": "v4.0.6"
