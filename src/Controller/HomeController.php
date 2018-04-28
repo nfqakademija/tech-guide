@@ -15,11 +15,8 @@ class HomeController extends Controller
      */
     public function index(EntityManagerInterface $entityManager)
     {
-        //$device = new InfluenceCalculator([31, 1, 2, 2, 2], $entityManager);
-        //$provider = new Provider([40, 1, 3, 2, 2], $entityManager);
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-            //'data' => $provider->makeUrls()
+            'controller_name' => 'HomeController'
         ]);
     }
 }

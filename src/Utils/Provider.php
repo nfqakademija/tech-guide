@@ -208,7 +208,6 @@ class Provider
         $regex = '#(\d+?)&quot;,&quot;label&quot;:&quot;([^\s]+ )?' . $colorName . '&quot;#is';
         preg_match_all($regex, $pageContent, $matches);
 
-        var_dump($matches[1]);
         return [$filter, $matches[1]];
     }
 }
