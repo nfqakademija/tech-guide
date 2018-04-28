@@ -201,11 +201,14 @@ class Provider
                 return $answer->getValue() === $this->influenceBounds['Color'][0];
             });
 
+        $colorName = '';
         foreach($answers as $answer) {
-            $colorName = TranslateClient::translate('en', 'lt', $answer->getContent());
+            $colorName = TranslateClient::translate('en', 'lt', $answer->getContent() . " color");
+            $colorName = mb_substr(explode(' ', $colorName)[0], 0, -1);
+            var_dump($colorName);
         }
 
-        $regex = '#(\d+?)&quot;,&quot;label&quot;:&quot;([^\s]+ )?' . $colorName . '&quot;#is';
+        $regex = '#&quot;(\d{7})?&quot;,&quot;label&quot;:&quot;([^\s]\s)?' . $colorName . '.{1,6}&quot;,&quot;image&quot;:&quot;&quot;},#is';
         preg_match_all($regex, $pageContent, $matches);
 
         return [$filter, $matches[1]];
