@@ -25,6 +25,7 @@ class InfluenceArea
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Question", inversedBy="influenceAreas")
+     * @ORM\OrderBy({"priority" = "ASC"})
      */
     private $questions;
 

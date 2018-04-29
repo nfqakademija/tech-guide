@@ -24,11 +24,10 @@ class Guidebot
 {
     private $entityManager;
     private $sentenceRepository;
-    private $answerRepository;
     private $questionRepository;
-    private $category_repository;
+    private $categoryRepository;
 
-    private $last_id = 0;
+    private $lastId = 0;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -36,11 +35,9 @@ class Guidebot
 
         $this->sentenceRepository = $this->entityManager
             ->getRepository(GuidebotSentence::class);
-        $this->answerRepository = $this->entityManager
-            ->getRepository(Answer::class);
         $this->questionRepository = $this->entityManager
             ->getRepository(Question::class);
-        $this->category_repository = $this->entityManager
+        $this->categoryRepository = $this->entityManager
             ->getRepository(Category::class);
     }
 
@@ -78,7 +75,7 @@ class Guidebot
             $allMessages['messages']['greeting'][] = [
                 'id' => $this->createUniqueId(),
                 'message' => $greeting->getSentence(),
-                'trigger' => $this->last_id + 1
+                'trigger' => $this->lastId + 1
             ];
         }
 
@@ -86,10 +83,10 @@ class Guidebot
         $allMessages['messages']['questions'][] = [
             'id' => $this->createUniqueId(),
             'message' => $firstQuestion->getContent(),
-            'trigger' => $this->last_id + 1
+            'trigger' => $this->lastId + 1
         ];
 
-        $categories = $this->category_repository->getAll();
+        $categories = $this->categoryRepository->getAll();
         $categoriesWithTriggers = ['id' => $this->createUniqueId()];
 
         $offerId = $this->createUniqueId();
@@ -99,21 +96,19 @@ class Guidebot
             'end' => true
         ];
 
-        $i = 1;
         foreach ($categories as $category) {
             $categoriesWithTriggers['options'][] = [
-                'value'   => $i,
+                'value'   => $category->getId(),
                 'label' => $category->getCategoryName(),
-                'trigger' => $this->last_id + 1
+                'trigger' => $this->lastId + 1
             ];
-            $i++;
 
             $questions = $category->getQuestions();
             foreach ($questions as $question) {
                 $allMessages['messages']['questions'][] = [
                     'id' => $this->createUniqueId(),
                     'message' => $question->getContent(),
-                    'trigger' => $this->last_id + 1
+                    'trigger' => $this->lastId + 1
                 ];
 
                 $allMessages['messages']['options'][] =
@@ -133,7 +128,7 @@ class Guidebot
      */
     private function createUniqueId() : int
     {
-        return ++$this->last_id;
+        return ++$this->lastId;
     }
 
     /**
@@ -152,17 +147,15 @@ class Guidebot
         if($question === $last) {
             $trigger = $offerId;
         } else {
-            $trigger = $this->last_id + 1;
+            $trigger = $this->lastId + 1;
         }
 
-        $i = 1;
         foreach ($question->getAnswers() as $answer) {
             $arr['options'][] = [
-                'value'   => $i,
+                'value'   => $answer->getValue(),
                 'label'   => $answer->getContent(),
                 'trigger' => $trigger
             ];
-            $i++;
         }
 
         return $arr;

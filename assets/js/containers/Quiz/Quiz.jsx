@@ -15,7 +15,7 @@ class Quiz extends Component {
     }
 
     componentDidMount () {
-        axios.get( '/guidebotSentences' )
+        axios.get( '/api/guidebotSentences' )
             .then( response => {
                 const messages = [];
 
@@ -33,7 +33,19 @@ class Quiz extends Component {
 
                 this.setState({ messages: messages });
             });
+
+        this.handleEnd = this.handleEnd.bind(this);
     }
+
+    handleEnd ({steps, values}) {
+        axios.post('/api/guidebotOffer', {
+            data: [40, 1, 3, 2, 2]
+        })
+            .then(function (response) {
+                console.log(response);
+            })
+    }
+
 
     render() {
 
@@ -58,9 +70,10 @@ class Quiz extends Component {
                 steps={this.state.messages}
                 width="100%"
                 hideHeader="true"
-                botDelay="1500"
+                botDelay="100"
                 inputStyle={inputStyle}
                 hideSubmitButton="true"
+                handleEnd={this.handleEnd}
               />
             </ThemeProvider>);
         }
