@@ -70,7 +70,12 @@ class Provider
                 ->addPrefix($shopCategory->getPrefix())
                 ->addFilter($categoryFilter[0], [$categoryFilter[1]]);
 
-            $mainPage = file_get_contents($this->urlBuilder->getUrl());
+            try {
+                $mainPage = file_get_contents($this->urlBuilder->getUrl());
+            } catch (\Exception $e) {
+                continue;
+            }
+
             $filtersValues = $this->makeFilters($shopCategory, $mainPage);
 
             $this->urlBuilder->addFilterArray($filtersValues);
