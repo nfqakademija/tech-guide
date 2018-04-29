@@ -90,9 +90,9 @@ class Question
     }
 
     /**
-     * @return int|null
+     * @return Question|null
      */
-    public function getFollowUpQuestion(): ?int
+    public function getFollowUpQuestion(): ?Question
     {
         return $this->followUpQuestion;
     }

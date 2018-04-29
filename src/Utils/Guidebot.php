@@ -104,6 +104,9 @@ class Guidebot
             ];
 
             $questions = $category->getQuestions();
+            /**
+             * @var Question $question
+             */
             foreach ($questions as $question) {
                 $allMessages['messages']['questions'][] = [
                     'id' => $this->createUniqueId(),
@@ -142,6 +145,10 @@ class Guidebot
      */
     private function makeOptionsArray(int $offerId, Question $question, Question $last) : array
     {
+        /**
+         * @var Answer $answer
+         */
+
         $arr = ['id' => $this->createUniqueId()];
 
         if($question === $last) {
@@ -150,12 +157,31 @@ class Guidebot
             $trigger = $this->lastId + 1;
         }
 
-        foreach ($question->getAnswers() as $answer) {
-            $arr['options'][] = [
-                'value'   => $answer->getValue(),
-                'label'   => $answer->getContent(),
-                'trigger' => $trigger
-            ];
+        if($question->getFollowUpQuestion()) {
+            foreach ($question->getAnswers() as $answer) {
+                if($answer->getValue() === 2) {
+                    if($question->getFollowUpQuestion() === $last) {
+                        $trigger = $offerId;
+                    }
+                    else {
+                        $trigger += 2;
+                    }
+                }
+
+                $arr['options'][] = [
+                    'value'   => $answer->getValue() === 1,
+                    'label'   => $answer->getContent(),
+                    'trigger' => $trigger
+                ];
+            }
+        } else {
+            foreach ($question->getAnswers() as $answer) {
+                $arr['options'][] = [
+                    'value'   => $answer->getValue(),
+                    'label'   => $answer->getContent(),
+                    'trigger' => $trigger
+                ];
+            }
         }
 
         return $arr;
