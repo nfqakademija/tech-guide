@@ -3,6 +3,8 @@
 namespace App\Utils;
 
 use App\Entity\Category;
+use App\Entity\InfluenceArea;
+use App\Entity\Question;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Collections\Collection;
 
@@ -93,8 +95,27 @@ class InfluenceCalculator
     private function calculateInfluencePoints(array $values) : array
     {
         $influencePoints = [];
-        $i = 0;
+        $i = -1;
+        $isDepthQuestionAsked = true;
+        /**
+         * @var Question $question
+         */
+
         foreach ($this->questions as $question) {
+            $i++;
+            if(!$isDepthQuestionAsked) {
+                $isDepthQuestionAsked = true;
+                continue;
+            }
+
+
+            if($values[$i] === -2) {
+                $isDepthQuestionAsked = false;
+                continue;
+            }
+            /**
+             * @var InfluenceArea $influenceArea
+             */
             foreach ($question->getInfluenceAreas() as $influenceArea) {
                 if(!array_key_exists($influenceArea->getContent(), $influencePoints)) {
                     $influencePoints[$influenceArea->getContent()] = $values[$i];
@@ -103,7 +124,6 @@ class InfluenceCalculator
                     $influencePoints[$influenceArea->getContent()] += $values[$i];
                 }
             }
-            $i++;
         }
 
         return $influencePoints;
@@ -118,15 +138,36 @@ class InfluenceCalculator
     {
         $closestValues = [];
         $i = 0;
+        $isDepthQuestionAsked = true;
+        /**
+         * @var Question $question
+         */
         foreach ($this->questions as $question) {
+            if(!$isDepthQuestionAsked) {
+                $isDepthQuestionAsked = true;
+                continue;
+            }
+
             $closestValues[] = 0;
-            foreach ($question->getAnswers() as $answer) {
-                $answerValue = $answer->getValue();
-                if($answerValue > $closestValues[$i] && $answerValue < $values[$i]) {
-                    $closestValues[$i] = $answerValue;
+
+            if($values[$i] < 0) {
+                $closestValues[$i] = $values[$i];
+                if($values[$i] === -2) {
+                    $isDepthQuestionAsked = false;
+                }
+            } else {
+                foreach ($question->getAnswers() as $answer) {
+                    $answerValue = $answer->getValue();
+                    if ($answerValue > $closestValues[$i]
+                        && $answerValue < $values[$i]
+                    ) {
+                        $closestValues[$i] = $answerValue;
+                    }
                 }
             }
+
             $i++;
+
         }
         
         return $closestValues;

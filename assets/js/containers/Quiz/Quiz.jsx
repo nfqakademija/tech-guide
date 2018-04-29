@@ -42,7 +42,7 @@ class Quiz extends Component {
             data: values,
         })
             .then(function (response) {
-                console.log(values);
+                console.log(response);
             })
     }
 
