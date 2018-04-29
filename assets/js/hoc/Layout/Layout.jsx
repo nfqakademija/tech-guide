@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 
-import Navigation from '../../components/Navigation/Navigation.jsx';
+import Navigation from '../../components/Navigation/Navigation';
+import SideDrawer from '../../components/SideDrawer/SideDrawer';
 import Hoc from '../Hoc/Hoc.jsx';
 
 class Layout extends Component {
   render() {
     return (
       <Hoc>
-        <Navigation />
+        <SideDrawer />
         <main>
           {this.props.children}
         </main>

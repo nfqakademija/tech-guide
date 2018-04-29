@@ -1,26 +1,70 @@
-.rsc {
+.rsc-root {
   height: 100%;
+  max-width: 90rem;
+  margin: 0 auto;
+  padding-left: 5rem;
 
 
-  .eNaVJc {
+  .rsc-container {
     height: 100%;
     box-shadow: none;
-    border-radius: 0px;
-    padding: 2rem 2rem 7rem 2rem;
+    border-radius: 0;
+    padding: 2rem 2rem 2rem 2rem;
+    background-color: transparent;
+    font-family: 'Helvetica Neue';
+    z-index: 200;
+
   }
 
-  .bxslzG {
+  .rsc-content {
     height: 100%;
-    overflow-y: auto;
+    overflow-y: scroll;
+    padding: 2rem 5rem;
+    background-color: rgba(0, 0, 0, .7);
+    border-radius: 2rem;
+
+    @include respond(phone) {
+      padding: 0;
+    }
   }
 
-  .bkZLnn {
-    color: $color-white !important;
-    background-color: $color-primary;
+
+  .rsc-os-option {
+    color: $color-white;
+
+    &-element {
+      background-color: rgb(40, 180, 133);
+    }
   }
 
-  .kFPviT {
-    color: $color-white !important;
-    background-color: $color-primary;
+  .rsc-cs {
+      padding: 0;
+      background-color: transparent;
+      box-shadow: none;
+      margin: 0 0 2.5rem 5.2rem;
+
+    @include respond(desktop) {
+      max-width: 50%;
+    }
+
+    @include respond(md-dev) {
+      max-width: 55%;
+    }
+
+    @include respond(phone) {
+      max-width: 75%;
+    }
+
+
+    .video-gif {
+      height: 100%;
+      width: 100%;
+      border-radius: 1.8rem 1.8rem 1.8rem 0;
+    }
+
+  }
+
+  .rsc-input {
+    display: none;
   }
 }
