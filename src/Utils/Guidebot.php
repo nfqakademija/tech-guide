@@ -167,7 +167,7 @@ class Guidebot
                 }
             }
             $arr['options'][] = [
-                'value'   => $answer->getValue(),
+                'value'   => (string) $answer->getValue(),
                 'label'   => $answer->getContent(),
                 'trigger' => $trigger
             ];
