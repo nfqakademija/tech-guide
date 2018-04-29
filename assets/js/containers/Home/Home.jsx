@@ -1,26 +1,18 @@
 import React from 'react';
 
-import Layout from '../../hoc/Layout/Layout.jsx';
-import Hoc from '../../hoc/Hoc/Hoc.jsx';
-import Button from '../../components/UI/Button/Button.jsx';
+import Hoc from '../../hoc/Hoc/Hoc';
+import Button from '../../components/UI/Button/Button';
 
 const home = () => {
   return (
     <Hoc>
       <div className="row main">
-
-        <div className="col-md-12 col-lg-6">
-          <div className="action-box">
-              <h1>Know what tech suits you best</h1>
-              <p className="action-box__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <Button actionName="Take a quiz !" buttonType="main-button" link="/guidebot"/>
+        <div className="col-6 main-box">
+          <div className="main-box__text">
+              <h1 className="main-box__text--title">Techguide</h1>
+              <p className="main-box__text--regular">Helps when every device looks the same.</p>
           </div>
         </div>
-
-        <div className="hidden-md-down col-lg-6 photo-background">
-
-        </div>
-
       </div>
     </Hoc>
   );

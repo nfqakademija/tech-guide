@@ -205,7 +205,6 @@ class Provider
         foreach($answers as $answer) {
             $colorName = TranslateClient::translate('en', 'lt', $answer->getContent() . " color");
             $colorName = mb_substr(explode(' ', $colorName)[0], 0, -1);
-            var_dump($colorName);
         }
 
         $regex = '#&quot;(\d{7})?&quot;,&quot;label&quot;:&quot;([^\s]\s)?' . $colorName . '.{1,6}&quot;,&quot;image&quot;:&quot;&quot;},#is';
