@@ -21,7 +21,6 @@ class Provider
 
     private $shopCategoryRepository;
     private $influenceAreaRepository;
-    private $answerRepository;
 
     private $urlBuilder;
     private $influenceBounds;
@@ -34,6 +33,7 @@ class Provider
      */
     public function __construct(array $answers, EntityManagerInterface $entityManager)
     {
+        $answers = array_map('intval', $answers);
         $influenceCalculator = new InfluenceCalculator($answers, $entityManager);
         $this->influenceBounds = $influenceCalculator->calculateInfluenceBounds();
 
@@ -41,8 +41,6 @@ class Provider
             ->getRepository(ShopCategory::class);
         $this->influenceAreaRepository = $entityManager
             ->getRepository(InfluenceArea::class);
-        $this->answerRepository = $entityManager
-            ->getRepository(Answer::class);
 
         $this->category = $entityManager
             ->getRepository(Category::class)
@@ -123,14 +121,19 @@ class Provider
      */
     private function filterPrice(string $filter, string $pageContent) : array
     {
-        $regex = '#(?<=price&quot;,&quot;value&quot;:&quot;)(\d+-\d+?)&quot;,&quot;label#is';
-        preg_match_all($regex, $pageContent, $matches);
-        $maxValue = explode('-', $matches[1][\count($matches[1]) - 1])[1];
+        if($this->influenceBounds['Price'][1] !== 0) {
+            $regex
+                = '#(?<=price&quot;,&quot;value&quot;:&quot;)(\d+-\d+?)&quot;,&quot;label#is';
+            preg_match_all($regex, $pageContent, $matches);
+            $maxValue = explode('-', $matches[1][\count($matches[1]) - 1])[1];
 
-        $value = round($maxValue * $this->influenceBounds['Price'][0]) . '-'
-            . round($maxValue * $this->influenceBounds['Price'][1]);
+            $value = round($maxValue * $this->influenceBounds['Price'][0]) . '-'
+                . round($maxValue * $this->influenceBounds['Price'][1]);
 
-        return [$filter, [$value]];
+            return [$filter, [$value]];
+        }
+
+        return [$filter, []];
     }
 
     /**
@@ -171,25 +174,35 @@ class Provider
      */
     private function filterMemory(string $filter, string $pageContent) : array
     {
-        $memoriesAndValues = [];
-        $pageRegex = " ";
-        preg_match('#u0117 atmintis(.*)#is', $pageContent, $match);
-        $pageContent = $match[1];
-        $regex = '#(\d+?)&quot;,&quot;label&quot;:&quot;(\d+?)&quot;,&quot;image&#is';
-        preg_match_all($regex, $pageContent, $matches);
+        if($this->influenceBounds['Memory'][1] !== 0) {
+            $memoriesAndValues = [];
+            $pageRegex = " ";
+            preg_match('#u0117 atmintis(.*)#is', $pageContent, $match);
+            $pageContent = $match[1];
+            $regex
+                = '#(\d+?)&quot;,&quot;label&quot;:&quot;(\d+?)&quot;,&quot;image&#is';
+            preg_match_all($regex, $pageContent, $matches);
 
-        for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
-            $memoriesAndValues[$matches[1][$i]] = $matches[2][$i];
+            for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
+                $memoriesAndValues[$matches[1][$i]] = $matches[2][$i];
+            }
+
+            asort($memoriesAndValues);
+
+            return [
+                $filter,
+                array_keys(\array_slice(
+                    $memoriesAndValues,
+                    round($this->influenceBounds['Memory'][0]
+                        * \count($memoriesAndValues)),
+                    round($this->influenceBounds['Memory'][1]
+                        * \count($memoriesAndValues)),
+                    true
+                ))
+            ];
         }
 
-        asort($memoriesAndValues);
-
-        return [$filter, array_keys( \array_slice(
-            $memoriesAndValues,
-            round($this->influenceBounds['Memory'][0] * \count($memoriesAndValues)),
-            round($this->influenceBounds['Memory'][1] * \count($memoriesAndValues)),
-            true
-        ))];
+        return [$filter, []];
     }
 
     /**

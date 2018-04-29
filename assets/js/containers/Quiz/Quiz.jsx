@@ -69,7 +69,7 @@ class Quiz extends Component {
         display: 'none'
       }
 
-      if (this.state.messages.length < 0) {
+      if (this.state.messages.length > 0) {
             return (
               <Hoc>
                 <ThemeProvider theme={theme}>
