@@ -39,10 +39,10 @@ class Quiz extends Component {
 
     handleEnd ({steps, values}) {
         axios.post('/api/guidebotOffer', {
-            data: [40, 1, 3, 2, 2]
+            data: values,
         })
             .then(function (response) {
-                console.log(response);
+                console.log(values);
             })
     }
 

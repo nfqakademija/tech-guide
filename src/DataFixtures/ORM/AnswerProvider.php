@@ -49,9 +49,22 @@ class AnswerProvider extends BaseProvider
             return $this->currValue;
         }
 
-        $this->currValue = 1;
+        return $this->evaluateCurrentValue(1, $answerNum);
+    }
+    
+    public function calculateFollowUpValue($answerNum) {
+        if($this->questionForAnswer($answerNum) === $this->currQuestion) {
+            $this->currValue--;
+            return $this->currValue;
+        }
+        
+        return $this->evaluateCurrentValue(-1, $answerNum);
+    }
+    
+    private function evaluateCurrentValue($value, $answerNum) 
+    {
+        $this->currValue = $value;
         $this->currQuestion = $this->questionForAnswer($answerNum);
         return $this->currValue;
     }
-
 }

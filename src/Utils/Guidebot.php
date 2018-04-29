@@ -157,31 +157,20 @@ class Guidebot
             $trigger = $this->lastId + 1;
         }
 
-        if($question->getFollowUpQuestion()) {
-            foreach ($question->getAnswers() as $answer) {
-                if($answer->getValue() === 2) {
-                    if($question->getFollowUpQuestion() === $last) {
-                        $trigger = $offerId;
-                    }
-                    else {
-                        $trigger += 2;
-                    }
+        foreach ($question->getAnswers() as $answer) {
+            if($answer->getValue() === -2) {
+                if($question->getFollowUpQuestion() === $last) {
+                    $trigger = $offerId;
                 }
-
-                $arr['options'][] = [
-                    'value'   => $answer->getValue() === 1,
-                    'label'   => $answer->getContent(),
-                    'trigger' => $trigger
-                ];
+                else {
+                    $trigger += 2;
+                }
             }
-        } else {
-            foreach ($question->getAnswers() as $answer) {
-                $arr['options'][] = [
-                    'value'   => $answer->getValue(),
-                    'label'   => $answer->getContent(),
-                    'trigger' => $trigger
-                ];
-            }
+            $arr['options'][] = [
+                'value'   => $answer->getValue(),
+                'label'   => $answer->getContent(),
+                'trigger' => $trigger
+            ];
         }
 
         return $arr;

@@ -38,10 +38,11 @@ class GuidebotController extends Controller
      */
     public function retrieveAnswers(Request $request, EntityManagerInterface $entityManager)
     {
-        $provider = new Provider(
-            json_decode($request->getContent(), true)['data'],
-            $entityManager
-        );
-        return new JsonResponse($provider->makeUrls());
+//        $provider = new Provider(
+//            json_decode($request->getContent(), true)['data'],
+//            $entityManager
+//        );
+//        return new JsonResponse($provider->makeUrls());
+        return new JsonResponse('');
     }
 }
