@@ -5,12 +5,14 @@ import Loader from '../../components/Loader/Loader.jsx';
 import Layout from '../../hoc/Layout/Layout.jsx';
 import ChatBot from 'react-simple-chatbot';
 import { ThemeProvider } from 'styled-components';
+import Hoc from '../../hoc/Hoc/Hoc';
 
 class Quiz extends Component {
     constructor(props) {
       super(props);
       this.state = {
-          messages: null,
+          messages: [],
+          url: null
       };
     }
 
@@ -38,11 +40,16 @@ class Quiz extends Component {
     }
 
     handleEnd ({steps, values}) {
+        let currentComponent = this;
         axios.post('/api/guidebotOffer', {
-            data: values,
+            data: values
         })
             .then(function (response) {
-                console.log(response);
+                // console.log(response.data[0]);
+                const url = response.data[0];
+
+                currentComponent.setState({ url: url });
+
             })
     }
 
@@ -61,23 +68,30 @@ class Quiz extends Component {
       const inputStyle = {
         display: 'none'
       }
-        let message = <Loader />;
-        if (this.state.messages) {
-            message =(
-            <ThemeProvider theme={theme}>
-              <ChatBot
-                headerTitle="Guidebot"
-                steps={this.state.messages}
-                width="100%"
-                hideHeader="true"
-                botDelay="100"
-                inputStyle={inputStyle}
-                hideSubmitButton="true"
-                handleEnd={this.handleEnd}
-              />
-            </ThemeProvider>);
+
+      if (this.state.messages.length < 0) {
+            return (
+              <Hoc>
+                <ThemeProvider theme={theme}>
+                  <ChatBot
+                    headerTitle="Guidebot"
+                    steps={this.state.messages}
+                    width="100%"
+                    hideHeader="true"
+                    botDelay="100"
+                    inputStyle={inputStyle}
+                    hideSubmitButton="true"
+                    handleEnd={this.handleEnd}
+                    className="rsc-root"
+                  />
+                </ThemeProvider>
+              </Hoc>
+            );
+        } else {
+            return (
+                <Loader />
+            );
         }
-        return message;
     }
 }
 
