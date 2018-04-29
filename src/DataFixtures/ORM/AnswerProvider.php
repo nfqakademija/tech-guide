@@ -8,7 +8,7 @@ use Faker\Generator;
 class AnswerProvider extends BaseProvider
 {
     private $currQuestion = 2;
-    private $currValue = 0;
+    private $currValue = -1;
     private $answers = [
         'I don`t like travelling' => 2,
         'Only a few times a year' => 2,
@@ -20,8 +20,8 @@ class AnswerProvider extends BaseProvider
         'White' => 4,
         'Gold' => 4,
         'Silver' => 4,
-        'I want a cheap phone' => 5,
         'Not really, I guess..' => 5,
+        'I want a cheap phone' => 5,
         'Luxury is what I strive for!' => 5,
         'Of course it is!' => 6,
         'No, not really actually' => 6,
@@ -32,7 +32,7 @@ class AnswerProvider extends BaseProvider
         parent::__construct($generator);
     }
 
-    public function answerValue($answerNum) : string
+    public function answerContent($answerNum) : string
     {
         return array_keys($this->answers)[$answerNum - 1];
     }
@@ -49,7 +49,7 @@ class AnswerProvider extends BaseProvider
             return $this->currValue;
         }
 
-        return $this->evaluateCurrentValue(1, $answerNum);
+        return $this->evaluateCurrentValue(0, $answerNum);
     }
     
     public function calculateFollowUpValue($answerNum) {
