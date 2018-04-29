@@ -23,6 +23,8 @@ class AnswerProvider extends BaseProvider
         'I want a cheap phone' => 5,
         'Not really, I guess..' => 5,
         'Luxury is what I strive for!' => 5,
+        'Of course it is!' => 6,
+        'No, not really actually' => 6,
     ];
 
     public function __construct(Generator $generator)

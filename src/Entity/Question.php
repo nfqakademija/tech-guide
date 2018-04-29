@@ -25,6 +25,7 @@ class Question
 
     /**
      * @ORM\OneToOne(targetEntity="Question")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $followUpQuestion;
 
@@ -97,11 +98,11 @@ class Question
     }
 
     /**
-     * @param int|null $followUpQuestion
+     * @param Question|null $followUpQuestion
      *
      * @return Question
      */
-    public function setFollowUpQuestion(?int $followUpQuestion): self
+    public function setFollowUpQuestion(?Question $followUpQuestion): self
     {
         $this->followUpQuestion = $followUpQuestion;
 
