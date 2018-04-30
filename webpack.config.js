@@ -20,6 +20,10 @@ Encore
     // uncomment if you use React
     .enableReactPreset()
 
+    .configureBabel((config) => {
+      config.presets.push('stage-1');
+    })
+
     // uncomment for legacy applications that require $/jQuery as a global variable
     // .autoProvidejQuery()
 ;

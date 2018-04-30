@@ -1,0 +1,43 @@
+.results {
+  z-index: 600;
+  height: 55rem;
+  position: absolute;
+  background-color: white;
+  width: 80rem;
+  top: 50%;
+  left: 52%;
+  transform: translate(-50%, -50%);
+  border-radius: 1rem;
+
+  &__providers {
+    list-style: none;
+    padding: 1.5rem 5rem;
+  }
+
+  &__provider {
+    border-bottom: 1px solid grey;
+    position: relative;
+  }
+
+  &__exit {
+    width: 1.5rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 1rem 1rem 0 0;
+  }
+
+  .provider__button {
+    padding: 1rem 1rem;
+    background: rgb(126,213,111);
+    color: white;
+    position: absolute;
+    top: 25%;
+    right: 0;
+  }
+
+  .provider__img {
+    width: 25rem;
+  }
+
+}

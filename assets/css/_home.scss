@@ -18,6 +18,10 @@
       clip-path: polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%);
       padding: 5rem 18rem;
 
+      @include respond(phone-tab) {
+        clip-path: none;
+      }
+
       &--title {
         text-align: left;
         font-size: 6rem;

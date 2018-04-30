@@ -1,14 +1,17 @@
 
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
-@import 'mixins.scss';
 @import "variables.scss";
+@import 'mixins.scss';
 @import "buttons.scss";
 @import "backdrop.scss";
 @import "sideDrawer.scss";
+@import "results.scss";
 @import "loader.scss";
-@import "home.scss";
+@import "providers.scss";
 @import "guidebot.scss";
+@import "home.scss";
+
 
 
 *,
@@ -47,4 +50,5 @@ body {
 
 main {
   height: 100%;
+  padding-top: 2rem;
 }
