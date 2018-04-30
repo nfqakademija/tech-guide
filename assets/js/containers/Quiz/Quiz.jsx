@@ -6,13 +6,18 @@ import Layout from '../../hoc/Layout/Layout.jsx';
 import ChatBot from 'react-simple-chatbot';
 import { ThemeProvider } from 'styled-components';
 import Hoc from '../../hoc/Hoc/Hoc';
+import Providers from '../../components/Providers/Providers';
+import Backdrop from '../../components/UI/Backdrop/Backdrop';
+import Gif from '../../components/Gif/Gif';
 
 class Quiz extends Component {
     constructor(props) {
       super(props);
       this.state = {
           messages: [],
-          url: null
+          url: "",
+          providersSet: false,
+          loadingProviders: false
       };
     }
 
@@ -41,15 +46,14 @@ class Quiz extends Component {
 
     handleEnd ({steps, values}) {
         let currentComponent = this;
+        this.setState({ loadingProviders: true });
         axios.post('/api/guidebotOffer', {
             data: values
         })
             .then(function (response) {
                 // console.log(response.data[0]);
                 const url = response.data[0];
-
-                currentComponent.setState({ url: url });
-
+                currentComponent.setState({ url: url, providersSet: true, loadingProviders: false });
             })
     }
 
@@ -57,21 +61,23 @@ class Quiz extends Component {
     render() {
 
       const theme = {
-        background: '#f5f8fb',
-        fontFamily: 'Helvetica Neue',
         botBubbleColor: 'white',
-        botFontColor: 'black',
-        userBubbleColor: '#fff',
-        userFontColor: '#4a4a4a',
+        botFontColor: '#777',
+        userBubbleColor: 'rgb(40, 180, 133)',
+        userFontColor: 'white',
       }
 
       const inputStyle = {
         display: 'none'
       }
 
-      if (this.state.messages.length < 0) {
+      if (this.state.messages.length > 0) {
             return (
               <Hoc>
+                <Providers
+                  loadingProviders={this.state.loadingProviders}
+                  show={this.state.providersSet}
+                  link={this.state.url} />
                 <ThemeProvider theme={theme}>
                   <ChatBot
                     headerTitle="Guidebot"
@@ -88,9 +94,7 @@ class Quiz extends Component {
               </Hoc>
             );
         } else {
-            return (
-                <Loader />
-            );
+            return <Loader guideboteTitle="GUIDEBOT - BEST TECH ADVISOR SINCE 1950s" />
         }
     }
 }

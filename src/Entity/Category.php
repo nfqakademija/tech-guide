@@ -38,10 +38,16 @@ class Category
      */
     private $questions;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AnswerHistory", mappedBy="category", orphanRemoval=true)
+     */
+    private $answerHistories;
+
     public function __construct()
     {
         $this->categoryShops = new ArrayCollection();
         $this->questions = new ArrayCollection();
+        $this->answerHistories = new ArrayCollection();
     }
 
     /**
@@ -108,6 +114,37 @@ class Category
     public function setQuestions(array $questions): self
     {
         $this->questions = $questions;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AnswerHistory[]
+     */
+    public function getAnswerHistories(): Collection
+    {
+        return $this->answerHistories;
+    }
+
+    public function addAnswerHistory(AnswerHistory $answerHistory): self
+    {
+        if (!$this->answerHistories->contains($answerHistory)) {
+            $this->answerHistories[] = $answerHistory;
+            $answerHistory->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnswerHistory(AnswerHistory $answerHistory): self
+    {
+        if ($this->answerHistories->contains($answerHistory)) {
+            $this->answerHistories->removeElement($answerHistory);
+            // set the owning side to null (unless already changed)
+            if ($answerHistory->getCategory() === $this) {
+                $answerHistory->setCategory(null);
+            }
+        }
 
         return $this;
     }
