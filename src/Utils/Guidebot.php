@@ -92,7 +92,7 @@ class Guidebot
         $offerId = $this->createUniqueId();
         $allMessages['messages']['questions'][] = [
             'id' => $offerId,
-            'message' => "Your results will be offered soon.. or, on the next sprint ;)",
+            'message' => 'I hope you liked our offers! If you want to view them again, just click on the arrow that has appeared on the right.',
             'end' => true
         ];
 
