@@ -51,13 +51,13 @@ Taip pat reikia įsidiegti [Kitematic](https://github.com/docker/kitematic/relea
   sudo su -c 'echo "127.0.0.1 techguide.local" >> /etc/hosts'
   docker build .docker/php -t php.symfony 
   docker build .docker/frontend/ -t frontend.symfony
-  docker-compose -f .docker/docker-compose.yml up -d
+  docker-compose up -d
   ```
-  (jei infrastruktūra nekeičiama, antrą kartą užteks tik `docker-compose -f .docker/docker-compose.yml up -d`)
+  (jei infrastruktūra nekeičiama, antrą kartą užteks tik `docker-compose up -d`)
 
 * JavaScript/CSS įrankiams (atsidaryti atskirame lange)
 ```
-docker-compose -f .docker/docker-compose.yml run --rm frontend.symfony
+docker-compose run --rm frontend.symfony
 ```
   * Pirmą kartą (įsirašome JavaScript bilbiotekas)
   ```
@@ -97,7 +97,7 @@ Atsidarome naršyklėje [symfony.local](http://symfony.local)
   sudo su -c 'echo "127.0.0.1 techguide.prod" >> /etc/hosts'
   docker build .docker/php -t php.symfony 
   docker build .docker/frontend/ -t frontend.symfony
-  docker-compose -f .docker/docker-compose.yml up -d
+  docker-compose up -d
   ```
   (jei infrastruktūra nekeičiama, antrą kartą užteks tik `docker-compose -f .docker/docker-compose.yml up -d`)
 
@@ -164,7 +164,7 @@ Atsidarote naršyklę ir einate į `http://127.0.0.1`,
 ```
 mysql -uroot -h127.0.0.1 --port=3306 -p
 ```
-Slaptažodžiui naudoti `p9iijKcfgENjBWDYgSH7` (toks pats, kaip ir [.docker/docker-compose.yml](.docker/docker-compose.yml) `MYSQL_ROOT_PASSWORD=`)
+Slaptažodžiui naudoti `p9iijKcfgENjBWDYgSH7` (toks pats, kaip ir [docker-compose.yml](docker-compose.yml) `MYSQL_ROOT_PASSWORD=`)
 
 
 ### Troubleshooting'as
@@ -172,13 +172,13 @@ Slaptažodžiui naudoti `p9iijKcfgENjBWDYgSH7` (toks pats, kaip ir [.docker/dock
 Jeigu kažkas nutiko ne taip, na, atsirado raudona eilutė, ar tiesiog nutrūko ir nieko nerodo, neatsidaro naršyklėje svetainė, tai pirmas žingsnis būtų paleisti komandą:
 
 ```
-docker-compose -f .docker/docker-compose.yml logs 
+docker-compose logs 
 ```
 
 Nepamirškite, kad galima nurodyti norimą procesą. Taip pat ir 'grepinti'.
 
 ```
-docker-compose -f .docker/docker-compose.yml logs mysql.symfony
+docker-compose logs mysql.symfony
 ```
 
 ### Feedbackas

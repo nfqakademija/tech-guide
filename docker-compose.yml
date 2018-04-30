@@ -1,0 +1,48 @@
+version: "2"
+
+services:
+  nginx.symfony:
+    container_name: nginx.symfony
+    image: nginx:1.13.10
+    volumes:
+      - .:/code
+      - .docker/nginx/site.conf:/etc/nginx/conf.d/site.conf
+    ports:
+      - 127.0.0.1:$LOCAL_NGINX_DEV_PORT:8000
+      - 127.0.0.1:$LOCAL_NGINX_PROD_PORT:80
+
+  php.symfony:
+    container_name: php.symfony
+    build: .docker/php/
+    environment:
+      - APP_ENV=$APP_ENV
+      - APP_SECRET=$APP_SECRET
+      - DATABASE_URL=$DATABASE_URL
+    volumes:
+      - .:/code
+
+  prod.php.symfony:
+    container_name: prod.php.symfony
+    build: .docker/php/
+    environment:
+      - APP_ENV=prod
+      - APP_SECRET=$APP_SECRET
+      - DATABASE_URL=$DATABASE_URL
+    volumes:
+      - .:/code
+
+  mysql.symfony:
+    container_name: mysql.symfony
+    image: mysql:5.7.21
+    environment:
+      - MYSQL_ROOT_PASSWORD=p9iijKcfgENjBWDYgSH7
+    volumes:
+      - .docker/mysql-data/:/var/lib/mysql
+    ports:
+      - 127.0.0.1:$LOCAL_MYSQL_PORT:3306
+
+  frontend.symfony:
+    container_name: frontend.symfony
+    build: .docker/frontend/
+    volumes:
+      - .:/code
