@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,16 @@ class Answer
      * @ORM\JoinColumn(nullable=false)
      */
     private $question;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\AnswerHistory", mappedBy="answers")
+     */
+    private $answerHistories;
+
+    public function __construct()
+    {
+        $this->answerHistories = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -96,6 +108,34 @@ class Answer
     public function setValue(int $value): self
     {
         $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AnswerHistory[]
+     */
+    public function getAnswerHistories(): Collection
+    {
+        return $this->answerHistories;
+    }
+
+    public function addAnswerHistory(AnswerHistory $answerHistory): self
+    {
+        if (!$this->answerHistories->contains($answerHistory)) {
+            $this->answerHistories[] = $answerHistory;
+            $answerHistory->addAnswer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnswerHistory(AnswerHistory $answerHistory): self
+    {
+        if ($this->answerHistories->contains($answerHistory)) {
+            $this->answerHistories->removeElement($answerHistory);
+            $answerHistory->removeAnswer($this);
+        }
 
         return $this;
     }

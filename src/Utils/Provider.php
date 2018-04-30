@@ -37,6 +37,9 @@ class Provider
         $influenceCalculator = new InfluenceCalculator($answers, $entityManager);
         $this->influenceBounds = $influenceCalculator->calculateInfluenceBounds();
 
+        $userAnswers = new UserAnswers($answers, $entityManager);
+        $userAnswers->saveAnswers();
+
         $this->shopCategoryRepository = $entityManager
             ->getRepository(ShopCategory::class);
         $this->influenceAreaRepository = $entityManager
