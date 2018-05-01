@@ -13,7 +13,7 @@ if [[ $1 == '--prod' ]]; then
     docker-compose exec prod.php.symfony bin/console doc:database:create
     docker-compose exec prod.php.symfony bin/console doc:migrations:migrate --no-interaction
     echo -e "Generating project fixtures..."
-    docker-compose exec prod.php.symfony bin/console hautelook:fixtures:load --no-interaction
+    docker-compose exec prod.php.symfony bin/console doctrine:fixtures:load --no-interaction
 else
     docker-compose run --rm frontend.symfony bash -c "npm install --no-save && yarn run encore dev"
     docker-compose exec php.symfony composer install --prefer-dist -n
@@ -23,7 +23,7 @@ else
         docker-compose exec php.symfony bin/console doc:migrations:migrate --no-interaction
         if [[ $2 == '--with-fixtures' ]]; then
             echo -e "Generating project fixtures..."
-            docker-compose exec php.symfony bin/console hautelook:fixtures:load --no-interaction
+            docker-compose exec php.symfony bin/console doctrine:fixtures:load --no-interaction
         fi
     fi
 fi
