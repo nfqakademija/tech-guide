@@ -25,7 +25,7 @@ const loader = (props) => {
             <span></span>
             <span></span>
           </div>
-          <h1 className="loader-title">{props.guideboteTitle}</h1>
+          <h1 className="loader-title">{props.loaderTitle}</h1>
       </Hoc>
     );
 }

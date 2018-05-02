@@ -5,10 +5,8 @@
 @import 'mixins.scss';
 @import "buttons.scss";
 @import "backdrop.scss";
-@import "sideDrawer.scss";
 @import "results.scss";
 @import "loader.scss";
-@import "providers.scss";
 @import "guidebot.scss";
 @import "home.scss";
 
@@ -41,14 +39,15 @@ body {
 #root {
   height: 100%;
   background-size: cover;
-  background-image: linear-gradient(
-      to right bottom,
-      rgba($color-white, 0.25),
-      rgba($color-white, 0.25)),
-  url(https://images.pexels.com/photos/905873/pexels-photo-905873.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260);
+  background-image: url(images/background-body.svg);
+  padding: 3rem 2rem;
 }
 
 main {
   height: 100%;
   padding-top: 2rem;
+}
+
+.priority {
+  z-index: 100;
 }
