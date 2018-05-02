@@ -16,3 +16,8 @@ before_script:
 script:
   - vendor/bin/phpcs -p --colors --standard=PSR2 --extensions=php ./src
   - vendor/bin/phpmd ./src xml cleancode
+
+notifications:
+  email: false
+  slack:
+    secure: D+3WuGHLd5t4iRxdVgnjGD87qA1jFrIQ0S0VgKb9yWcnCDlw4B03g8QyGPL+JN6PXE4Dm/R76ms37cdHfAlerusJzzlj3SRTjv4BY9724s9B52wNO5Nor7T1WbRXiXe3SBPYwCxHC6+SCSHKce1WWeQqsITT/+M8upKLCMRp+slQW9Ptv4HI2cUUB1XnN4/M+CW61ADtavrvmqbipS8j9JMm/AbGmxS4kaCo5zcW6thoP1Y7D+JLawLnPbNqh5ryaSTXqsRR6BQS3lheqvw/G+RkkJKlAqlw68hv2l7NlqX1S817GHhjJh5svihBhvfz8DxCl/UWpweiNjgMXcTNr4QBRWl3O+3asf1RMK1cXLwgrXjPVdiKgBgKH/LbtohhAMk1K0C4DSWhmOR1eqIqLpxfONMWlO3bRwXgjoacdutbQg60dtlpLehAbSw6gkjO/df7p3Ox5AVINFId1kwHbpda3hpb8UNMURT9j9LbR03/46i2jHfVldzD74OiN1kVC09ypW8qS8SZFSO+0MELThiNamyMvTBSwLQrBNsQ6rmER2TXOP4W9Y0uTyD43pX2K8qMjV2Z2B6idN9Wqp9JpqOirkFqQdsSb2TjjMDnHemxjMwg+y20u07gRl0b6115ihV0zM7mGUUPB+x8ZkdVZ/KGnNtjG03evQiruNL2eTs=
