@@ -23,8 +23,24 @@
 html {
   font-size: 62.5%;
 
+  @include respond(md-desktop) {
+    font-size: 85%;
+  }
+
+  @include respond(bg-desktop) {
+    font-size: 105%;
+  }
+
+  @include respond(md-dev) {
+    font-size: 55%;
+  }
+
   @include respond(phone-tab) {
-    font-size: 60%;
+    font-size: 75%;
+  }
+
+  @include respond(phone) {
+    font-size: 50%;
   }
 
 }
@@ -41,6 +57,10 @@ body {
   background-size: cover;
   background-image: url(images/background-body.svg);
   padding: 3rem 2rem;
+
+  @include respond(phone) {
+    padding: 0;
+  }
 }
 
 main {
