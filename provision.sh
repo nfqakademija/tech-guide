@@ -9,7 +9,7 @@ docker-compose up -d
 if [[ $1 == '--prod' ]]; then
     docker-compose run --rm frontend.symfony bash -c "npm install --no-save && yarn run encore production"
     docker-compose exec prod.php.symfony composer install --prefer-dist -n
-    docker-compose exec prod.php.symfony bin/console doc:database:drop --force
+    docker-compose exec prod.php.symfony bin/console doc:database:drop --if-exists --force
     docker-compose exec prod.php.symfony bin/console doc:database:create
     docker-compose exec prod.php.symfony bin/console doc:migrations:migrate --no-interaction
     echo -e "Generating project fixtures..."

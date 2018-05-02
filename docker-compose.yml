@@ -53,7 +53,11 @@ services:
 
   frontend.symfony:
     container_name: frontend.symfony
-    build: .docker/frontend/
+    build:
+      context: .docker/frontend/
+      args:
+        LOCAL_USER_ID: $LOCAL_USER_ID
+        LOCAL_GROUP_ID: $LOCAL_GROUP_ID
     user: "$LOCAL_USER_ID:$LOCAL_GROUP_ID"
     volumes:
       - .:/code
