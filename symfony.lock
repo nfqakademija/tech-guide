@@ -107,6 +107,12 @@
     "ocramius/proxy-manager": {
         "version": "2.2.0"
     },
+    "pdepend/pdepend": {
+        "version": "2.5.2"
+    },
+    "phpmd/phpmd": {
+        "version": "2.6.0"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -130,6 +136,9 @@
             "version": "4.0",
             "ref": "aaddfdf43cdecd4cf91f992052d76c2cadc04543"
         }
+    },
+    "squizlabs/php_codesniffer": {
+        "version": "3.2.3"
     },
     "stichoza/google-translate-php": {
         "version": "v3.2.13"
