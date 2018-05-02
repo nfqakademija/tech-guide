@@ -23,13 +23,11 @@ class Providers extends Component {
     if (this.props.show) {
       return (
         <Hoc>
-          <Backdrop show={this.state.resultsOpened} onClick={this.resultsToggleHandler} />
-          <img onClick={this.resultsToggleHandler} className="providers__toggle" src="images/left-arrow.svg" />
           <Results onClick={this.resultsToggleHandler} show={this.state.resultsOpened} link={this.props.link} />
         </Hoc>
       );
     } else if (this.props.loadingProviders) {
-      return <Loader guideboteTitle="LOOKING FOR OFFER WHICH SUITS YOU BEST!" />
+      return <Loader loaderTitle="LOOKING FOR OFFER WHICH SUITS YOU BEST!" />
     } else {
       return null;
     }

@@ -9,10 +9,7 @@ class App extends Component {
   render() {
     return (
       <Layout>
-        <Switch>
-            <Route path="/guidebot" component={Quiz} />
-            <Route path="/" exact component={Home} />
-        </Switch>
+        
       </Layout>
     );
   }
