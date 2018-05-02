@@ -13,7 +13,12 @@ services:
 
   php.symfony:
     container_name: php.symfony
-    build: .docker/php/
+    build:
+      context: .docker/php/
+      args:
+        LOCAL_USER_ID: $LOCAL_USER_ID
+        LOCAL_GROUP_ID: $LOCAL_GROUP_ID
+    user: "$LOCAL_USER_ID:$LOCAL_GROUP_ID"
     environment:
       - APP_ENV=$APP_ENV
       - APP_SECRET=$APP_SECRET
@@ -23,7 +28,12 @@ services:
 
   prod.php.symfony:
     container_name: prod.php.symfony
-    build: .docker/php/
+    build:
+      context: .docker/php/
+      args:
+        LOCAL_USER_ID: $LOCAL_USER_ID
+        LOCAL_GROUP_ID: $LOCAL_GROUP_ID
+    user: "$LOCAL_USER_ID:$LOCAL_GROUP_ID"
     environment:
       - APP_ENV=prod
       - APP_SECRET=$APP_SECRET
@@ -44,5 +54,6 @@ services:
   frontend.symfony:
     container_name: frontend.symfony
     build: .docker/frontend/
+    user: "$LOCAL_USER_ID:$LOCAL_GROUP_ID"
     volumes:
       - .:/code
