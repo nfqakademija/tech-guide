@@ -21,7 +21,7 @@ class AnswerProvider extends BaseProvider
         'Gold' => 4,
         'Silver' => 4,
         'Not really, I guess..' => 5,
-        'I want a cheap phone' => 5,
+        'The cheaper the better!' => 5,
         'Luxury is what I strive for!' => 5,
         'One task at time!' => 6,
         'Sometimes, I suppose..' => 6,
