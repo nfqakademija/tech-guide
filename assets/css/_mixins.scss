@@ -3,7 +3,9 @@
 // 0 - 544px:  Phone
 // 544px - 992px:  Landscape phones, Tablets
 // 992px - 1200px:   Medium devices
-// 1200px +:   Desktops
+// Normal styles apply
+// 1600px-1800px +:   Mid desktops
+// 1800px+ : Big desktops
 
 
 // Breakpoint Choices
@@ -26,7 +28,11 @@
     @media (max-width: 1200px) { @content };
   }
 
-  @if $breakpoint == desktop {
-    @media (min-width: 1200px) { @content };
+  @if $breakpoint == md-desktop {
+    @media (min-width: 1600px) { @content };
+  }
+
+  @if $breakpoint == bg-desktop {
+    @media (min-width: 1800px) { @content };
   }
 }

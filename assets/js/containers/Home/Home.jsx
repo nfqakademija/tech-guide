@@ -7,7 +7,7 @@ const home = (props) => {
   return (
         <div className="card__side  card__side--front">
           <div className="row card__content-wrapper">
-            <div className="col-sm-6">
+            <div className="col-lg-6 col--text">
               <div className="card__text-box">
                 <h1 className="heading-primary">
                   <span className="heading-primary__main">TECHGUIDE</span>
@@ -16,8 +16,8 @@ const home = (props) => {
                 <a onClick={props.onClick} className="main-button" href="#">Start quiz!</a>
               </div>
             </div>
-            <div className="col-sm-6">
-              <img className="vector-picture" src="images/question.svg" />
+            <div className="col-lg-6 col--picture">
+              <img className="card__main-picture" src="images/question.svg" />
             </div>
           </div>
         </div>
