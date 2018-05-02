@@ -14,6 +14,7 @@ before_script:
   - docker-compose exec -T php.symfony bin/console doctrine:schema:validate
 
 script:
+  - vendor/bin/phpcbf -p --colors --standard=PSR2 --extensions=php ./src
   - vendor/bin/phpcs -p --colors --standard=PSR2 --extensions=php ./src
   - vendor/bin/phpmd ./src xml cleancode
 
