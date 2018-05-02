@@ -32,7 +32,7 @@ class UrlBuilder
      */
     public function addPrefix(string $prefix) : self
     {
-        if($prefix[0] !== '/' && $this->url[strlen($this->url) - 1] !== '/') {
+        if($prefix[0] !== '/' && $this->url[\strlen($this->url) - 1] !== '/') {
             $this->url .= '/';
         }
         $this->url .= $prefix;
@@ -46,25 +46,25 @@ class UrlBuilder
      *
      * @return UrlBuilder
      */
-    public function addFilter(string $filter, array $values) : self
+    public function addFilter(?string $filter, array $values) : self
     {
         if($filter === null || empty($values)) {
             return $this;
         }
 
         if(!$this->firstParamAdded) {
-            if($this->url[strlen($this->url) - 1] !== '?') {
+            if($this->url[\strlen($this->url) - 1] !== '?') {
                 $this->url .= '?';
                 $this->firstParamAdded = true;
             }
         } else {
-            if($this->url[strlen($this->url) - 1] !== '&') {
+            if($this->url[\strlen($this->url) - 1] !== '&') {
                 $this->url .= '&';
             }
         }
 
         $this->url .= $filter;
-        if($this->url[strlen($this->url) - 1] !== '=') {
+        if($this->url[\strlen($this->url) - 1] !== '=') {
             $this->url .= '=';
         }
 

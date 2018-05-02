@@ -18,7 +18,7 @@ App\Entity\ShopCategory:
         ssdFilter: "ext_param_2686"
         hddFilter: "ext_param_2685"
         processorFilter: "ext_param_2591"
-        ramFilter: "ext_param_2591"
+        ramFilter: "ext_param_2592"
         shop: '@shop_1'
         category: '@category_2'
     shopCategory_3:

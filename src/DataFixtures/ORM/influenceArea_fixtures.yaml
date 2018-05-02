@@ -13,7 +13,7 @@ App\Entity\InfluenceArea:
         questions: ['@question_2']
     area_5:
         content: "RAM"
-        questions: ['@question_6']
+        questions: ['@question_6', '@question_7']
     area_6:
         content: "Processor"
         questions: ['@question_7']
@@ -23,3 +23,9 @@ App\Entity\InfluenceArea:
     area_8:
         content: "Resolution"
         questions: ['@question_9']
+    area_9:
+        content: "SSD"
+        questions: ['@question_6']
+    area_10:
+        content: "HDD"
+        questions: ['@question_8']

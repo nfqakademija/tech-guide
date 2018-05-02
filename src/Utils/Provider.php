@@ -96,14 +96,20 @@ class Provider
      */
     private function makeFilters(ShopCategory $shopCategory, string $pageContent) : array
     {
-        $priceFilter = $this->filterPrice($shopCategory->getPriceFilter(), $pageContent);
-        $memoryFilter = $this->filterMemory($shopCategory->getMemoryFilter(), $pageContent);
-        $colorFilter = $this->filterColor($shopCategory->getColorFilter(), $pageContent);
-        return [
-            [$priceFilter[0], $priceFilter[1]],
-            [$memoryFilter[0], $memoryFilter[1]],
-            [$colorFilter[0], $colorFilter[1]]
-        ];
+        $filters = [];
+
+        $filters[] = $this->filterPrice($shopCategory->getPriceFilter(), $pageContent);
+        $filters[] = $this->chooseMemoryFilter(
+            $pageContent,
+            $shopCategory->getMemoryFilter(),
+            $shopCategory->getSsdFilter(),
+            $shopCategory->getHddFilter()
+        );
+        $filters[] = $this->filterColor($shopCategory->getColorFilter(), $pageContent);
+        $filters[] = $this->filterRAM($shopCategory->getRamFilter(), $pageContent);
+        $filters[] = $this->filterProcessor($shopCategory->getProcessorFilter(), $pageContent);
+
+        return $filters;
     }
 
     /**
@@ -111,9 +117,12 @@ class Provider
      *
      * @return array
      */
-    private function filterCategory(string $filter) : array
+    private function filterCategory(?string $filter) : array
     {
-        return explode('=', $filter);
+        if($filter !== null)
+            return explode('=', $filter);
+
+        return [$filter, []];
     }
 
     /**
@@ -146,27 +155,67 @@ class Provider
      *
      * @return array
      */
-    private function filterRAM(string $filter, string $pageContent) : array
+    private function filterRAM(?string $filter, string $pageContent) : array
     {
-        $memoriesAndValues = [];
-        $regex = '#(\d+?)&quot;,&quot;label&quot;:&quot;(\d+?) MB#is';
-        preg_match_all($regex, $pageContent, $matches);
-        for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
-            $memoriesAndValues[$matches[1][$i]] = $matches[2][$i] / 1024;
+        if($filter !== null) {
+            $memoriesAndValues = [];
+
+            preg_match('#[(]RAM[)] [(]GB[)]&quot;(.*)#is', $pageContent, $match);
+            $pageContent = $match[1];
+
+            $regex = '#(\d+?)&quot;,&quot;label&quot;:&quot;(\d+?) MB#is';
+            preg_match_all($regex, $pageContent, $matches);
+            for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
+                $memoriesAndValues[$matches[1][$i]] = $matches[2][$i] / 1024;
+            }
+
+            $regex = str_replace('MB', 'GB', $regex);
+            preg_match_all($regex, $pageContent, $matches);
+            for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
+                $memoriesAndValues[$matches[1][$i]] = $matches[2][$i];
+            }
+
+            return [
+                $filter,
+                array_keys(\array_slice(
+                    $memoriesAndValues,
+                    floor($this->influenceBounds['RAM'][0]
+                        * \count($memoriesAndValues)),
+                    floor($this->influenceBounds['RAM'][1]
+                        * \count($memoriesAndValues)),
+                    true
+                ))
+            ];
         }
 
-        $regex = str_replace('MB', 'GB', $regex);
-        preg_match_all($regex, $pageContent, $matches);
-        for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
-            $memoriesAndValues[$matches[1][$i]] = $matches[2][$i];
+        return [$filter, []];
+    }
+
+    /**
+     * @param string      $pageContent
+     * @param null|string $memoryFilter
+     * @param null|string $ssdFilter
+     * @param null|string $hddFilter
+     *
+     * @return array
+     */
+    private function chooseMemoryFilter(string $pageContent, ?string $memoryFilter, ?string $ssdFilter, ?string $hddFilter) : array
+    {
+        if($memoryFilter !== null) {
+            return  $this->filterMemory($memoryFilter, $pageContent);
         }
 
-        return [$filter, array_keys( \array_slice(
-            $memoriesAndValues,
-            round($this->influenceBounds['Memory'][0] * \count($memoriesAndValues)),
-            round($this->influenceBounds['Memory'][1] * \count($memoriesAndValues)),
-            true
-        ))[1]];
+        if (
+            $ssdFilter !== null &&
+            $this->influenceBounds['SSD'][1] > $this->influenceBounds['HDD'][1]
+        ) {
+            return $this->filterSSD($ssdFilter, $pageContent);
+        }
+        if ($hddFilter !== null) {
+            return $this->filterHDD($hddFilter, $pageContent);
+        }
+
+        return [null, []];
     }
 
     /**
@@ -177,15 +226,104 @@ class Provider
      */
     private function filterMemory(string $filter, string $pageContent) : array
     {
-        if($this->influenceBounds['Memory'][1] !== 0) {
+        if ($this->influenceBounds['Memory'][1] !== 0) {
             $memoriesAndValues = [];
-            $pageRegex = " ";
             preg_match('#u0117 atmintis(.*)#is', $pageContent, $match);
             $pageContent = $match[1];
             $regex
                 = '#(\d+?)&quot;,&quot;label&quot;:&quot;(\d+?)&quot;,&quot;image&#is';
             preg_match_all($regex, $pageContent, $matches);
 
+            for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
+                $memoriesAndValues[$matches[1][$i]] = $matches[2][$i];
+            }
+
+            asort($memoriesAndValues);
+
+            return [
+                $filter,
+                array_keys(\array_slice(
+                    $memoriesAndValues,
+                    ceil($this->influenceBounds['Memory'][0]
+                        * \count($memoriesAndValues)),
+                    floor($this->influenceBounds['Memory'][1]
+                        * \count($memoriesAndValues)),
+                    true
+                ))
+            ];
+        }
+
+        return [$filter, []];
+    }
+
+    /**
+     * @param string $filter
+     * @param string $pageContent
+     *
+     * @return array
+     */
+    private function filterSSD(string $filter, string $pageContent) : array
+    {
+        if ($this->influenceBounds['SSD'][1] !== 0) {
+            preg_match('#SSD talpa(.*)HDD talpa#is', $pageContent, $match);
+            $pageContent = $match[1];
+
+            $memoriesAndValues = [];
+            $regex
+                = '#(\d+?)&quot;,&quot;label&quot;:&quot;(\d+?) GB#';
+            preg_match_all($regex, $pageContent, $matches);
+
+            for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
+                $memoriesAndValues[$matches[1][$i]] = $matches[2][$i];
+            }
+
+            $regex = str_replace('GB', 'TB', $regex);
+            preg_match_all($regex, $pageContent, $matches);
+            for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
+                $memoriesAndValues[$matches[1][$i]] = $matches[2][$i] * 1024;
+            }
+
+            asort($memoriesAndValues);
+
+            return [
+                $filter,
+                array_keys(\array_slice(
+                    $memoriesAndValues,
+                    ceil($this->influenceBounds['Memory'][0]
+                        * \count($memoriesAndValues)),
+                    floor($this->influenceBounds['Memory'][1]
+                        * \count($memoriesAndValues)),
+                    true
+                ))
+            ];
+        }
+
+        return [$filter, []];
+    }
+
+    /**
+     * @param string $filter
+     * @param string $pageContent
+     *
+     * @return array
+     */
+    private function filterHDD(string $filter, string $pageContent) : array
+    {
+        if ($this->influenceBounds['HDD'][1] !== 0) {
+            preg_match('#HDD talpa(.*)Atmintin.u0117 [(]RAM[)]#is', $pageContent, $match);
+            $pageContent = $match[1];
+
+            $memoriesAndValues = [];
+            $regex
+                = '#(\d+?)&quot;,&quot;label&quot;:&quot;(\d+?) GB#';
+            preg_match_all($regex, $pageContent, $matches);
+
+            for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
+                $memoriesAndValues[$matches[1][$i]] = $matches[2][$i] / 1024;
+            }
+
+            $regex = str_replace('GB', 'TB', $regex);
+            preg_match_all($regex, $pageContent, $matches);
             for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
                 $memoriesAndValues[$matches[1][$i]] = $matches[2][$i];
             }
@@ -208,15 +346,16 @@ class Provider
         return [$filter, []];
     }
 
+
     /**
      * @param string $filter
      * @param string $pageContent
      *
      * @return array
      */
-    private function filterColor(string $filter, string $pageContent) : array
+    private function filterColor(?string $filter, string $pageContent) : array
     {
-        if(isset($this->influenceBounds['Color'][0])) {
+        if($filter !== null && isset($this->influenceBounds['Color'][0])) {
             $answers
                 = $this->influenceAreaRepository->findBy(['content' => 'Color'])[0]->getQuestions()[0]
                 ->getAnswers()
@@ -240,6 +379,37 @@ class Provider
             return [$filter, $matches[1]];
         }
 
+        return [$filter, []];
+    }
+
+    private function filterProcessor(?string $filter, string $pageContent) : array
+    {
+        if($filter !== null && $this->influenceBounds['Processor'][1] !== 0) {
+            preg_match('#Procesoriaus tipas(.*)Gylis#is', $pageContent, $match);
+            $pageContent = $match[1];
+
+            $processorsAndValues = [];
+            $regex
+                = '#(\d+?)&quot;,&quot;label&quot;:&quot;Intel.u00ae Core.u2122 i(\d)#';
+            preg_match_all($regex, $pageContent, $matches);
+            for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
+                $processorsAndValues[$matches[1][$i]] = $matches[2][$i];
+            }
+
+            asort($processorsAndValues);
+
+            return [
+                $filter,
+                array_keys(\array_slice(
+                    $processorsAndValues,
+                    round($this->influenceBounds['Processor'][0]
+                        * \count($processorsAndValues)),
+                    round($this->influenceBounds['Processor'][1]
+                        * \count($processorsAndValues)),
+                    true
+                ))
+            ];
+        }
         return [$filter, []];
     }
 }
