@@ -18,7 +18,7 @@ else
     docker-compose run --rm frontend.symfony bash -c "npm install --no-save && yarn run encore dev"
     docker-compose exec php.symfony composer install --prefer-dist -n
     if [[ $1 == '--schema' ]]; then
-        docker-compose exec php.symfony bin/console doc:database:drop --force
+        docker-compose exec php.symfony bin/console doc:database:drop --if-exists --force
         docker-compose exec php.symfony bin/console doc:database:create
         docker-compose exec php.symfony bin/console doc:migrations:migrate --no-interaction
         if [[ $2 == '--with-fixtures' ]]; then
