@@ -1,7 +1,7 @@
 App\Entity\InfluenceArea:
     area_1:
         content: "Memory"
-        questions: ['@question_2']
+        questions: ['@question_2', '@question_6', '@question_8']
     area_2:
         content: "Price"
         questions: ['@question_5']
@@ -11,3 +11,15 @@ App\Entity\InfluenceArea:
     area_4:
         content: "Camera"
         questions: ['@question_2']
+    area_5:
+        content: "RAM"
+        questions: ['@question_6']
+    area_6:
+        content: "Processor"
+        questions: ['@question_7']
+    area_7:
+        content: "Size"
+        questions: ['@question_9', '@question_10']
+    area_8:
+        content: "Resolution"
+        questions: ['@question_9']
