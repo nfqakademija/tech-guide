@@ -246,9 +246,9 @@ class Provider
                 $filter,
                 array_keys(\array_slice(
                     $memoriesAndValues,
-                    ceil($this->influenceBounds['Memory'][0]
+                    round($this->influenceBounds['Memory'][0]
                         * \count($memoriesAndValues)),
-                    floor($this->influenceBounds['Memory'][1]
+                    round($this->influenceBounds['Memory'][1]
                         * \count($memoriesAndValues)),
                     true
                 ))
@@ -291,9 +291,9 @@ class Provider
                 $filter,
                 array_keys(\array_slice(
                     $memoriesAndValues,
-                    ceil($this->influenceBounds['Memory'][0]
+                    round($this->influenceBounds['Memory'][0]
                         * \count($memoriesAndValues)),
-                    floor($this->influenceBounds['Memory'][1]
+                    round($this->influenceBounds['Memory'][1]
                         * \count($memoriesAndValues)),
                     true
                 ))
@@ -331,14 +331,13 @@ class Provider
             }
 
             asort($memoriesAndValues);
-
             return [
                 $filter,
                 array_keys(\array_slice(
                     $memoriesAndValues,
-                    round($this->influenceBounds['Memory'][0]
+                    floor($this->influenceBounds['Memory'][0]
                         * \count($memoriesAndValues)),
-                    round($this->influenceBounds['Memory'][1]
+                    ceil($this->influenceBounds['Memory'][1]
                         * \count($memoriesAndValues)),
                     true
                 ))
@@ -457,8 +456,6 @@ class Provider
             preg_match('#Ekrano rai.u0161ka(.*)Komercinis televizorius#is', $pageContent, $match);
             $pageContent = $match[1];
 
-            /*var_dump($pageContent);
-            die();*/
             $resolutionAndValues = [];
             $regex
                 = '#(\d+?)&quot;,&quot;label&quot;:&quot;(\d+) x (\d+)#';

@@ -1,7 +1,7 @@
 App\Entity\Category:
     category_1:
         categoryName: 'Smartphones'
-        questions: ['@question_2', '@question_3', '@question_4', '@question_5', '@question_8']
+        questions: ['@question_2', '@question_3', '@question_4', '@question_5', '@question_11']
     category_2:
         categoryName: 'Laptops'
         questions: ['@question_5', '@question_6', '@question_7', '@question_8']
