@@ -200,8 +200,12 @@ class Provider
      *
      * @return array
      */
-    private function chooseMemoryFilter(string $pageContent, ?string $memoryFilter, ?string $ssdFilter, ?string $hddFilter) : array
-    {
+    private function chooseMemoryFilter(
+        string $pageContent,
+        ?string $memoryFilter,
+        ?string $ssdFilter,
+        ?string $hddFilter
+    ) : array {
         if ($memoryFilter !== null) {
             return  $this->filterMemory($memoryFilter, $pageContent);
         }
