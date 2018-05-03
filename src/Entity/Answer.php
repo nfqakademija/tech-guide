@@ -139,6 +139,4 @@ class Answer
 
         return $this;
     }
-
-
 }

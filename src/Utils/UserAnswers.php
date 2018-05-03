@@ -2,7 +2,6 @@
 
 namespace App\Utils;
 
-
 use App\Entity\Answer;
 use App\Entity\AnswerHistory;
 use App\Entity\Category;
@@ -52,13 +51,13 @@ class UserAnswers
          */
         foreach ($this->questions as $question) {
             $i++;
-            if(!$isDepthQuestionAsked) {
+            if (!$isDepthQuestionAsked) {
                 $isDepthQuestionAsked = true;
                 $i--;
                 continue;
             }
 
-            if($this->answerValues[$i] === -2) {
+            if ($this->answerValues[$i] === -2) {
                 $isDepthQuestionAsked = false;
             }
 

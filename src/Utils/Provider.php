@@ -2,7 +2,6 @@
 
 namespace App\Utils;
 
-
 use App\Entity\Answer;
 use App\Entity\Category;
 use App\Entity\InfluenceArea;
@@ -62,7 +61,6 @@ class Provider
          */
         foreach ($this->shopCategoryRepository
             ->findBy(['category' => $this->category]) as $shopCategory) {
-
             $categoryFilter = $this->filterCategory($shopCategory->getCategoryFilter());
 
             $this->urlBuilder
@@ -121,8 +119,9 @@ class Provider
      */
     private function filterCategory(?string $filter) : array
     {
-        if($filter !== null)
+        if ($filter !== null) {
             return explode('=', $filter);
+        }
 
         return [$filter, []];
     }
@@ -135,7 +134,7 @@ class Provider
      */
     private function filterPrice(string $filter, string $pageContent) : array
     {
-        if($this->influenceBounds['Price'][1] !== 0) {
+        if ($this->influenceBounds['Price'][1] !== 0) {
             $regex
                 = '#(?<=price&quot;,&quot;value&quot;:&quot;)(\d+-\d+?)&quot;,&quot;label#is';
             preg_match_all($regex, $pageContent, $matches);
@@ -159,7 +158,7 @@ class Provider
      */
     private function filterRAM(?string $filter, string $pageContent) : array
     {
-        if($filter !== null) {
+        if ($filter !== null) {
             $memoriesAndValues = [];
 
             preg_match('#[(]RAM[)] [(]GB[)]&quot;(.*)#is', $pageContent, $match);
@@ -203,12 +202,11 @@ class Provider
      */
     private function chooseMemoryFilter(string $pageContent, ?string $memoryFilter, ?string $ssdFilter, ?string $hddFilter) : array
     {
-        if($memoryFilter !== null) {
+        if ($memoryFilter !== null) {
             return  $this->filterMemory($memoryFilter, $pageContent);
         }
 
-        if (
-            $ssdFilter !== null &&
+        if ($ssdFilter !== null &&
             $this->influenceBounds['SSD'][1] > $this->influenceBounds['HDD'][1]
         ) {
             return $this->filterSSD($ssdFilter, $pageContent);
@@ -356,7 +354,7 @@ class Provider
      */
     private function filterColor(?string $filter, string $pageContent) : array
     {
-        if($filter !== null && isset($this->influenceBounds['Color'][0])) {
+        if ($filter !== null && isset($this->influenceBounds['Color'][0])) {
             $answers
                 = $this->influenceAreaRepository->findBy(['content' => 'Color'])[0]->getQuestions()[0]
                 ->getAnswers()
@@ -367,8 +365,11 @@ class Provider
 
             $colorName = '';
             foreach ($answers as $answer) {
-                $colorName = TranslateClient::translate('en', 'lt',
-                    $answer->getContent() . " color");
+                $colorName = TranslateClient::translate(
+                    'en',
+                    'lt',
+                    $answer->getContent() . " color"
+                );
                 $colorName = mb_substr(explode(' ', $colorName)[0], 0, -1);
             }
 
@@ -391,7 +392,7 @@ class Provider
      */
     private function filterProcessor(?string $filter, string $pageContent) : array
     {
-        if($filter !== null && $this->influenceBounds['Processor'][1] !== 0) {
+        if ($filter !== null && $this->influenceBounds['Processor'][1] !== 0) {
             preg_match('#Procesoriaus tipas(.*)Gylis#is', $pageContent, $match);
             $pageContent = $match[1];
 
@@ -466,8 +467,7 @@ class Provider
      */
     private function filterResolution(?string $filter, string $pageContent) : array
     {
-        if (
-            $filter !== null &&
+        if ($filter !== null &&
             isset($this->influenceBounds['Resolution'][1]) &&
             $this->influenceBounds['Resolution'][1] !== 0
         ) {

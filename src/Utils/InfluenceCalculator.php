@@ -51,16 +51,15 @@ class InfluenceCalculator
             $maxValue = 0;
             foreach ($question->getAnswers() as $answer) {
                 $value = $answer->getValue();
-                if($value > $maxValue) {
+                if ($value > $maxValue) {
                     $maxValue = $value;
                 }
             }
 
             foreach ($question->getInfluenceAreas() as $influenceArea) {
-                if(!array_key_exists($influenceArea->getContent(), $maxInfluencePoints)) {
+                if (!array_key_exists($influenceArea->getContent(), $maxInfluencePoints)) {
                     $maxInfluencePoints[$influenceArea->getContent()] = $maxValue;
-                }
-                else {
+                } else {
                     $maxInfluencePoints[$influenceArea->getContent()] += $maxValue;
                 }
             }
@@ -69,14 +68,13 @@ class InfluenceCalculator
 
         $currInfluencePoints = $this->calculateInfluencePoints($this->answerValues);
         $closestInfluencePoints = $this->calculateInfluencePoints(
-            $this->calculateClosestValues($this->answerValues));
+            $this->calculateClosestValues($this->answerValues)
+        );
         $influenceBounds = [];
-        foreach($currInfluencePoints as $key => $value) {
+        foreach ($currInfluencePoints as $key => $value) {
             if ($key === 'Color') {
                 $influenceBounds[$key] = [$value, $value];
-            }
-
-            else {
+            } else {
                 $influenceBounds[$key] = [
                     $closestInfluencePoints[$key] / $maxInfluencePoints[$key],
                     $value / $maxInfluencePoints[$key]
@@ -103,14 +101,14 @@ class InfluenceCalculator
 
         foreach ($this->questions as $question) {
             $i++;
-            if(!$isDepthQuestionAsked) {
+            if (!$isDepthQuestionAsked) {
                 $isDepthQuestionAsked = true;
                 $i--;
                 continue;
             }
 
 
-            if($values[$i] === -2) {
+            if ($values[$i] === -2) {
                 $isDepthQuestionAsked = false;
                 continue;
             }
@@ -118,10 +116,9 @@ class InfluenceCalculator
              * @var InfluenceArea $influenceArea
              */
             foreach ($question->getInfluenceAreas() as $influenceArea) {
-                if(!array_key_exists($influenceArea->getContent(), $influencePoints)) {
+                if (!array_key_exists($influenceArea->getContent(), $influencePoints)) {
                     $influencePoints[$influenceArea->getContent()] = $values[$i];
-                }
-                else {
+                } else {
                     $influencePoints[$influenceArea->getContent()] += $values[$i];
                 }
             }
@@ -144,16 +141,16 @@ class InfluenceCalculator
          * @var Question $question
          */
         foreach ($this->questions as $question) {
-            if(!$isDepthQuestionAsked) {
+            if (!$isDepthQuestionAsked) {
                 $isDepthQuestionAsked = true;
                 continue;
             }
 
             $closestValues[] = 0;
 
-            if($values[$i] < 0) {
+            if ($values[$i] < 0) {
                 $closestValues[$i] = $values[$i];
-                if($values[$i] === -2) {
+                if ($values[$i] === -2) {
                     $isDepthQuestionAsked = false;
                 }
             } else {
@@ -168,7 +165,6 @@ class InfluenceCalculator
             }
 
             $i++;
-
         }
         
         return $closestValues;
@@ -233,5 +229,4 @@ class InfluenceCalculator
 
         return $this;
     }
-    
 }

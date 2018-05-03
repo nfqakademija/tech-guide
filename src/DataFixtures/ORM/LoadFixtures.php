@@ -19,8 +19,7 @@ class LoadFixtures extends Fixture
             __DIR__ . '/influenceArea_fixtures.yaml'
         ])->getObjects();
 
-        foreach($objectSet as $object)
-        {
+        foreach ($objectSet as $object) {
             $manager->persist($object);
         }
 
