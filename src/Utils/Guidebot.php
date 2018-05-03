@@ -154,19 +154,12 @@ class Guidebot
 
         $arr = ['id' => $this->createUniqueId()];
 
-        if ($question === $last) {
-            $trigger = $offerId;
-        } else {
-            $trigger = $this->lastId + 1;
-        }
+        $trigger = $question === $last ? $offerId : $this->lastId + 1;
 
         foreach ($question->getAnswers() as $answer) {
             if ($answer->getValue() === -2) {
-                if ($question->getFollowUpQuestion() === $last) {
-                    $trigger = $offerId;
-                } else {
-                    $trigger += 2;
-                }
+                $trigger = $question->getFollowUpQuestion() === $last ? $offerId
+                    : $trigger + 2;
             }
             $arr['options'][] = [
                 'value'   => (string) $answer->getValue(),

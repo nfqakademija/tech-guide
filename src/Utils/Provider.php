@@ -23,6 +23,7 @@ class Provider
 
     private $urlBuilder;
     private $influenceBounds;
+    private $translator;
 
     /**
      * Provider constructor.
@@ -48,6 +49,9 @@ class Provider
             ->getRepository(Category::class)
             ->find($answers[0]);
         $this->urlBuilder = new UrlBuilder();
+
+        $this->translator = new TranslateClient();
+        $this->translator->setSource('en')->setTarget('lt');
     }
 
     /**
@@ -368,12 +372,11 @@ class Provider
                 });
 
             $colorName = '';
+            /**
+             * @var Answer $answer
+             */
             foreach ($answers as $answer) {
-                $colorName = TranslateClient::translate(
-                    'en',
-                    'lt',
-                    $answer->getContent() . " color"
-                );
+                $colorName = $this->translator->translate($answer->getContent() . ' color');
                 $colorName = mb_substr(explode(' ', $colorName)[0], 0, -1);
             }
 

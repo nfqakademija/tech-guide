@@ -47,6 +47,9 @@ class InfluenceCalculator
         $maxInfluencePoints = [];
         // change this to doctrine query (max value)
         // and use calculateInfluencePoints function
+        /**
+         * @var Question $question
+         */
         foreach ($this->questions as $question) {
             $maxValue = 0;
             foreach ($question->getAnswers() as $answer) {
@@ -59,9 +62,10 @@ class InfluenceCalculator
             foreach ($question->getInfluenceAreas() as $influenceArea) {
                 if (!array_key_exists($influenceArea->getContent(), $maxInfluencePoints)) {
                     $maxInfluencePoints[$influenceArea->getContent()] = $maxValue;
-                } else {
-                    $maxInfluencePoints[$influenceArea->getContent()] += $maxValue;
+                    continue;
                 }
+
+                $maxInfluencePoints[$influenceArea->getContent()] += $maxValue;
             }
         }
         // --------------------------
@@ -74,12 +78,13 @@ class InfluenceCalculator
         foreach ($currInfluencePoints as $key => $value) {
             if ($key === 'Color') {
                 $influenceBounds[$key] = [$value, $value];
-            } else {
-                $influenceBounds[$key] = [
-                    $closestInfluencePoints[$key] / $maxInfluencePoints[$key],
-                    $value / $maxInfluencePoints[$key]
-                ];
+                continue;
             }
+
+            $influenceBounds[$key] = [
+                $closestInfluencePoints[$key] / $maxInfluencePoints[$key],
+                $value / $maxInfluencePoints[$key]
+            ];
         }
 
         return $influenceBounds;
@@ -107,7 +112,6 @@ class InfluenceCalculator
                 continue;
             }
 
-
             if ($values[$i] === -2) {
                 $isDepthQuestionAsked = false;
                 continue;
@@ -118,9 +122,10 @@ class InfluenceCalculator
             foreach ($question->getInfluenceAreas() as $influenceArea) {
                 if (!array_key_exists($influenceArea->getContent(), $influencePoints)) {
                     $influencePoints[$influenceArea->getContent()] = $values[$i];
-                } else {
-                    $influencePoints[$influenceArea->getContent()] += $values[$i];
+                    continue;
                 }
+
+                $influencePoints[$influenceArea->getContent()] += $values[$i];
             }
         }
 
@@ -153,7 +158,9 @@ class InfluenceCalculator
                 if ($values[$i] === -2) {
                     $isDepthQuestionAsked = false;
                 }
-            } else {
+            }
+
+            if ($values[$i] >= 0) {
                 foreach ($question->getAnswers() as $answer) {
                     $answerValue = $answer->getValue();
                     if ($answerValue > $closestValues[$i]

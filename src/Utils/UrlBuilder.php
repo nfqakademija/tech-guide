@@ -56,10 +56,10 @@ class UrlBuilder
                 $this->url .= '?';
                 $this->firstParamAdded = true;
             }
-        } else {
-            if ($this->url[\strlen($this->url) - 1] !== '&') {
-                $this->url .= '&';
-            }
+        }
+
+        if ($this->firstParamAdded && $this->url[\strlen($this->url) - 1] !== '&') {
+            $this->url .= '&';
         }
 
         $this->url .= $filter;
