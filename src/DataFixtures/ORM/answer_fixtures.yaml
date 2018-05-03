@@ -1,9 +1,9 @@
 App\Entity\Answer:
-    answer_{1..13}:
+    answer_{1..30}:
         content: <answerContent($current)>
         question: '@question_<questionForAnswer($current)>'
         value: <calculateValue($current)>
-    answer_{14..15}:
+    answer_{31..34}:
         content: <answerContent($current)>
         question: '@question_<questionForAnswer($current)>'
         value: <calculateFollowUpValue($current)>

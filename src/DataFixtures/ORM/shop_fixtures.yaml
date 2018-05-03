@@ -12,4 +12,20 @@ App\Entity\ShopCategory:
         memoryFilter: "ext_param_2609"
         shop: '@shop_1'
         category: '@category_1'
+    shopCategory_2:
+        prefix: "kompiuteriai-ir-plansetes/nesiojamieji-kompiuteriai.html"
+        priceFilter: "price"
+        ssdFilter: "ext_param_2686"
+        hddFilter: "ext_param_2685"
+        processorFilter: "ext_param_2591"
+        ramFilter: "ext_param_2592"
+        shop: '@shop_1'
+        category: '@category_2'
+    shopCategory_3:
+        prefix: "televizoriai-ir-garso-technika/televizoriai.html"
+        priceFilter: "price"
+        sizeFilter: "ext_param_1174"
+        resolutionFilter: "ext_param_1524"
+        shop: '@shop_1'
+        category: '@category_3'
 
