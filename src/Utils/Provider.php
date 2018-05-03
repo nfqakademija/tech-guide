@@ -383,6 +383,12 @@ class Provider
         return [$filter, []];
     }
 
+    /**
+     * @param null|string $filter
+     * @param string      $pageContent
+     *
+     * @return array
+     */
     private function filterProcessor(?string $filter, string $pageContent) : array
     {
         if($filter !== null && $this->influenceBounds['Processor'][1] !== 0) {
@@ -414,6 +420,12 @@ class Provider
         return [$filter, []];
     }
 
+    /**
+     * @param null|string $filter
+     * @param string      $pageContent
+     *
+     * @return array
+     */
     private function filterSize(?string $filter, string $pageContent) : array
     {
         if ($filter !== null && $this->influenceBounds['Size'][1] !== 0) {
@@ -446,6 +458,12 @@ class Provider
         return [$filter, []];
     }
 
+    /**
+     * @param null|string $filter
+     * @param string      $pageContent
+     *
+     * @return array
+     */
     private function filterResolution(?string $filter, string $pageContent) : array
     {
         if (
