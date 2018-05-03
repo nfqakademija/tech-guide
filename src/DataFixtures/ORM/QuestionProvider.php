@@ -17,7 +17,7 @@ class QuestionProvider extends BaseProvider
         'How often do you play video games?' => 11,
         'Do you like downloading various content?' => 12,
         'So you say that you`d love to have cinema in your home?' => 11,
-        'And for the last question.. How much space do you have for your TV?' => 12 //size
+        'And for the last question.. How much space do you have for your TV?' => 12
     ];
 
     public function __construct(Generator $generator)

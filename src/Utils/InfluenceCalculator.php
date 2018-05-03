@@ -105,6 +105,7 @@ class InfluenceCalculator
             $i++;
             if(!$isDepthQuestionAsked) {
                 $isDepthQuestionAsked = true;
+                $i--;
                 continue;
             }
 

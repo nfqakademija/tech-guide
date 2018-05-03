@@ -108,6 +108,8 @@ class Provider
         $filters[] = $this->filterColor($shopCategory->getColorFilter(), $pageContent);
         $filters[] = $this->filterRAM($shopCategory->getRamFilter(), $pageContent);
         $filters[] = $this->filterProcessor($shopCategory->getProcessorFilter(), $pageContent);
+        $filters[] = $this->filterSize($shopCategory->getSizeFilter(), $pageContent);
+        $filters[] = $this->filterResolution($shopCategory->getResolutionFilter(), $pageContent);
 
         return $filters;
     }
@@ -410,6 +412,76 @@ class Provider
                 ))
             ];
         }
+        return [$filter, []];
+    }
+
+    private function filterSize(?string $filter, string $pageContent) : array
+    {
+        if ($filter !== null && $this->influenceBounds['Size'][1] !== 0) {
+            preg_match('#u012estri.u017eain(.*)Ekrano rai.u0161ka#is', $pageContent, $match);
+            $pageContent = $match[1];
+
+            $sizesAndValues = [];
+            $regex
+                = '#(\d+?)&quot;,&quot;label&quot;:&quot;(\d)#';
+            preg_match_all($regex, $pageContent, $matches);
+            for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
+                $sizesAndValues[$matches[1][$i]] = $matches[2][$i];
+            }
+
+            asort($sizesAndValues);
+
+            return [
+                $filter,
+                array_keys(\array_slice(
+                    $sizesAndValues,
+                    round($this->influenceBounds['Size'][0]
+                        * \count($sizesAndValues)),
+                    round($this->influenceBounds['Size'][1]
+                        * \count($sizesAndValues)),
+                    true
+                ))
+            ];
+        }
+
+        return [$filter, []];
+    }
+
+    private function filterResolution(?string $filter, string $pageContent) : array
+    {
+        if (
+            $filter !== null &&
+            isset($this->influenceBounds['Resolution'][1]) &&
+            $this->influenceBounds['Resolution'][1] !== 0
+        ) {
+            preg_match('#Ekrano rai.u0161ka(.*)Komercinis televizorius#is', $pageContent, $match);
+            $pageContent = $match[1];
+
+            /*var_dump($pageContent);
+            die();*/
+            $resolutionAndValues = [];
+            $regex
+                = '#(\d+?)&quot;,&quot;label&quot;:&quot;(\d+) x (\d+)#';
+            preg_match_all($regex, $pageContent, $matches);
+            for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
+                $resolutionAndValues[$matches[1][$i]] = $matches[2][$i] * $matches[3][$i];
+            }
+
+            asort($resolutionAndValues);
+
+            return [
+                $filter,
+                array_keys(\array_slice(
+                    $resolutionAndValues,
+                    round($this->influenceBounds['Resolution'][0]
+                        * \count($resolutionAndValues)),
+                    round($this->influenceBounds['Resolution'][1]
+                        * \count($resolutionAndValues)),
+                    true
+                ))
+            ];
+        }
+
         return [$filter, []];
     }
 }

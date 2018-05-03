@@ -54,6 +54,7 @@ class UserAnswers
             $i++;
             if(!$isDepthQuestionAsked) {
                 $isDepthQuestionAsked = true;
+                $i--;
                 continue;
             }
 
