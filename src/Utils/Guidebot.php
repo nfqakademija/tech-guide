@@ -49,9 +49,11 @@ class Guidebot
     public function generateGreeting() : array
     {
         $allGreetings = $this->makePriorityArray(
-            $this->sentenceRepository->getByPurpose('greetings'));
+            $this->sentenceRepository->getByPurpose('greetings')
+        );
         $allIntroductions = $this->makePriorityArray(
-            $this->sentenceRepository->getByPurpose('introduction'));
+            $this->sentenceRepository->getByPurpose('introduction')
+        );
 
         return array_merge(
             $this->pickItemsRandomly($allGreetings),
@@ -92,7 +94,8 @@ class Guidebot
         $offerId = $this->createUniqueId();
         $allMessages['messages']['questions'][] = [
             'id' => $offerId,
-            'message' => 'I hope you liked our offers! If you want to view them again, just click on the arrow that has appeared on the right.',
+            'message' => 'I hope you liked our offers! If you want to view them again, ' .
+                'just click on the arrow that has appeared on the right.',
             'end' => true
         ];
 
@@ -151,20 +154,12 @@ class Guidebot
 
         $arr = ['id' => $this->createUniqueId()];
 
-        if($question === $last) {
-            $trigger = $offerId;
-        } else {
-            $trigger = $this->lastId + 1;
-        }
+        $trigger = $question === $last ? $offerId : $this->lastId + 1;
 
         foreach ($question->getAnswers() as $answer) {
-            if($answer->getValue() === -2) {
-                if($question->getFollowUpQuestion() === $last) {
-                    $trigger = $offerId;
-                }
-                else {
-                    $trigger += 2;
-                }
+            if ($answer->getValue() === -2) {
+                $trigger = $question->getFollowUpQuestion() === $last ? $offerId
+                    : $trigger + 2;
             }
             $arr['options'][] = [
                 'value'   => (string) $answer->getValue(),
@@ -186,7 +181,7 @@ class Guidebot
     {
         $result = [];
         foreach ($items as $item) {
-            if(!array_key_exists($item->getPriority(), $result)) {
+            if (!array_key_exists($item->getPriority(), $result)) {
                 $result[$item->getPriority()] = [];
             }
 

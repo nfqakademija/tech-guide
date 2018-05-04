@@ -63,7 +63,7 @@ class AnswerProvider extends BaseProvider
 
     public function calculateValue($answerNum) : int
     {
-        if($this->questionForAnswer($answerNum) === $this->currQuestion) {
+        if ($this->questionForAnswer($answerNum) === $this->currQuestion) {
             $this->currValue++;
             return $this->currValue;
         }
@@ -71,8 +71,9 @@ class AnswerProvider extends BaseProvider
         return $this->evaluateCurrentValue(0, $answerNum);
     }
     
-    public function calculateFollowUpValue($answerNum) {
-        if($this->questionForAnswer($answerNum) === $this->currQuestion) {
+    public function calculateFollowUpValue($answerNum)
+    {
+        if ($this->questionForAnswer($answerNum) === $this->currQuestion) {
             $this->currValue--;
             return $this->currValue;
         }
@@ -80,7 +81,7 @@ class AnswerProvider extends BaseProvider
         return $this->evaluateCurrentValue(-1, $answerNum);
     }
     
-    private function evaluateCurrentValue($value, $answerNum) 
+    private function evaluateCurrentValue($value, $answerNum)
     {
         $this->currValue = $value;
         $this->currQuestion = $this->questionForAnswer($answerNum);
