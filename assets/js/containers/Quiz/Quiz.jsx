@@ -1,78 +1,63 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 
-import Loader from '../../components/Loader/Loader.jsx';
-import Layout from '../../hoc/Layout/Layout.jsx';
 import ChatBot from 'react-simple-chatbot';
 import { ThemeProvider } from 'styled-components';
 import Hoc from '../../hoc/Hoc/Hoc';
 import Providers from '../../components/Providers/Providers';
-import Backdrop from '../../components/UI/Backdrop/Backdrop';
-import Gif from '../../components/Gif/Gif';
+import * as actionCreators from '../../store/actions/providers';
 
 class Quiz extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-          url: "",
-          providersSet: false,
-          loadingProviders: false
-      };
+  render() {
+    const theme = {
+      botBubbleColor: '#f1f0f0',
+      botFontColor: '#4b4f56',
+      userBubbleColor: 'rgb(40, 180, 133)',
+      userFontColor: 'white',
     }
 
-    componentDidMount() {
-      this.handleEnd = this.handleEnd.bind(this);
+    let otherClasses = [];
+    if (this.props.quizStarted) {
+      otherClasses = ["priority"];
     }
 
-    handleEnd ({steps, values}) {
-        let currentComponent = this;
-        this.setState({ loadingProviders: true });
-        axios.post('/api/guidebotOffer', {
-            data: values
-        })
-            .then(function (response) {
-                // console.log(response.data[0]);
-                const url = response.data[0];
-                currentComponent.setState({ url: url, providersSet: true, loadingProviders: false });
-            })
-    }
-
-
-    render() {
-
-      const theme = {
-        botBubbleColor: '#f1f0f0',
-        botFontColor: '#4b4f56',
-        userBubbleColor: 'rgb(40, 180, 133)',
-        userFontColor: 'white',
-      }
-
-      const inputStyle = {
-        display: 'none'
-      }
-
-      return (
-        <Hoc>
-          <Providers
-            loadingProviders={this.state.loadingProviders}
-            show={this.state.providersSet}
-            link={this.state.url}
+    return (
+      <div className={`card__side card__side--back ${otherClasses.join('')}`}>
+        <Providers
+          loadingProviders={this.props.loadingProviders}
+          show={this.props.providersSet}
+          link={this.props.url}
+        />
+        <ThemeProvider theme={theme}>
+          <ChatBot
+            hideHeader="true"
+            steps={this.props.messages}
+            width="100%"
+            botDelay="150"
+            hideSubmitButton="true"
+            handleEnd={this.props.onGetResults}
+            className="rsc-root"
           />
-          <ThemeProvider theme={theme}>
-            <ChatBot
-              hideHeader="true"
-              steps={this.props.messages}
-              width="100%"
-              botDelay="150"
-              hideSubmitButton="true"
-              inputStyle={inputStyle}
-              handleEnd={this.handleEnd}
-              className="rsc-root"
-            />
-          </ThemeProvider>
-        </Hoc>
-      );
-    }
+        </ThemeProvider>
+      </div>
+    );
+  }
 }
 
-export default Quiz;
+const mapStateToProps = state => {
+  return {
+    url: state.providers.url,
+    providersSet: state.providers.providersSet,
+    loadingProviders: state.providers.loadingProviders,
+    error: state.providers.error,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onGetResults: ({ values }) => dispatch(actionCreators.fetchProviders( values )),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Quiz);

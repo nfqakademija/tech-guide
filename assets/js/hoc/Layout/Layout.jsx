@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 
 import Navigation from '../../components/Navigation/Navigation';
@@ -7,76 +8,59 @@ import Hoc from '../Hoc/Hoc.jsx';
 import Quiz from '../../containers/Quiz/Quiz';
 import Home from '../../containers/Home/Home';
 import Loader from '../../components/Loader/Loader';
+import * as actionCreators from '../../store/actions/guidebot';
+import * as actionCreatorsProviders from '../../store/actions/providers';
 
 
 class Layout extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      messages: [],
-      quizStarted: false
-    };
-  }
 
   componentDidMount () {
-      console.log("Labas");
-      axios.get( '/api/guidebotSentences' )
-          .then( response => {
-              console.log(response);
-              const messages = [];
-
-              for (let i = 0; i < response.data.messages.greeting.length; i++) {
-                messages.push(response.data.messages.greeting[i]);
-              }
-
-              for (let i = 0; i < response.data.messages.questions.length; i++) {
-                messages.push(response.data.messages.questions[i]);
-              }
-
-              for (let i = 0; i < response.data.messages.options.length; i++) {
-                messages.push(response.data.messages.options[i]);
-              }
-
-              this.setState({ messages: messages });
-          });
-  }
-
-  quizToggleHandler = ( prevState ) => {
-    this.setState( ( prevState ) => {
-      return { quizStarted: !prevState.quizStarted }
-    });
+      this.props.onFetchGuidebotData();
   }
 
   render() {
     let attachedClasses = [];
-    let otherClasses = [];
-    if (this.state.quizStarted) {
+    if (this.props.showGuidebot) {
         attachedClasses = ["quiz-started"];
-        otherClasses = ["priority"]
     }
 
-    if (this.state.messages.length > 0) {
-      return (
-        <Hoc>
-          <div className={`card ${attachedClasses.join(' ')}`}>
-            <Home onClick={this.quizToggleHandler} />
-            <div className={`card__side card__side--back ${otherClasses.join('')}`}>
-              <Quiz messages={this.state.messages} quizStarted={this.state.quizStarted} />
-            </div>
-          </div>
-        </Hoc>
-      );
-    } else {
+    if (this.props.guidebotDataSet) {
       return (
         <Hoc>
           <Loader loaderTitle="GUIDEBOT - BEST TECHNOLOGY ADVISOR SINCE 1950s" />
           <div className={`card ${attachedClasses.join(' ')}`}>
-            <Home onClick={this.quizToggleHandler} />
+            <Home clicked={this.props.onShowGuidebot} />
+            <Quiz messages={this.props.messages} quizStarted={this.props.showGuidebot} />
           </div>
         </Hoc>
       );
+    } else {
+        return (
+          <Hoc>
+            <Loader loaderTitle="GUIDEBOT - BEST TECHNOLOGY ADVISOR SINCE 1950s" />
+            <div className={`card ${attachedClasses.join(' ')}`}>
+              <Home clicked={this.props.onShowGuidebot} />
+            </div>
+          </Hoc>
+        );    
     }
   }
 }
 
-export default Layout;
+const mapStateToProps = state => {
+  return {
+    messages: state.guidebot.messages,
+    loadingGuidebotData: state.guidebot.loadingGuidebotData,
+    guidebotDataSet: state.guidebot.guidebotDataSet,
+    showGuidebot: state.guidebot.showGuidebot,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchGuidebotData: () => dispatch(actionCreators.fetchGuidebotData()),
+    onShowGuidebot: () => dispatch(actionCreators.showGuidebot()),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);
