@@ -26,11 +26,7 @@ class Providers extends Component {
           <Results onClick={this.resultsToggleHandler} show={this.state.resultsOpened} link={this.props.link} />
         </Hoc>
       );
-    } else if (this.props.loadingProviders) {
-      return <Loader loaderTitle="LOOKING FOR OFFER WHICH SUITS YOU BEST!" />
-    } else {
-      return null;
-    }
+    } else return null;
   }
 };
 

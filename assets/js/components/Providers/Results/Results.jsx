@@ -3,11 +3,6 @@ import React from 'react';
 import Provider from '../Provider/Provider';
 
 const results = (props) => {
-    // let attachedClasses = ["results__sidedrawer"];
-    // if (props.show) {
-    //     attachedClasses = ["results__sidedrawer", "results__sidedrawer--opened"];
-    // }
-
     if (props.show) {
       return (
         <div className="results">
