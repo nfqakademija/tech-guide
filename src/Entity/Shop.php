@@ -37,9 +37,35 @@ class Shop
      */
     private $questions;
 
+    /**
+     * @ORM\Column(type="string", length=5)
+     */
+    private $filterValueSeparator;
+
+    /**
+     * @ORM\Column(type="string", length=5, nullable=true)
+     */
+    private $firstFilterValueSeparator;
+
+    /**
+     * @ORM\Column(type="string", length=5, nullable=true)
+     */
+    private $firstFilterSeparator;
+
+    /**
+     * @ORM\Column(type="string", length=5)
+     */
+    private $filterSeparator;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Filter", mappedBy="shops")
+     */
+    private $filters;
+
     public function __construct()
     {
         $this->shopCategories = new ArrayCollection();
+        $this->filters = new ArrayCollection();
     }
 
     /**
@@ -86,6 +112,82 @@ class Shop
     public function setQuestions($questions): self
     {
         $this->questions = $questions;
+
+        return $this;
+    }
+
+    public function getFilterValueSeparator(): ?string
+    {
+        return $this->filterValueSeparator;
+    }
+
+    public function setFilterValueSeparator(string $filterValueSeparator): self
+    {
+        $this->filterValueSeparator = $filterValueSeparator;
+
+        return $this;
+    }
+
+    public function getFirstFilterValueSeparator(): ?string
+    {
+        return $this->firstFilterValueSeparator;
+    }
+
+    public function setFirstFilterValueSeparator(?string $firstFilterValueSeparator): self
+    {
+        $this->firstFilterValueSeparator = $firstFilterValueSeparator;
+
+        return $this;
+    }
+
+    public function getFirstFilterSeparator(): ?string
+    {
+        return $this->firstFilterSeparator;
+    }
+
+    public function setFirstFilterSeparator(?string $firstFilterSeparator): self
+    {
+        $this->firstFilterSeparator = $firstFilterSeparator;
+
+        return $this;
+    }
+
+    public function getFilterSeparator(): ?string
+    {
+        return $this->filterSeparator;
+    }
+
+    public function setFilterSeparator(string $filterSeparator): self
+    {
+        $this->filterSeparator = $filterSeparator;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Filter[]
+     */
+    public function getFilters(): Collection
+    {
+        return $this->filters;
+    }
+
+    public function addFilter(Filter $filter): self
+    {
+        if (!$this->filters->contains($filter)) {
+            $this->filters[] = $filter;
+            $filter->addShop($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFilter(Filter $filter): self
+    {
+        if ($this->filters->contains($filter)) {
+            $this->filters->removeElement($filter);
+            $filter->removeShop($this);
+        }
 
         return $this;
     }
