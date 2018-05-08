@@ -77,7 +77,15 @@ class Provider
                 ->reset()
                 ->addHomePage($shopCategory->getShop()->getHomepage())
                 ->addPrefix($shopCategory->getPrefix())
-                ->addFilter($categoryFilter[0], [$categoryFilter[1]]);
+                ->addFilter($categoryFilter[0], [$categoryFilter[1]])
+                ->addFilterSeparators(
+                    $shopCategory->getShop()->getFilterSeparator(),
+                    $shopCategory->getShop()->getFirstFilterSeparator()
+                )
+                ->addFilterValueSeparators(
+                    $shopCategory->getShop()->getFilterValueSeparator(),
+                    $shopCategory->getShop()->getFirstFilterValueSeparator()
+                );
 
             try {
                 $mainPage = file_get_contents($this->urlBuilder->getUrl());
