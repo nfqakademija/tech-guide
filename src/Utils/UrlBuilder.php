@@ -12,6 +12,11 @@ class UrlBuilder
     private $url;
     private $firstParamAdded = false;
 
+    private $filterValueSeparator;
+    private $firstFilterValueSeparator;
+    private $filterSeparator;
+    private $firstFilterSeparator;
+
     /**
      * @param string $homepage
      *
@@ -52,25 +57,28 @@ class UrlBuilder
         }
 
         if (!$this->firstParamAdded) {
-            if ($this->url[\strlen($this->url) - 1] !== '?') {
-                $this->url .= '?';
-                $this->firstParamAdded = true;
+            $this->firstParamAdded = true;
+            if ($this->url[\strlen($this->url) - 1] !== $this->firstFilterSeparator) {
+                $this->url .= $this->firstFilterSeparator;
             }
         }
 
-        if ($this->firstParamAdded && $this->url[\strlen($this->url) - 1] !== '&') {
-            $this->url .= '&';
+        if ($this->firstParamAdded &&
+            $this->url[\strlen($this->url) - 1] !== $this->filterSeparator &&
+            $this->url[\strlen($this->url) - 1] !== $this->firstFilterSeparator
+        ) {
+            $this->url .= $this->filterSeparator;
         }
 
         $this->url .= $filter;
-        if ($this->url[\strlen($this->url) - 1] !== '=') {
-            $this->url .= '=';
+        if ($this->url[\strlen($this->url) - 1] !== $this->firstFilterValueSeparator) {
+            $this->url .= $this->firstFilterValueSeparator;
         }
 
         $and = '';
         foreach ($values as $value) {
             $this->url .= $and . $value;
-            $and = '%2C';
+            $and = $this->filterValueSeparator;
         }
 
         return $this;
@@ -91,12 +99,43 @@ class UrlBuilder
     }
 
     /**
+     * @param string $separator
+     * @param string $firstSeparator
+     *
+     * @return UrlBuilder
+     */
+    public function addFilterValueSeparators(string $separator, string $firstSeparator) : self
+    {
+        $this->filterValueSeparator = $separator;
+        $this->firstFilterValueSeparator = $firstSeparator ?? $separator;
+        return $this;
+    }
+
+    /**
+     * @param string $separator
+     * @param string $firstSeparator
+     *
+     * @return UrlBuilder
+     */
+    public function addFilterSeparators(string $separator, string $firstSeparator) : self
+    {
+        $this->filterSeparator = $separator;
+        $this->firstFilterSeparator = $firstSeparator ?? $separator;
+        return $this;
+    }
+
+    /**
      * @return UrlBuilder
      */
     public function reset() : self
     {
         $this->url = '';
         $this->firstParamAdded = false;
+
+        $this->filterValueSeparator = null;
+        $this->firstFilterValueSeparator = null;
+        $this->filterSeparator = null;
+        $this->firstFilterSeparator = null;
 
         return $this;
     }

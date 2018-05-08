@@ -29,9 +29,15 @@ class InfluenceArea
      */
     private $questions;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Filter", mappedBy="influenceArea", orphanRemoval=true)
+     */
+    private $filters;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
+        $this->filters = new ArrayCollection();
     }
 
     /**
@@ -106,6 +112,37 @@ class InfluenceArea
     public function setQuestions($questions): self
     {
         $this->questions = $questions;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Filter[]
+     */
+    public function getFilters(): Collection
+    {
+        return $this->filters;
+    }
+
+    public function addFilter(Filter $filter): self
+    {
+        if (!$this->filters->contains($filter)) {
+            $this->filters[] = $filter;
+            $filter->setInfluenceArea($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFilter(Filter $filter): self
+    {
+        if ($this->filters->contains($filter)) {
+            $this->filters->removeElement($filter);
+            // set the owning side to null (unless already changed)
+            if ($filter->getInfluenceArea() === $this) {
+                $filter->setInfluenceArea(null);
+            }
+        }
 
         return $this;
     }

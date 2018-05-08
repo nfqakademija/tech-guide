@@ -43,11 +43,17 @@ class Category
      */
     private $answerHistories;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Regex", mappedBy="categories")
+     */
+    private $regexes;
+
     public function __construct()
     {
         $this->categoryShops = new ArrayCollection();
         $this->questions = new ArrayCollection();
         $this->answerHistories = new ArrayCollection();
+        $this->regexes = new ArrayCollection();
     }
 
     /**
@@ -144,6 +150,34 @@ class Category
             if ($answerHistory->getCategory() === $this) {
                 $answerHistory->setCategory(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Regex[]
+     */
+    public function getRegexes(): Collection
+    {
+        return $this->regexes;
+    }
+
+    public function addRegex(Regex $regex): self
+    {
+        if (!$this->regexes->contains($regex)) {
+            $this->regexes[] = $regex;
+            $regex->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRegex(Regex $regex): self
+    {
+        if ($this->regexes->contains($regex)) {
+            $this->regexes->removeElement($regex);
+            $regex->removeCategory($this);
         }
 
         return $this;
