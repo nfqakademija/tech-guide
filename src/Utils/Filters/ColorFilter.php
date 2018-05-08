@@ -16,12 +16,13 @@ class ColorFilter extends Filter
      * ColorFilter constructor.
      *
      * @param EntityManagerInterface $entityManager
+     * @param array                  $influenceBounds
      *
      * @throws \Exception
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, array $influenceBounds)
     {
-        parent::__construct($entityManager);
+        parent::__construct($entityManager, $influenceBounds);
         $this->influenceAreas = $this->findInfluenceAreas([self::TYPE]);
 
         $this->translator = new TranslateClient();
@@ -39,12 +40,12 @@ class ColorFilter extends Filter
     {
         $filters = $this->retrieveFilters($shopCategory);
 
-        if (isset(self::$influenceBounds[self::TYPE][0])
+        if (isset($this->influenceBounds[self::TYPE][0])
             && \count($filters) > 0
         ) {
             $answers = $this->influenceAreas[0]->getQuestions()[0]->getAnswers()
                 ->filter(function (Answer $answer) {
-                    return $answer->getValue() === self::$influenceBounds[self::TYPE][0];
+                    return $answer->getValue() === $this->influenceBounds[self::TYPE][0];
                 });
 
             $colorName = '';

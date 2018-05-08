@@ -14,10 +14,11 @@ class RAMFilter extends Filter
      * RAMFilter constructor.
      *
      * @param EntityManagerInterface $entityManager
+     * @param array                  $influenceBounds
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, array $influenceBounds)
     {
-        parent::__construct($entityManager);
+        parent::__construct($entityManager, $influenceBounds);
         $this->influenceAreas = $this->findInfluenceAreas([self::TYPE]);
     }
 
@@ -75,9 +76,9 @@ class RAMFilter extends Filter
                     $filters[0]->getUrlParameter(),
                     array_keys(\array_slice(
                         $memoriesAndValues,
-                        floor(self::$influenceBounds['RAM'][0]
+                        floor($this->influenceBounds['RAM'][0]
                             * \count($memoriesAndValues)),
-                        floor(self::$influenceBounds['RAM'][1]
+                        floor($this->influenceBounds['RAM'][1]
                             * \count($memoriesAndValues)),
                         true
                     ))

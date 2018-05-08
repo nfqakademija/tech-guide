@@ -15,7 +15,7 @@ abstract class Filter
      * @var InfluenceArea[] $influenceAreas
      */
     protected $influenceAreas;
-    protected static $influenceBounds;
+    protected $influenceBounds;
 
     private $filterRepository;
     private $regexRepository;
@@ -25,8 +25,9 @@ abstract class Filter
      * Filter constructor.
      *
      * @param EntityManagerInterface $entityManager
+     * @param array                  $influenceBounds
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, array $influenceBounds)
     {
         $this->influenceAreaRepository = $entityManager
             ->getRepository(InfluenceArea::class);
@@ -34,6 +35,8 @@ abstract class Filter
             ->getRepository(EntityFilter::class);
         $this->regexRepository = $entityManager
             ->getRepository(Regex::class);
+
+        $this->influenceBounds = $influenceBounds;
     }
 
 
@@ -78,17 +81,6 @@ abstract class Filter
         }
 
         return array_merge(...$filters);
-    }
-
-    /**
-     * @param array                  $answers
-     * @param EntityManagerInterface $entityManager
-     */
-    public static function makeInfluenceBoundsCalculator(array $answers, EntityManagerInterface $entityManager) : void
-    {
-        $answers = array_map('\intval', $answers);
-        $influenceCalculator = new InfluenceCalculator($answers, $entityManager);
-        self::$influenceBounds = $influenceCalculator->calculateInfluenceBounds();
     }
 
     /**

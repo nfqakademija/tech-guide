@@ -17,10 +17,11 @@ class MemoryFilter extends Filter
      * MemoryFilter constructor.
      *
      * @param EntityManagerInterface $entityManager
+     * @param array                  $influenceBounds
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, array $influenceBounds)
     {
-        parent::__construct($entityManager);
+        parent::__construct($entityManager, $influenceBounds);
         $this->influenceAreas = $this->findInfluenceAreas([self::TYPE, self::SUBTYPE1, self::SUBTYPE2]);
     }
 
@@ -42,7 +43,7 @@ class MemoryFilter extends Filter
         //replace filter[0] with exact ssd filter
         //same with filter[1]
         if (\count($filters) > 1) {
-            if (self::$influenceBounds['SSD'][1] > self::$influenceBounds['HDD'][1]) {
+            if ($this->influenceBounds['SSD'][1] > $this->influenceBounds['HDD'][1]) {
                 return $this->filterSubtype($pageContent, $filters[0]);
             }
 
@@ -81,9 +82,9 @@ class MemoryFilter extends Filter
                 $filter->getUrlParameter(),
                 array_keys(\array_slice(
                     $memoriesAndValues,
-                    round(self::$influenceBounds[self::TYPE][0]
+                    round($this->influenceBounds[self::TYPE][0]
                         * \count($memoriesAndValues)),
-                    round(self::$influenceBounds[self::TYPE][1]
+                    round($this->influenceBounds[self::TYPE][1]
                         * \count($memoriesAndValues)),
                     true
                 ))
@@ -132,9 +133,9 @@ class MemoryFilter extends Filter
                 $filter->getUrlParameter(),
                 array_keys(\array_slice(
                     $memoriesAndValues,
-                    round(self::$influenceBounds[self::TYPE][0]
+                    round($this->influenceBounds[self::TYPE][0]
                         * \count($memoriesAndValues)),
-                    round(self::$influenceBounds[self::TYPE][1]
+                    round($this->influenceBounds[self::TYPE][1]
                         * \count($memoriesAndValues)),
                     true
                 ))

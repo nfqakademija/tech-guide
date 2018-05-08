@@ -11,13 +11,14 @@ class ResolutionFilter extends Filter
     private const TYPE = 'Resolution';
 
     /**
-     * PriceFilter constructor.
+     * ResolutionFilter constructor.
      *
      * @param EntityManagerInterface $entityManager
+     * @param array                  $influenceBounds
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, array $influenceBounds)
     {
-        parent::__construct($entityManager);
+        parent::__construct($entityManager, $influenceBounds);
         $this->influenceAreas = $this->findInfluenceAreas([self::TYPE]);
     }
 
@@ -32,7 +33,9 @@ class ResolutionFilter extends Filter
     {
         $filters = $this->retrieveFilters($shopCategory);
 
-        if (\count($filters) > 0) {
+        if (isset($this->influenceBounds[self::TYPE][0])
+            && \count($filters) > 0
+        ) {
             $resolutionAndValues = [];
             /**
              * @var Regex $regex
@@ -54,9 +57,9 @@ class ResolutionFilter extends Filter
                     $filters[0]->getUrlParameter(),
                     array_keys(\array_slice(
                         $resolutionAndValues,
-                        round(self::$influenceBounds[self::TYPE][0]
+                        round($this->influenceBounds[self::TYPE][0]
                             * \count($resolutionAndValues)),
-                        round(self::$influenceBounds[self::TYPE][1]
+                        round($this->influenceBounds[self::TYPE][1]
                             * \count($resolutionAndValues)),
                         true
                     ))

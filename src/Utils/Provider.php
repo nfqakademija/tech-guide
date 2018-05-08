@@ -38,7 +38,10 @@ class Provider
     {
         $userAnswers = new UserAnswers($answers, $entityManager);
         $userAnswers->saveAnswers();
-        Filter::makeInfluenceBoundsCalculator($answers, $entityManager);
+
+        $answers = array_map('\intval', $answers);
+        $influenceCalculator = new InfluenceCalculator($answers, $entityManager);
+        $influenceBounds = $influenceCalculator->calculateInfluenceBounds();
 
         $this->shopCategoryRepository = $entityManager
             ->getRepository(ShopCategory::class);
@@ -49,13 +52,13 @@ class Provider
         $this->urlBuilder = new UrlBuilder();
 
         $this->filters = [
-            new PriceFilter($entityManager),
-            new ColorFilter($entityManager),
-            new MemoryFilter($entityManager),
-            new RAMFilter($entityManager),
-            new ProcessorFilter($entityManager),
-            new SizeFilter($entityManager),
-            new ResolutionFilter($entityManager),
+            new PriceFilter($entityManager, $influenceBounds),
+            new ColorFilter($entityManager, $influenceBounds),
+            new MemoryFilter($entityManager, $influenceBounds),
+            new RAMFilter($entityManager, $influenceBounds),
+            new ProcessorFilter($entityManager, $influenceBounds),
+            new SizeFilter($entityManager, $influenceBounds),
+            new ResolutionFilter($entityManager, $influenceBounds),
         ];
     }
 
@@ -76,7 +79,6 @@ class Provider
                 ->reset()
                 ->addHomePage($shopCategory->getShop()->getHomepage())
                 ->addPrefix($shopCategory->getPrefix())
-                ->addFilter($categoryFilter[0], [$categoryFilter[1]])
                 ->addFilterSeparators(
                     $shopCategory->getShop()->getFilterSeparator(),
                     $shopCategory->getShop()->getFirstFilterSeparator()
@@ -84,7 +86,8 @@ class Provider
                 ->addFilterValueSeparators(
                     $shopCategory->getShop()->getFilterValueSeparator(),
                     $shopCategory->getShop()->getFirstFilterValueSeparator()
-                );
+                )
+                ->addFilter($categoryFilter[0], [$categoryFilter[1]]);
 
             try {
                 $mainPage = file_get_contents($this->urlBuilder->getUrl());

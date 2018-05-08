@@ -13,10 +13,11 @@ class PriceFilter extends Filter
      * PriceFilter constructor.
      *
      * @param EntityManagerInterface $entityManager
+     * @param array                  $influenceBounds
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, array $influenceBounds)
     {
-        parent::__construct($entityManager);
+        parent::__construct($entityManager, $influenceBounds);
         $this->influenceAreas = $this->findInfluenceAreas([self::TYPE]);
     }
 
@@ -37,8 +38,8 @@ class PriceFilter extends Filter
                 preg_match_all($regexes[0]->getContentRegex(), $pageContent, $matches);
                 $maxValue = explode('-', $matches[1][\count($matches[1]) - 1])[1];
 
-                $value = round($maxValue * self::$influenceBounds['Price'][0]) . '-'
-                    . round($maxValue * self::$influenceBounds['Price'][1]);
+                $value = round($maxValue * $this->influenceBounds['Price'][0]) . '-'
+                    . round($maxValue * $this->influenceBounds['Price'][1]);
 
                 return [$filters[0]->getUrlParameter(), [$value]];
             }

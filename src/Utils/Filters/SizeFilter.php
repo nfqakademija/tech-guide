@@ -11,13 +11,14 @@ class SizeFilter extends Filter
     private const TYPE = 'Size';
 
     /**
-     * PriceFilter constructor.
+     * SizeFilter constructor.
      *
      * @param EntityManagerInterface $entityManager
+     * @param array                  $influenceBounds
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, array $influenceBounds)
     {
-        parent::__construct($entityManager);
+        parent::__construct($entityManager, $influenceBounds);
         $this->influenceAreas = $this->findInfluenceAreas([self::TYPE]);
     }
 
@@ -58,9 +59,9 @@ class SizeFilter extends Filter
                     $filters[0]->getUrlParameter(),
                     array_keys(\array_slice(
                         $sizesAndValues,
-                        round(self::$influenceBounds[self::TYPE][0]
+                        round($this->influenceBounds[self::TYPE][0]
                             * \count($sizesAndValues)),
-                        round(self::$influenceBounds[self::TYPE][1]
+                        round($this->influenceBounds[self::TYPE][1]
                             * \count($sizesAndValues)),
                         true
                     ))
