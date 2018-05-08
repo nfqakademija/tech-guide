@@ -12,6 +12,7 @@ App\Entity\ShopCategory:
         prefix: "telefonai-navigacijos-auto-iranga/mobilieji-telefonai.html"
         shop: '@shop_1'
         category: '@category_1'
+        categoryFilter: 'catp=378'
     shopCategory_2:
         prefix: "kompiuteriai-ir-plansetes/nesiojamieji-kompiuteriai.html"
         shop: '@shop_1'

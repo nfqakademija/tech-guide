@@ -1,7 +1,7 @@
 App\Entity\Regex:
     regex_1:
         filter: '@filter_1'
-        contentRegex: '#&quot;(\\d{7})?&quot;,&quot;label&quot;:&quot;(\[^\\s\]\\s)?colorName{1,6}&quot;,&quot;image&quot;:&quot;&quot;},#is'
+        contentRegex: '#&quot;(\\d{7})?&quot;,&quot;label&quot;:&quot;(\[^\\s]\\s)?colorName.{1,6}&quot;,&quot;image&quot;:&quot;&quot;},#is'
         categories: ['@category_1']
     regex_2:
         filter: '@filter_2'
@@ -19,18 +19,18 @@ App\Entity\Regex:
         categories: ['@category_2']
     regex_5:
         filter: '@filter_5'
-        htmlReducingRegex: '#HDD talpa(.*)Atmintin.u0117 \[(\]RAM\[)\]#is'
+        htmlReducingRegex: '#HDD talpa(.*)Atmintin.u0117 \[(]RAM\[)]#is'
         contentRegex: '#(\\d+?)&quot;,&quot;label&quot;:&quot;(\\d+?) sizeValue#'
         categories: ['@category_2']
     regex_6:
         filter: '@filter_6'
-        htmlReducingRegex: '#Procesoriaus tipas(.*)Gylis#is'
+        htmlReducingRegex: '#Procesoriaus tipas(.*)SSD talpa#is'
         contentRegex: '#(\\d+?)&quot;,&quot;label&quot;:&quot;Intel.u00ae Core.u2122 i(\\d)#'
         categories: ['@category_2']
     regex_7:
         filter: '@filter_7'
-        htmlReducingRegex: '#\[(\]RAM\[)\] \[(]GB\[)]&quot;(.*)#is'
-        contentRegex: '#(\\d+?)&quot;,&quot;label&quot;:&quot;(\\d+?) MB#is'
+        htmlReducingRegex: '#\[(]RAM\[)] \[(]GB\[)]&quot;(.*)#is'
+        contentRegex: '#(\\d+?)&quot;,&quot;label&quot;:&quot;(\\d+?) sizeValue#is'
         categories: ['@category_2']
     regex_8:
         filter: '@filter_8'
