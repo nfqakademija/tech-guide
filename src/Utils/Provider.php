@@ -57,7 +57,6 @@ class Provider
             new SizeFilter($entityManager),
             new ResolutionFilter($entityManager),
         ];
-
     }
 
     /**

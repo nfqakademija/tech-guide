@@ -2,14 +2,13 @@
 
 namespace App\Utils\Filters;
 
-
 use App\Entity\Regex;
 use App\Entity\ShopCategory;
 use Doctrine\ORM\EntityManagerInterface;
 
 class RAMFilter extends Filter
 {
-    private const type = 'RAM';
+    private const TYPE = 'RAM';
 
     /**
      * RAMFilter constructor.
@@ -19,7 +18,7 @@ class RAMFilter extends Filter
     public function __construct(EntityManagerInterface $entityManager)
     {
         parent::__construct($entityManager);
-        $this->influenceAreas = $this->findInfluenceAreas([self::type]);
+        $this->influenceAreas = $this->findInfluenceAreas([self::TYPE]);
     }
 
 
@@ -40,11 +39,14 @@ class RAMFilter extends Filter
              */
             $regex = $this->findRegexes($filters[0])[0];
             preg_match($regex->getHtmlReducingRegex(), $pageContent, $match);
-            if(isset($match[1])) {
+            if (isset($match[1])) {
                 $pageContent = $match[1];
 
-                preg_match_all($regex->getContentRegex(), $pageContent,
-                    $matches);
+                preg_match_all(
+                    $regex->getContentRegex(),
+                    $pageContent,
+                    $matches
+                );
 
                 for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
                     $memoriesAndValues[$matches[1][$i]] = $matches[2][$i];

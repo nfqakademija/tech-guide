@@ -63,7 +63,10 @@ class UrlBuilder
             }
         }
 
-        if ($this->firstParamAdded && $this->url[\strlen($this->url) - 1] !== $this->filterSeparator && $this->url[\strlen($this->url) - 1] !== $this->firstFilterSeparator) {
+        if ($this->firstParamAdded &&
+            $this->url[\strlen($this->url) - 1] !== $this->filterSeparator &&
+            $this->url[\strlen($this->url) - 1] !== $this->firstFilterSeparator
+        ) {
             $this->url .= $this->filterSeparator;
         }
 

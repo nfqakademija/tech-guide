@@ -2,7 +2,6 @@
 
 namespace App\Utils\Filters;
 
-
 use App\Entity\InfluenceArea;
 use App\Entity\Regex;
 use App\Entity\ShopCategory;
@@ -73,7 +72,8 @@ abstract class Filter
         $filters = [[]];
         foreach ($this->influenceAreas as $influenceArea) {
             $filters[] = $this->filterRepository->getShopCategoryFiltersByInfluenceArea(
-                $shopCategory, $influenceArea
+                $shopCategory,
+                $influenceArea
             );
         }
 
@@ -98,5 +98,4 @@ abstract class Filter
      * @return array
      */
     abstract public function filter(string $pageContent, ShopCategory $shopCategory) : array;
-
 }

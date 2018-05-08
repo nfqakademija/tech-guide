@@ -2,14 +2,13 @@
 
 namespace App\Utils\Filters;
 
-
 use App\Entity\Regex;
 use App\Entity\ShopCategory;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ProcessorFilter extends Filter
 {
-    private const type = 'Processor';
+    private const TYPE = 'Processor';
 
     /**
      * ProcessorFilter constructor.
@@ -19,7 +18,7 @@ class ProcessorFilter extends Filter
     public function __construct(EntityManagerInterface $entityManager)
     {
         parent::__construct($entityManager);
-        $this->influenceAreas = $this->findInfluenceAreas([self::type]);
+        $this->influenceAreas = $this->findInfluenceAreas([self::TYPE]);
     }
 
     /**
@@ -39,7 +38,7 @@ class ProcessorFilter extends Filter
              */
             $regex = $this->findRegexes($filters[0])[0];
             preg_match($regex->getHtmlReducingRegex(), $pageContent, $match);
-            if(isset($match[0])) {
+            if (isset($match[0])) {
                 $pageContent = $match[0];
 
                 preg_match_all($regex->getContentRegex(), $pageContent, $matches);
@@ -53,9 +52,9 @@ class ProcessorFilter extends Filter
                     $filters[0]->getUrlParameter(),
                     array_keys(\array_slice(
                         $processorsAndValues,
-                        round(self::$influenceBounds[self::type][0]
+                        round(self::$influenceBounds[self::TYPE][0]
                             * \count($processorsAndValues)),
-                        round(self::$influenceBounds[self::type][1]
+                        round(self::$influenceBounds[self::TYPE][1]
                             * \count($processorsAndValues)),
                         true
                     ))

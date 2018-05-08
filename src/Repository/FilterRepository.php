@@ -15,8 +15,10 @@ class FilterRepository extends ServiceEntityRepository
         parent::__construct($registry, Filter::class);
     }
 
-    public function getShopCategoryFiltersByInfluenceArea(ShopCategory $shopCategory, InfluenceArea $influenceArea) : array
-    {
+    public function getShopCategoryFiltersByInfluenceArea(
+        ShopCategory $shopCategory,
+        InfluenceArea $influenceArea
+    ) : array {
         return $this->getEntityManager()
             ->getRepository('App:Filter')
             ->createQueryBuilder('filter')

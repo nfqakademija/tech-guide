@@ -2,13 +2,12 @@
 
 namespace App\Utils\Filters;
 
-
 use App\Entity\ShopCategory;
 use Doctrine\ORM\EntityManagerInterface;
 
 class PriceFilter extends Filter
 {
-    private const type = 'Price';
+    private const TYPE = 'Price';
 
     /**
      * PriceFilter constructor.
@@ -18,7 +17,7 @@ class PriceFilter extends Filter
     public function __construct(EntityManagerInterface $entityManager)
     {
         parent::__construct($entityManager);
-        $this->influenceAreas = $this->findInfluenceAreas([self::type]);
+        $this->influenceAreas = $this->findInfluenceAreas([self::TYPE]);
     }
 
 
@@ -34,7 +33,7 @@ class PriceFilter extends Filter
 
         if (\count($filters) > 0) {
             $regexes = $this->findRegexes($filters[0]);
-            if(\count($regexes) === 1) {
+            if (\count($regexes) === 1) {
                 preg_match_all($regexes[0]->getContentRegex(), $pageContent, $matches);
                 $maxValue = explode('-', $matches[1][\count($matches[1]) - 1])[1];
 
