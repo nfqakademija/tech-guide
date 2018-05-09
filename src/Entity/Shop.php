@@ -29,15 +29,6 @@ class Shop
     private $shopCategories;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Question", inversedBy="shops")
-     * @ORM\JoinTable(name="shop_question",
-     *     joinColumns={@ORM\JoinColumn(name="question_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")}
-     * )
-     */
-    private $questions;
-
-    /**
      * @ORM\Column(type="string", length=5)
      */
     private $filterValueSeparator;
@@ -92,26 +83,6 @@ class Shop
     public function setHomepage(string $homepage): self
     {
         $this->homepage = $homepage;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getQuestions() : Collection
-    {
-        return $this->questions;
-    }
-
-    /**
-     * @param $questions
-     *
-     * @return Shop
-     */
-    public function setQuestions($questions): self
-    {
-        $this->questions = $questions;
 
         return $this;
     }
