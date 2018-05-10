@@ -34,10 +34,6 @@ class Filter
      */
     private $shops;
 
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $urlParameter;
 
     public function __construct()
     {
@@ -115,18 +111,6 @@ class Filter
         if ($this->shops->contains($shop)) {
             $this->shops->removeElement($shop);
         }
-
-        return $this;
-    }
-
-    public function getUrlParameter(): ?string
-    {
-        return $this->urlParameter;
-    }
-
-    public function setUrlParameter(string $urlParameter): self
-    {
-        $this->urlParameter = $urlParameter;
 
         return $this;
     }

@@ -39,6 +39,11 @@ class Regex
      */
     private $categories;
 
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $urlParameter;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -107,6 +112,18 @@ class Regex
         if ($this->categories->contains($category)) {
             $this->categories->removeElement($category);
         }
+
+        return $this;
+    }
+
+    public function getUrlParameter(): ?string
+    {
+        return $this->urlParameter;
+    }
+
+    public function setUrlParameter(string $urlParameter): self
+    {
+        $this->urlParameter = $urlParameter;
 
         return $this;
     }
