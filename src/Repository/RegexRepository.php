@@ -23,7 +23,7 @@ class RegexRepository extends ServiceEntityRepository
             ->where('regex.influenceArea = :influenceArea')
             ->andWhere('regex.shop = :shop')
             ->innerJoin('regex.categories', 'category')
-            ->andWhere('category.id = :category' )
+            ->andWhere('category.id = :category')
             ->setParameters([
                 'shop' => $shopCategory->getShop(),
                 'category' => $shopCategory->getCategory(),

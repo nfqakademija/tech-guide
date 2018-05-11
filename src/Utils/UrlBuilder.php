@@ -70,7 +70,7 @@ class UrlBuilder
             $this->url .= $this->filterSeparator;
         }
 
-        if(!$this->repeatingFilter) {
+        if (!$this->repeatingFilter) {
             $this->url .= $filter;
             if ($this->url[\strlen($this->url) - 1] !== $this->firstFilterValueSeparator) {
                 $this->url .= $this->firstFilterValueSeparator;
@@ -89,7 +89,7 @@ class UrlBuilder
             $this->url .=
                 $filter .
                 $this->firstFilterValueSeparator .
-                str_replace('-', ';',$value) .
+                str_replace('-', ';', $value) .
                 $this->filterSeparator;
         }
 
@@ -105,7 +105,7 @@ class UrlBuilder
     {
         $endFilters = [];
         foreach ($filtersAndValues as $filterAndValue) {
-            if($filterAndValue[0][0] !== '/') {
+            if ($filterAndValue[0][0] !== '/') {
                 $this->addFilter($filterAndValue[0], $filterAndValue[1]);
                 continue;
             }
@@ -202,6 +202,4 @@ class UrlBuilder
 
         return $this;
     }
-
-
 }
