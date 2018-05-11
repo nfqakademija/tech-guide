@@ -23,7 +23,7 @@ class Providers extends Component {
     if (this.props.show) {
       return (
         <Hoc>
-          <Results onClick={this.resultsToggleHandler} show={this.state.resultsOpened} link={this.props.link} />
+          <Results onClick={this.resultsToggleHandler} show={this.state.resultsOpened} />
         </Hoc>
       );
     } else return null;

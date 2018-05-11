@@ -27,7 +27,6 @@ class Quiz extends Component {
         <Providers
           loadingProviders={this.props.loadingProviders}
           show={this.props.providersSet}
-          link={this.props.url}
         />
         <ThemeProvider theme={theme}>
           <ChatBot
@@ -47,7 +46,8 @@ class Quiz extends Component {
 
 const mapStateToProps = state => {
   return {
-    url: state.providers.url,
+    messages: state.guidebot.messages,
+    url: state.providers.urls,
     providersSet: state.providers.providersSet,
     loadingProviders: state.providers.loadingProviders,
     error: state.providers.error,

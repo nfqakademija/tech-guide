@@ -8,6 +8,7 @@ import Hoc from '../Hoc/Hoc.jsx';
 import Quiz from '../../containers/Quiz/Quiz';
 import Home from '../../containers/Home/Home';
 import Loader from '../../components/Loader/Loader';
+import ProvidersLogos from '../../components/Providers/ProvidersLogos/ProvidersLogos';
 import * as actionCreators from '../../store/actions/guidebot';
 import * as actionCreatorsProviders from '../../store/actions/providers';
 
@@ -24,35 +25,29 @@ class Layout extends Component {
         attachedClasses = ["quiz-started"];
     }
 
-    if (this.props.guidebotDataSet) {
+   
       return (
-        <Hoc>
-          <Loader loaderTitle="GUIDEBOT - BEST TECHNOLOGY ADVISOR SINCE 1950s" />
+        <div className="row main">
+          {
+          !this.props.guidebotDataSet ? <Loader loaderTitle="LOADING GUIDEBOT DATA..." />
+          : this.props.loadingProviders ? <Loader loaderTitle="PREPARING RESULTS..." /> 
+          : null
+          }
           <div className={`card ${attachedClasses.join(' ')}`}>
             <Home clicked={this.props.onShowGuidebot} />
-            <Quiz messages={this.props.messages} quizStarted={this.props.showGuidebot} />
+            {this.props.guidebotDataSet && <Quiz quizStarted={this.props.showGuidebot} />}
           </div>
-        </Hoc>
+        </div>
       );
-    } else {
-        return (
-          <Hoc>
-            <Loader loaderTitle="GUIDEBOT - BEST TECHNOLOGY ADVISOR SINCE 1950s" />
-            <div className={`card ${attachedClasses.join(' ')}`}>
-              <Home clicked={this.props.onShowGuidebot} />
-            </div>
-          </Hoc>
-        );    
-    }
   }
 }
 
 const mapStateToProps = state => {
   return {
-    messages: state.guidebot.messages,
     loadingGuidebotData: state.guidebot.loadingGuidebotData,
     guidebotDataSet: state.guidebot.guidebotDataSet,
     showGuidebot: state.guidebot.showGuidebot,
+    loadingProviders: state.providers.loadingProviders,
   }
 }
 

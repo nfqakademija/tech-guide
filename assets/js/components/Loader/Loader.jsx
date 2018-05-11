@@ -6,7 +6,6 @@ import Hoc from '../../hoc/Hoc/Hoc';
 
  class Loader extends Component {
   render() {
-    if (this.props.loadingProviders || this.props.loadingGuidebotData) {
       return (
         <Hoc>
           <Backdrop show="true" />
@@ -31,7 +30,6 @@ import Hoc from '../../hoc/Hoc/Hoc';
           <h1 className="loader-title">{this.props.loaderTitle}</h1>
         </Hoc>
       );
-    } else return null;
   }  
 }
 
