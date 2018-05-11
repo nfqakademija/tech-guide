@@ -4,11 +4,13 @@
 @import "variables.scss";
 @import 'mixins.scss';
 @import "buttons.scss";
+@import "providers.scss";
 @import "backdrop.scss";
 @import "results.scss";
 @import "loader.scss";
 @import "guidebot.scss";
 @import "home.scss";
+@import "layout.scss";
 
 
 
@@ -63,9 +65,15 @@ body {
   }
 }
 
-main {
+.main {
   height: 100%;
-  padding-top: 2rem;
+  width: 97%;
+  margin: 0 auto;
+  position: relative;
+
+  @include respond(phone-tab) {
+    width: 100%;
+  }
 }
 
 .priority {

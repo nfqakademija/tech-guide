@@ -8,10 +8,10 @@ export const loadingProviders = () => {
   }
 }
 
-export const setProviders = ( url ) => {
+export const setProviders = ( urls ) => {
   return {
     type: actionTypes.HANDLE_END,
-    url: url,
+    urls: urls,
     providersSet: true,
     loadingProviders: false,
   }

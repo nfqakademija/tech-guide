@@ -33,6 +33,9 @@ export const fetchGuidebotData = () => {
               }
 
               for (let i = 0; i < response.data.messages.options.length; i++) {
+                // const message = [...response.data.messages.options[i]];
+                // message.component = 'icon';
+                // messages.push(message);
                 messages.push(response.data.messages.options[i]);
               }
               dispatch(setGuidebotData(messages))

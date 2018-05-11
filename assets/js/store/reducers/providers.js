@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actions';
 
 const initialState = {
-  url: "",
+  urls: [],
   providersSet: false,
   loadingProviders: false,
   error: false,
@@ -10,7 +10,7 @@ const initialState = {
 const getResults = ( state, action ) => {
   return {
     ...state,
-    url: action.url,
+    urls: action.urls,
     providersSet: true,
     loadingProviders: false,
   }
