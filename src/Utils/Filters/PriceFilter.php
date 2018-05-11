@@ -38,10 +38,9 @@ class PriceFilter extends Filter
 
         if (\count($regexes) === 1) {
             preg_match_all($regexes[0]->getContentRegex(), $pageContent, $matches);
-            $maxValue = explode('-', $matches[1][\count($matches[1]) - 1])[1];
 
-            $value = round($maxValue * $this->influenceBounds['Price'][0]) . '-'
-                . round($maxValue * $this->influenceBounds['Price'][1]);
+            $value = round($matches[1][0] * $this->influenceBounds['Price'][0]) . '-'
+                . round($matches[1][0] * $this->influenceBounds['Price'][1]);
 
             return [$regexes[0]->getUrlParameter(), [$value]];
         }

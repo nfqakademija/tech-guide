@@ -7,7 +7,7 @@ App\Entity\Regex:
         influenceArea: '@area_3'
         shop: '@shop_1'
     regex_2:
-        contentRegex: '#(?\<=price&quot;,&quot;value&quot;:&quot;)(\\d+-\\d+?)&quot;,&quot;label#is'
+        contentRegex: '#price(?:.*)(?:\\d+)-(\\d+?)&quot;,&quot;label&quot;:&quot;(?:\\d+) - (?:\\d+?)&nbsp;.u20ac&quot;}.,&quot;collapsed#is'
         categories: ['@category_1', '@category_2', '@category_3']
         urlParameter: 'price'
         influenceArea: '@area_2'
@@ -134,34 +134,34 @@ App\Entity\Regex:
     regex_20:
         contentRegex: '#maxSliderPrice".(\\d+)#is'
         categories: ['@category_1', '@category_2', '@category_3']
-        urlParameter: 'filter\[001]\[\]'
+        urlParameter: 'filter\[001]\[ ]'
         influenceArea: '@area_2'
         shop: '@shop_3'
     regex_21:
         htmlReducingRegex: '#Vidinė atmintis(.*)#isu'
         contentRegex: '#filter.B4A3.{3}=(\\w+)".(\\d+)GB#is'
         categories: ['@category_1']
-        urlParameter: 'filter\[B4A3]\[\]'
+        urlParameter: 'filter\[B4A3]\[ ]'
         influenceArea: '@area_1'
         shop: '@shop_3'
     regex_22:
         htmlReducingRegex: '#Procesoriaus tipas(.*)#is'
         contentRegex: '#filter.B3E8.{3}=(\\w+)".Intel i(\\d+)#is'
         categories: ['@category_2']
-        urlParameter: 'filter\[B3E8]\[\]'
+        urlParameter: 'filter\[B3E8]\[ ]'
         influenceArea: '@area_6'
         shop: '@shop_3'
     regex_23:
         htmlReducingRegex: '#Operatyvioji atmintinė(.*)#isu'
         contentRegex: '#filter.B309.{3}=(\\w+)".(\\d+)sizeValue#is'
         categories: ['@category_2']
-        urlParameter: 'filter\[B309]\[\]'
+        urlParameter: 'filter\[B309]\[ ]'
         influenceArea: '@area_5'
         shop: '@shop_3'
     regex_24:
         htmlReducingRegex: '#Ekrano įstrižainė(.*)#isu'
         contentRegex: '#filter.B203.{3}=(\\w+)".(\\d+)#is'
         categories: ['@category_3']
-        urlParameter: 'filter\[B203]\[\]'
+        urlParameter: 'filter\[B203]\[ ]'
         influenceArea: '@area_7'
         shop: '@shop_3'
