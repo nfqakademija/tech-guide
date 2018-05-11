@@ -31,20 +31,19 @@ class RAMFilter extends Filter
      */
     public function filter(string $pageContent, ShopCategory $shopCategory) : array
     {
-        $filters = $this->retrieveFilters($shopCategory);
+        /**
+         * @var Regex[] $regexes
+         */
+        $regexes = $this->retrieveRegexes($shopCategory, $this->influenceAreas[0]);
 
-        if (\count($filters) > 0) {
+        if (\count($regexes) > 0) {
             $memoriesAndValues = [];
-            /**
-             * @var Regex $regex
-             */
-            $regex = $this->findRegexes($filters[0])[0];
-            preg_match($regex->getHtmlReducingRegex(), $pageContent, $match);
+            preg_match($regexes[0]->getHtmlReducingRegex(), $pageContent, $match);
             if (isset($match[1])) {
                 $pageContent = $match[1];
 
                 preg_match_all(
-                    $regex->getContentRegex(),
+                    $regexes[0]->getContentRegex(),
                     $pageContent,
                     $matches
                 );
@@ -54,7 +53,7 @@ class RAMFilter extends Filter
                 }
 
                 preg_match_all(
-                    str_replace('sizeValue', 'MB', $regex->getContentRegex()),
+                    str_replace('sizeValue', 'MB', $regexes[0]->getContentRegex()),
                     $pageContent,
                     $matches
                 );
@@ -64,7 +63,7 @@ class RAMFilter extends Filter
                 }
 
                 preg_match_all(
-                    str_replace('sizeValue', 'GB', $regex->getContentRegex()),
+                    str_replace('sizeValue', 'GB', $regexes[0]->getContentRegex()),
                     $pageContent,
                     $matches
                 );
@@ -73,7 +72,7 @@ class RAMFilter extends Filter
                 }
 
                 return [
-                    $filters[0]->getUrlParameter(),
+                    $regexes[0]->getUrlParameter(),
                     array_keys(\array_slice(
                         $memoriesAndValues,
                         floor($this->influenceBounds['RAM'][0]

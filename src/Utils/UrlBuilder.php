@@ -56,7 +56,7 @@ class UrlBuilder
             return $this;
         }
 
-        if (!$this->firstParamAdded) {
+        if(!$this->firstParamAdded) {
             $this->firstParamAdded = true;
             if ($this->url[\strlen($this->url) - 1] !== $this->firstFilterSeparator) {
                 $this->url .= $this->firstFilterSeparator;
@@ -64,6 +64,7 @@ class UrlBuilder
         }
 
         if ($this->firstParamAdded &&
+            $filter[0] !== '/' &&
             $this->url[\strlen($this->url) - 1] !== $this->filterSeparator &&
             $this->url[\strlen($this->url) - 1] !== $this->firstFilterSeparator
         ) {
@@ -91,7 +92,16 @@ class UrlBuilder
      */
     public function addFilterArray(array $filtersAndValues) : self
     {
+        $endFilters = [];
         foreach ($filtersAndValues as $filterAndValue) {
+            if($filterAndValue[0][0] !== '/') {
+                $this->addFilter($filterAndValue[0], $filterAndValue[1]);
+                continue;
+            }
+            $endFilters[] = $filterAndValue;
+        }
+
+        foreach ($endFilters as $filterAndValue) {
             $this->addFilter($filterAndValue[0], $filterAndValue[1]);
         }
 

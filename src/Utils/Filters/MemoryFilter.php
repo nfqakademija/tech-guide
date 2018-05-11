@@ -5,7 +5,6 @@ namespace App\Utils\Filters;
 use App\Entity\Regex;
 use App\Entity\ShopCategory;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Filter as EntityFilter;
 
 class MemoryFilter extends Filter
 {
@@ -34,38 +33,35 @@ class MemoryFilter extends Filter
      */
     public function filter(string $pageContent, ShopCategory $shopCategory) : array
     {
-        $filters = $this->retrieveFilters($shopCategory);
+        $ssdRegexes = $this->retrieveRegexes($shopCategory, $this->influenceAreas[1]);
+        $hddRegexes = $this->retrieveRegexes($shopCategory, $this->influenceAreas[2]);
 
-        if (\count($filters) === 1) {
-            return $this->filterMemory($pageContent, $filters[0]);
-        }
-
-        //replace filter[0] with exact ssd filter
-        //same with filter[1]
-        if (\count($filters) > 1) {
+        if (!empty($ssdRegexes) && !empty($hddRegexes)) {
             if ($this->influenceBounds['SSD'][1] > $this->influenceBounds['HDD'][1]) {
-                return $this->filterSubtype($pageContent, $filters[0]);
+                return $this->filterSubtype($pageContent, $ssdRegexes[0]);
             }
 
-            return $this->filterSubtype($pageContent, $filters[1]);
+            return $this->filterSubtype($pageContent, $hddRegexes[0]);
+        }
+
+        $memoryRegexes = $this->retrieveRegexes($shopCategory, $this->influenceAreas[0]);
+
+        if (!empty($memoryRegexes)) {
+            return $this->filterMemory($pageContent, $memoryRegexes[0]);
         }
 
         return [null, []];
     }
 
     /**
-     * @param string       $pageContent
-     * @param EntityFilter $filter
+     * @param string $pageContent
+     * @param Regex  $regex
      *
      * @return array
      */
-    private function filterMemory(string $pageContent, EntityFilter $filter) : array
+    private function filterMemory(string $pageContent, Regex $regex) : array
     {
         $memoriesAndValues = [];
-        /**
-         * @var Regex $regex
-         */
-        $regex = $this->findRegexes($filter)[0];
         preg_match($regex->getHtmlReducingRegex(), $pageContent, $match);
         if (isset($match[1])) {
             $pageContent = $match[1];
@@ -79,7 +75,7 @@ class MemoryFilter extends Filter
             asort($memoriesAndValues);
 
             return [
-                $filter->getUrlParameter(),
+                $regex->getUrlParameter(),
                 array_keys(\array_slice(
                     $memoriesAndValues,
                     round($this->influenceBounds[self::TYPE][0]
@@ -90,21 +86,19 @@ class MemoryFilter extends Filter
                 ))
             ];
         }
+
+        return [null, []];
     }
 
     /**
-     * @param string       $pageContent
-     * @param EntityFilter $filter
+     * @param string $pageContent
+     * @param Regex  $regex
      *
      * @return array
      */
-    private function filterSubtype(string $pageContent, EntityFilter $filter) : array
+    private function filterSubtype(string $pageContent, Regex $regex) : array
     {
         $memoriesAndValues = [];
-        /**
-         * @var Regex $regex
-         */
-        $regex = $this->findRegexes($filter)[0];
         preg_match($regex->getHtmlReducingRegex(), $pageContent, $match);
         if (isset($match[1])) {
             $pageContent = $match[1];
@@ -130,7 +124,7 @@ class MemoryFilter extends Filter
             asort($memoriesAndValues);
 
             return [
-                $filter->getUrlParameter(),
+                $regex->getUrlParameter(),
                 array_keys(\array_slice(
                     $memoriesAndValues,
                     round($this->influenceBounds[self::TYPE][0]

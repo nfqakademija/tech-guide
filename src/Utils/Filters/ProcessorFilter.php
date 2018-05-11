@@ -30,19 +30,18 @@ class ProcessorFilter extends Filter
      */
     public function filter(string $pageContent, ShopCategory $shopCategory) : array
     {
-        $filters = $this->retrieveFilters($shopCategory);
+        /**
+         * @var Regex[] $regexes
+         */
+        $regexes = $this->retrieveRegexes($shopCategory, $this->influenceAreas[0]);
 
-        if (\count($filters) > 0) {
+        if (\count($regexes) > 0) {
             $processorsAndValues = [];
-            /**
-             * @var Regex $regex
-             */
-            $regex = $this->findRegexes($filters[0])[0];
-            preg_match($regex->getHtmlReducingRegex(), $pageContent, $match);
+            preg_match($regexes[0]->getHtmlReducingRegex(), $pageContent, $match);
             if (isset($match[0])) {
                 $pageContent = $match[0];
 
-                preg_match_all($regex->getContentRegex(), $pageContent, $matches);
+                preg_match_all($regexes[0]->getContentRegex(), $pageContent, $matches);
                 for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
                     $processorsAndValues[$matches[1][$i]] = $matches[2][$i];
                 }
@@ -50,7 +49,7 @@ class ProcessorFilter extends Filter
                 asort($processorsAndValues);
 
                 return [
-                    $filters[0]->getUrlParameter(),
+                    $regexes[0]->getUrlParameter(),
                     array_keys(\array_slice(
                         $processorsAndValues,
                         round($this->influenceBounds[self::TYPE][0]

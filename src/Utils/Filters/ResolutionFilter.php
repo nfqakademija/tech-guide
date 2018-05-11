@@ -31,21 +31,20 @@ class ResolutionFilter extends Filter
      */
     public function filter(string $pageContent, ShopCategory $shopCategory) : array
     {
-        $filters = $this->retrieveFilters($shopCategory);
+        /**
+         * @var Regex[] $regexes
+         */
+        $regexes = $this->retrieveRegexes($shopCategory, $this->influenceAreas[0]);
 
         if (isset($this->influenceBounds[self::TYPE][0])
-            && \count($filters) > 0
+            && \count($regexes) > 0
         ) {
             $resolutionAndValues = [];
-            /**
-             * @var Regex $regex
-             */
-            $regex = $this->findRegexes($filters[0])[0];
-            preg_match($regex->getHtmlReducingRegex(), $pageContent, $match);
+            preg_match($regexes[0]->getHtmlReducingRegex(), $pageContent, $match);
             if (isset($match[1])) {
                 $pageContent = $match[1];
 
-                preg_match_all($regex->getContentRegex(), $pageContent, $matches);
+                preg_match_all($regexes[0]->getContentRegex(), $pageContent, $matches);
                 for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
                     $resolutionAndValues[$matches[1][$i]] = $matches[2][$i]
                         * $matches[3][$i];
@@ -54,7 +53,7 @@ class ResolutionFilter extends Filter
                 asort($resolutionAndValues);
 
                 return [
-                    $filters[0]->getUrlParameter(),
+                    $regexes[0]->getUrlParameter(),
                     array_keys(\array_slice(
                         $resolutionAndValues,
                         round($this->influenceBounds[self::TYPE][0]

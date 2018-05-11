@@ -62,8 +62,8 @@ App\Entity\Regex:
         influenceArea: '@area_8'
         shop: '@shop_1'
 #1a
-    regex_10:  #match[1] has the number that`s needed
-        htmlReducingRegex: '#Ieškoti(.*)SIM kortelių palaikymas#isu' #match[0] is the html
+    regex_10:
+        htmlReducingRegex: '#Ieškoti(.*)SIM kortelių palaikymas#isu'
         contentRegex: '#(\\d+). type=.checkbox. class=.jcf-checkbox.{3}span class=.check-text.{3}span class=.product-attribute-value..colorName#is'
         categories: ['@category_1']
         urlParameter: '3852'
@@ -72,7 +72,7 @@ App\Entity\Regex:
     regex_11:
         contentRegex: '#min-value. value=.(\\d+)#is'
         categories: ['@category_1', '@category_2', '@category_3']
-        urlParameter: '/min/price'  #update algorithm
+        urlParameter: '/min/price'
         influenceArea: '@area_2'
         shop: '@shop_2'
     regex_12:
@@ -83,7 +83,7 @@ App\Entity\Regex:
         shop: '@shop_2'
     regex_13:
         htmlReducingRegex: '#Vidinė atmintis(.*)Flash atmintis#isu' #match[1] or match[2] for value, match[3] for size
-        contentRegex: '#value=.(\\d+). id=.s(\\d+). type=.checkbox. class=.jcf-checkbox.{3}span class=.check-text.{3}span class=.product-attribute-value..(\\d+) sizeValue#is'
+        contentRegex: '#value=.(\\d+). id=.s(\\d+). type=.checkbox. class=.jcf-checkbox.{3}span class=.check-text.{3}span class=.product-attribute-value..(\\d+) GB#is'
         categories: ['@category_1']
         urlParameter: '476'
         influenceArea: '@area_1'

@@ -3,6 +3,7 @@
 namespace App\Utils;
 
 use App\Entity\Category;
+use App\Entity\Shop;
 use App\Entity\ShopCategory;
 use App\Utils\Filters\ColorFilter;
 use App\Utils\Filters\Filter;
@@ -73,7 +74,10 @@ class Provider
          */
         foreach ($this->shopCategoryRepository
             ->findBy(['category' => $this->category]) as $shopCategory) {
-            $categoryFilter = $this->filterCategory($shopCategory->getCategoryFilter());
+            $categoryFilter = $this->filterCategory(
+                $shopCategory->getCategoryFilter(),
+                $shopCategory->getShop()
+            );
 
             $this->urlBuilder
                 ->reset()
@@ -97,7 +101,10 @@ class Provider
 
             $filtersValues = [];
             foreach ($this->filters as $filter) {
-                $filtersValues[] = $filter->filter($mainPage, $shopCategory);
+                $values = array_chunk($filter->filter($mainPage, $shopCategory), 2);
+                foreach ($values as $value) {
+                    $filtersValues[] = $value;
+                }
             }
 
             $this->urlBuilder->addFilterArray($filtersValues);
@@ -108,14 +115,15 @@ class Provider
     }
 
     /**
-     * @param string $filter
+     * @param null|string $filter
+     * @param Shop        $shop
      *
      * @return array
      */
-    private function filterCategory(?string $filter) : array
+    private function filterCategory(?string $filter, Shop $shop) : array
     {
         if ($filter !== null) {
-            return explode('=', $filter);
+            return explode($shop->getFirstFilterValueSeparator() ?? $shop->getFilterValueSeparator(), $filter);
         }
 
         return [$filter, []];
