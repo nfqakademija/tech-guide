@@ -5,6 +5,7 @@ namespace App\Utils;
 use App\Entity\Category;
 use App\Entity\Shop;
 use App\Entity\ShopCategory;
+use App\Utils\Filters\CameraFilter;
 use App\Utils\Filters\ColorFilter;
 use App\Utils\Filters\Filter;
 use App\Utils\Filters\MemoryFilter;
@@ -60,6 +61,7 @@ class Provider
             new ProcessorFilter($entityManager, $influenceBounds),
             new SizeFilter($entityManager, $influenceBounds),
             new ResolutionFilter($entityManager, $influenceBounds),
+            new CameraFilter($entityManager, $influenceBounds),
         ];
     }
 
