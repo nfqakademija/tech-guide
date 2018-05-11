@@ -81,6 +81,7 @@ class Provider
 
             $this->urlBuilder
                 ->reset()
+                ->setRepeatingFilter($shopCategory->getShop()->getRepeatingFilter())
                 ->addHomePage($shopCategory->getShop()->getHomepage())
                 ->addPrefix($shopCategory->getPrefix())
                 ->addFilterSeparators(
