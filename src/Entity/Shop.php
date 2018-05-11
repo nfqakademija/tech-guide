@@ -53,6 +53,16 @@ class Shop
      */
     private $regexes;
 
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $logo;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $repeatingFilter;
+
     public function __construct()
     {
         $this->shopCategories = new ArrayCollection();
@@ -162,6 +172,30 @@ class Shop
                 $regex->setShop(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(string $logo): self
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    public function getRepeatingFilter(): ?bool
+    {
+        return $this->repeatingFilter;
+    }
+
+    public function setRepeatingFilter(bool $repeatingFilter): self
+    {
+        $this->repeatingFilter = $repeatingFilter;
 
         return $this;
     }

@@ -82,13 +82,13 @@ App\Entity\Regex:
         influenceArea: '@area_2'
         shop: '@shop_2'
     regex_13:
-        htmlReducingRegex: '#Vidinė atmintis(.*)Flash atmintis#isu' #match[1] or match[2] for value, match[3] for size
+        htmlReducingRegex: '#Vidinė atmintis(.*)Flash atmintis#isu'
         contentRegex: '#value=.(\\d+). id=.s(\\d+). type=.checkbox. class=.jcf-checkbox.{3}span class=.check-text.{3}span class=.product-attribute-value..(\\d+) GB#is'
         categories: ['@category_1']
         urlParameter: '476'
         influenceArea: '@area_1'
         shop: '@shop_2'
-    regex_14: #match[0] - page, match[1] - ids, match[2] - gbs
+    regex_14:
         htmlReducingRegex: '#Kietasis diskas \[(]SSD\[)](.*)Vaizdo plokštės tipas#isu'
         contentRegex: '#id=.s(\\d+). type=.checkbox. class=.jcf-checkbox.{3}span class=.check-text.{3}span class=.product-attribute-value..(\\d+) sizeValue#is'
         categories: ['@category_2']
@@ -130,3 +130,38 @@ App\Entity\Regex:
         urlParameter: '1435'
         influenceArea: '@area_8'
         shop: '@shop_2'
+#technorama
+    regex_20:
+        contentRegex: '#maxSliderPrice".(\\d+)#is'
+        categories: ['@category_1', '@category_2', '@category_3']
+        urlParameter: 'filter\[001]\[\]'
+        influenceArea: '@area_2'
+        shop: '@shop_3'
+    regex_21:
+        htmlReducingRegex: '#Vidinė atmintis(.*)#isu'
+        contentRegex: '#filter.B4A3.{3}=(\\w+)".(\\d+)GB#is'
+        categories: ['@category_1']
+        urlParameter: 'filter\[B4A3]\[\]'
+        influenceArea: '@area_1'
+        shop: '@shop_3'
+    regex_22:
+        htmlReducingRegex: '#Procesoriaus tipas(.*)#is'
+        contentRegex: '#filter.B3E8.{3}=(\\w+)".Intel i(\\d+)#is'
+        categories: ['@category_2']
+        urlParameter: 'filter\[B3E8]\[\]'
+        influenceArea: '@area_6'
+        shop: '@shop_3'
+    regex_23:
+        htmlReducingRegex: '#Operatyvioji atmintinė(.*)#isu'
+        contentRegex: '#filter.B309.{3}=(\\w+)".(\\d+)sizeValue#is'
+        categories: ['@category_2']
+        urlParameter: 'filter\[B309]\[\]'
+        influenceArea: '@area_5'
+        shop: '@shop_3'
+    regex_24:
+        htmlReducingRegex: '#Ekrano įstrižainė(.*)#isu'
+        contentRegex: '#filter.B203.{3}=(\\w+)".(\\d+)#is'
+        categories: ['@category_3']
+        urlParameter: 'filter\[B203]\[\]'
+        influenceArea: '@area_7'
+        shop: '@shop_3'

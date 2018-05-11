@@ -1,16 +1,28 @@
 App\Entity\Shop:
     shop_1:
         homepage: "https://www.topocentras.lt/"
+        logo: ''
+        repeatingFilter: 0
         filterValueSeparator: '\%2C'
         firstFilterValueSeparator: '='
         firstFilterSeparator: '?'
         filterSeparator: '&'
     shop_2:
         homepage: "https://www.1a.lt/"
+        logo: ''
+        repeatingFilter: 0
         filterValueSeparator: ','
         firstFilterValueSeparator: '-'
         firstFilterSeparator: '/'
         filterSeparator: ':'
+    shop_3:
+        homepage: "https://www.technorama.lt/"
+        logo: ''
+        repeatingFilter: 1
+        firstFilterSeparator: '#!&'
+        filterSeparator: '&'
+        firstFilterValueSeparator: '='
+        filterValueSeparator: ';'
 
 App\Entity\ShopCategory:
     shopCategory_1:
@@ -39,5 +51,18 @@ App\Entity\ShopCategory:
     shopCategory_6:
         prefix: "tv_audio_video_zaidimu_kompiuteriai/televizoriai_ir_priedai/led_tv/filter"
         shop: '@shop_2'
+        category: '@category_3'
+
+    shopCategory_7:
+        prefix: "Mobilus-telefonai-ir-navigacijos/Mobilus-telefonai/"
+        shop: '@shop_3'
+        category: '@category_1'
+    shopCategory_8:
+        prefix: "Kompiuteriai-ir-ju-komponentai/Nesiojami-kompiuteriai"
+        shop: '@shop_3'
+        category: '@category_2'
+    shopCategory_9:
+        prefix: "Vaizdo-ir-garso-technika/Televizoriai/"
+        shop: '@shop_3'
         category: '@category_3'
 
