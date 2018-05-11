@@ -10,7 +10,7 @@ App\Entity\InfluenceArea:
         questions: ['@question_4']
     area_4:
         content: "Camera"
-        questions: ['@question_2']
+        questions: ['@question_2', '@question_3']
     area_5:
         content: "RAM"
         questions: ['@question_6', '@question_7']
