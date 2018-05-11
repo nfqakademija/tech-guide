@@ -19,12 +19,6 @@ class Regex
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Filter", inversedBy="regexes")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $filter;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $htmlReducingRegex;
@@ -35,14 +29,26 @@ class Regex
     private $contentRegex;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="regexes")
-     */
-    private $categories;
-
-    /**
      * @ORM\Column(type="string", length=100)
      */
     private $urlParameter;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\InfluenceArea", inversedBy="regexes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $influenceArea;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Shop", inversedBy="regexes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $shop;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="regexes")
+     */
+    private $categories;
 
     public function __construct()
     {
@@ -52,18 +58,6 @@ class Regex
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getFilter(): ?Filter
-    {
-        return $this->filter;
-    }
-
-    public function setFilter(?Filter $filter): self
-    {
-        $this->filter = $filter;
-
-        return $this;
     }
 
     public function getHtmlReducingRegex(): ?string
@@ -90,6 +84,68 @@ class Regex
         return $this;
     }
 
+    public function getUrlParameter(): ?string
+    {
+        return $this->urlParameter;
+    }
+
+    public function setUrlParameter(string $urlParameter): self
+    {
+        $this->urlParameter = $urlParameter;
+
+        return $this;
+    }
+
+    public function getInfluenceArea(): ?InfluenceArea
+    {
+        return $this->influenceArea;
+    }
+
+    public function setInfluenceArea(?InfluenceArea $influenceArea): self
+    {
+        $this->influenceArea = $influenceArea;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ShopCategory[]
+     */
+    public function getShopCategories(): Collection
+    {
+        return $this->shopCategories;
+    }
+
+    public function addShopCategory(ShopCategory $shopCategory): self
+    {
+        if (!$this->shopCategories->contains($shopCategory)) {
+            $this->shopCategories[] = $shopCategory;
+        }
+
+        return $this;
+    }
+
+    public function removeShopCategory(ShopCategory $shopCategory): self
+    {
+        if ($this->shopCategories->contains($shopCategory)) {
+            $this->shopCategories->removeElement($shopCategory);
+        }
+
+        return $this;
+    }
+
+    public function getShop(): ?Shop
+    {
+        return $this->shop;
+    }
+
+    public function setShop(?Shop $shop): self
+    {
+        $this->shop = $shop;
+
+        return $this;
+    }
+
     /**
      * @return Collection|Category[]
      */
@@ -112,18 +168,6 @@ class Regex
         if ($this->categories->contains($category)) {
             $this->categories->removeElement($category);
         }
-
-        return $this;
-    }
-
-    public function getUrlParameter(): ?string
-    {
-        return $this->urlParameter;
-    }
-
-    public function setUrlParameter(string $urlParameter): self
-    {
-        $this->urlParameter = $urlParameter;
 
         return $this;
     }

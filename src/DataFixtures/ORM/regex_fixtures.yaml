@@ -1,113 +1,132 @@
 App\Entity\Regex:
 #topocentras
     regex_1:
-        filter: '@filter_1'
         contentRegex: '#&quot;(\\d{7})?&quot;,&quot;label&quot;:&quot;(\[^\\s]\\s)?colorName.{1,6}&quot;,&quot;image&quot;:&quot;&quot;},#is'
         categories: ['@category_1']
         urlParameter: 'ext_param_1004'
+        influenceArea: '@area_3'
+        shop: '@shop_1'
     regex_2:
-        filter: '@filter_2'
         contentRegex: '#(?\<=price&quot;,&quot;value&quot;:&quot;)(\\d+-\\d+?)&quot;,&quot;label#is'
         categories: ['@category_1', '@category_2', '@category_3']
         urlParameter: 'price'
+        influenceArea: '@area_2'
+        shop: '@shop_1'
     regex_3:
-        filter: '@filter_3'
         htmlReducingRegex: '#u0117 atmintis(.*)#is'
         contentRegex: '#(\\d+?)&quot;,&quot;label&quot;:&quot;(\\d+?)&quot;,&quot;image&#is'
         categories: ['@category_1']
         urlParameter: 'ext_param_2609'
+        influenceArea: '@area_1'
+        shop: '@shop_1'
     regex_4:
-        filter: '@filter_4'
         htmlReducingRegex: '#SSD talpa(.*)HDD talpa#is'
         contentRegex: '#(\\d+?)&quot;,&quot;label&quot;:&quot;(\\d+?) sizeValue#'
         categories: ['@category_2']
         urlParameter: 'ext_param_2686'
+        influenceArea: '@area_9'
+        shop: '@shop_1'
     regex_5:
-        filter: '@filter_5'
         htmlReducingRegex: '#HDD talpa(.*)Atmintin.u0117 \[(]RAM\[)]#is'
         contentRegex: '#(\\d+?)&quot;,&quot;label&quot;:&quot;(\\d+?) sizeValue#'
         categories: ['@category_2']
         urlParameter: 'ext_param_2685'
+        influenceArea: '@area_10'
+        shop: '@shop_1'
     regex_6:
-        filter: '@filter_6'
         htmlReducingRegex: '#Procesoriaus tipas(.*)SSD talpa#is'
         contentRegex: '#(\\d+?)&quot;,&quot;label&quot;:&quot;Intel.u00ae Core.u2122 i(\\d)#'
         categories: ['@category_2']
         urlParameter: 'ext_param_2591'
+        influenceArea: '@area_6'
+        shop: '@shop_1'
     regex_7:
-        filter: '@filter_7'
         htmlReducingRegex: '#\[(]RAM\[)] \[(]GB\[)]&quot;(.*)#is'
         contentRegex: '#(\\d+?)&quot;,&quot;label&quot;:&quot;(\\d+?) sizeValue#is'
         categories: ['@category_2']
         urlParameter: 'ext_param_2592'
+        influenceArea: '@area_5'
+        shop: '@shop_1'
     regex_8:
-        filter: '@filter_8'
         htmlReducingRegex: '#u012estri.u017eain(.*)Ekrano rai.u0161ka#is'
         contentRegex: '#(\\d+?)&quot;,&quot;label&quot;:&quot;(\\d)#'
         categories: ['@category_3']
         urlParameter: 'ext_param_1174'
+        influenceArea: '@area_7'
+        shop: '@shop_1'
     regex_9:
-        filter: '@filter_9'
         htmlReducingRegex: '#Ekrano rai.u0161ka(.*)Komercinis televizorius#is'
         contentRegex: '#(\\d+?)&quot;,&quot;label&quot;:&quot;(\\d+) x (\\d+)#'
         categories: ['@category_3']
         urlParameter: 'ext_param_1524'
+        influenceArea: '@area_8'
+        shop: '@shop_1'
 #1a
-    regex_10:
-        filter: '@filter_1'  #match[1] has the number that`s needed
+    regex_10:  #match[1] has the number that`s needed
         htmlReducingRegex: '#Ieškoti(.*)SIM kortelių palaikymas#isu' #match[0] is the html
         contentRegex: '#(\\d+). type=.checkbox. class=.jcf-checkbox.{3}span class=.check-text.{3}span class=.product-attribute-value..colorName#is'
         categories: ['@category_1']
         urlParameter: '3852'
+        influenceArea: '@area_3'
+        shop: '@shop_2'
     regex_11:
-        filter: '@filter_2'
         contentRegex: '#min-value. value=.(\\d+)#is'
         categories: ['@category_1', '@category_2', '@category_3']
         urlParameter: '/min/price'  #update algorithm
+        influenceArea: '@area_2'
+        shop: '@shop_2'
     regex_12:
-        filter: '@filter_2'
         contentRegex: '#max-value. value=.(\\d+)#is'
         categories: ['@category_1', '@category_2', '@category_3']
         urlParameter: '/max/price'
+        influenceArea: '@area_2'
+        shop: '@shop_2'
     regex_13:
-        filter: '@filter_3'
         htmlReducingRegex: '#Vidinė atmintis(.*)Flash atmintis#isu' #match[1] or match[2] for value, match[3] for size
         contentRegex: '#value=.(\\d+). id=.s(\\d+). type=.checkbox. class=.jcf-checkbox.{3}span class=.check-text.{3}span class=.product-attribute-value..(\\d+) sizeValue#is'
         categories: ['@category_1']
         urlParameter: '476'
-    regex_14:
-        filter: '@filter_4' #match[0] - page, match[1] - ids, match[2] - gbs
+        influenceArea: '@area_1'
+        shop: '@shop_2'
+    regex_14: #match[0] - page, match[1] - ids, match[2] - gbs
         htmlReducingRegex: '#Kietasis diskas \[(]SSD\[)](.*)Vaizdo plokštės tipas#isu'
         contentRegex: '#id=.s(\\d+). type=.checkbox. class=.jcf-checkbox.{3}span class=.check-text.{3}span class=.product-attribute-value..(\\d+) sizeValue#is'
         categories: ['@category_2']
         urlParameter: '15'
+        influenceArea: '@area_9'
+        shop: '@shop_2'
     regex_15:
-        filter: '@filter_5'
         htmlReducingRegex: '#Kietasis diskas \[(]HDD\[)](.*)HDD apsukos#is'
         contentRegex: '#id=.s(\\d+). type=.checkbox. class=.jcf-checkbox.{3}span class=.check-text.{3}span class=.product-attribute-value..(\\d+) sizeValue#is'
         categories: ['@category_2']
         urlParameter: '14'
+        influenceArea: '@area_10'
+        shop: '@shop_2'
     regex_16:
-        filter: '@filter_6'
         htmlReducingRegex: '#Procesorius(.*)Procesoriaus karta#is'
         contentRegex: '#id=.s(\\d+). type=.checkbox. class=.jcf-checkbox.{3}span class=.check-text.{3}span class=.product-attribute-value..Intel Core i(\\d+)#is'
         categories: ['@category_2']
         urlParameter: '10664'
+        influenceArea: '@area_6'
+        shop: '@shop_2'
     regex_17:
-        filter: '@filter_7'
         htmlReducingRegex: '#Operatyvioji atmintis(.*)Atmintinės tipas#isu'
         contentRegex: '#(\\d+). type=.checkbox. class=.jcf-checkbox.{3}span class=.check-text.{3}span class=.product-attribute-value..(\\d+) sizeValue#is'
         categories: ['@category_2']
         urlParameter: '10'
+        influenceArea: '@area_5'
+        shop: '@shop_2'
     regex_18:
-        filter: '@filter_8'
         htmlReducingRegex: '#Ekrano dydis \[(]coliai\[)](.*)Skiriamoji geba nurodo#is'
         contentRegex: '#(\\d+). type=.checkbox. class=.jcf-checkbox.{3}span class=.check-text.{3}span class=.product-attribute-value..(\\d+)#is'
         categories: ['@category_3']
         urlParameter: '1432'
+        influenceArea: '@area_7'
+        shop: '@shop_2'
     regex_19:
-        filter: '@filter_9'
         htmlReducingRegex: '#Skiriamoji geba(.*)Hercai \[(]Hz\[)]#is'
         contentRegex: '#(\\d+). type=.checkbox. class=.jcf-checkbox.{3}span class=.check-text.{3}span class=.product-attribute-value..(\\d+) x (\\d+)#is'
         categories: ['@category_3']
         urlParameter: '1435'
+        influenceArea: '@area_8'
+        shop: '@shop_2'

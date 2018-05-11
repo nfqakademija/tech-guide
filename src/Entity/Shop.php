@@ -49,14 +49,14 @@ class Shop
     private $filterSeparator;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Filter", mappedBy="shops")
+     * @ORM\OneToMany(targetEntity="App\Entity\Regex", mappedBy="shop", orphanRemoval=true)
      */
-    private $filters;
+    private $regexes;
 
     public function __construct()
     {
         $this->shopCategories = new ArrayCollection();
-        $this->filters = new ArrayCollection();
+        $this->regexes = new ArrayCollection();
     }
 
     /**
@@ -136,28 +136,31 @@ class Shop
     }
 
     /**
-     * @return Collection|Filter[]
+     * @return Collection|Regex[]
      */
-    public function getFilters(): Collection
+    public function getRegexes(): Collection
     {
-        return $this->filters;
+        return $this->regexes;
     }
 
-    public function addFilter(Filter $filter): self
+    public function addRegex(Regex $regex): self
     {
-        if (!$this->filters->contains($filter)) {
-            $this->filters[] = $filter;
-            $filter->addShop($this);
+        if (!$this->regexes->contains($regex)) {
+            $this->regexes[] = $regex;
+            $regex->setShop($this);
         }
 
         return $this;
     }
 
-    public function removeFilter(Filter $filter): self
+    public function removeRegex(Regex $regex): self
     {
-        if ($this->filters->contains($filter)) {
-            $this->filters->removeElement($filter);
-            $filter->removeShop($this);
+        if ($this->regexes->contains($regex)) {
+            $this->regexes->removeElement($regex);
+            // set the owning side to null (unless already changed)
+            if ($regex->getShop() === $this) {
+                $regex->setShop(null);
+            }
         }
 
         return $this;

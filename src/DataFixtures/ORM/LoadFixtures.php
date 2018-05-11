@@ -17,7 +17,6 @@ class LoadFixtures extends Fixture
             __DIR__ . '/category_fixtures.yaml',
             __DIR__ . '/shop_fixtures.yaml',
             __DIR__ . '/influenceArea_fixtures.yaml',
-            __DIR__ . '/filter_fixtures.yaml',
             __DIR__ . '/regex_fixtures.yaml',
         ])->getObjects();
 
