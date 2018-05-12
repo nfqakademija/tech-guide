@@ -26,6 +26,7 @@ class Provider
     private $shopCategoryRepository;
 
     private $urlBuilder;
+    private $impactCalculator;
     private $filters;
 
     /**
@@ -51,7 +52,9 @@ class Provider
         $this->category = $entityManager
             ->getRepository(Category::class)
             ->find($answers[0]);
+
         $this->urlBuilder = new UrlBuilder();
+        $this->impactCalculator = new FilterUsageCalculator();
 
         $this->filters = [
             new PriceFilter($entityManager, $influenceBounds),
@@ -104,7 +107,7 @@ class Provider
 
             $filtersValues = [];
             foreach ($this->filters as $filter) {
-                $values = array_chunk($filter->filter($mainPage, $shopCategory), 2);
+                $values = array_chunk($filter->filter($mainPage, $shopCategory, $this->impactCalculator), 2);
                 foreach ($values as $value) {
                     $filtersValues[] = $value;
                 }
@@ -114,7 +117,10 @@ class Provider
             $urls[] = [
                 'url' => $this->urlBuilder->getUrl(),
                 'logo' => $shopCategory->getShop()->getLogo(),
+                'filterUsage' => $this->impactCalculator->calculate(),
             ];
+
+            $this->impactCalculator->reset();
         }
 
         return $urls;

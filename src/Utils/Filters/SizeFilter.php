@@ -4,6 +4,7 @@ namespace App\Utils\Filters;
 
 use App\Entity\Regex;
 use App\Entity\ShopCategory;
+use App\Utils\FilterUsageCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 
 class SizeFilter extends Filter
@@ -24,12 +25,13 @@ class SizeFilter extends Filter
 
 
     /**
-     * @param string       $pageContent
-     * @param ShopCategory $shopCategory
+     * @param string                $pageContent
+     * @param ShopCategory          $shopCategory
+     * @param FilterUsageCalculator $filterUsageCalculator
      *
      * @return array
      */
-    public function filter(string $pageContent, ShopCategory $shopCategory) : array
+    public function filter(string $pageContent, ShopCategory $shopCategory, FilterUsageCalculator $filterUsageCalculator) : array
     {
         /**
          * @var Regex[] $regexes
@@ -38,6 +40,7 @@ class SizeFilter extends Filter
 
         if (\count($regexes) > 0) {
             $sizesAndValues = [];
+            $filterUsageCalculator->addValue(true);
             preg_match($regexes[0]->getHtmlReducingRegex(), $pageContent, $match);
             if (isset($match[1])) {
                 $pageContent = $match[1];
@@ -68,6 +71,7 @@ class SizeFilter extends Filter
             }
         }
 
+        $filterUsageCalculator->addValue(!$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[0]));
         return [null, []];
     }
 }
