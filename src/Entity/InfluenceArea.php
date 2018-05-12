@@ -30,14 +30,14 @@ class InfluenceArea
     private $questions;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Filter", mappedBy="influenceArea", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Regex", mappedBy="influenceArea", orphanRemoval=true)
      */
-    private $filters;
+    private $regexes;
 
     public function __construct()
     {
         $this->questions = new ArrayCollection();
-        $this->filters = new ArrayCollection();
+        $this->regexes = new ArrayCollection();
     }
 
     /**
@@ -117,30 +117,30 @@ class InfluenceArea
     }
 
     /**
-     * @return Collection|Filter[]
+     * @return Collection|Regex[]
      */
-    public function getFilters(): Collection
+    public function getRegexes(): Collection
     {
-        return $this->filters;
+        return $this->regexes;
     }
 
-    public function addFilter(Filter $filter): self
+    public function addRegex(Regex $regex): self
     {
-        if (!$this->filters->contains($filter)) {
-            $this->filters[] = $filter;
-            $filter->setInfluenceArea($this);
+        if (!$this->regexes->contains($regex)) {
+            $this->regexes[] = $regex;
+            $regex->setInfluenceArea($this);
         }
 
         return $this;
     }
 
-    public function removeFilter(Filter $filter): self
+    public function removeRegex(Regex $regex): self
     {
-        if ($this->filters->contains($filter)) {
-            $this->filters->removeElement($filter);
+        if ($this->regexes->contains($regex)) {
+            $this->regexes->removeElement($regex);
             // set the owning side to null (unless already changed)
-            if ($filter->getInfluenceArea() === $this) {
-                $filter->setInfluenceArea(null);
+            if ($regex->getInfluenceArea() === $this) {
+                $regex->setInfluenceArea(null);
             }
         }
 

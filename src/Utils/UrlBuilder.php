@@ -2,20 +2,19 @@
 
 namespace App\Utils;
 
-use App\Entity\Shop;
-
 class UrlBuilder
 {
-    /**
-     * @var string
-     */
     private $url;
+
     private $firstParamAdded = false;
+    private $repeatingFilter = false;
 
     private $filterValueSeparator;
     private $firstFilterValueSeparator;
     private $filterSeparator;
     private $firstFilterSeparator;
+
+    private $preparedFilters = [];
 
     /**
      * @param string $homepage
@@ -64,21 +63,34 @@ class UrlBuilder
         }
 
         if ($this->firstParamAdded &&
+            $filter[0] !== $this->firstFilterSeparator &&
             $this->url[\strlen($this->url) - 1] !== $this->filterSeparator &&
             $this->url[\strlen($this->url) - 1] !== $this->firstFilterSeparator
         ) {
             $this->url .= $this->filterSeparator;
         }
 
-        $this->url .= $filter;
-        if ($this->url[\strlen($this->url) - 1] !== $this->firstFilterValueSeparator) {
-            $this->url .= $this->firstFilterValueSeparator;
+        if (!$this->repeatingFilter) {
+            $this->url .= $filter;
+            if ($this->url[\strlen($this->url) - 1] !== $this->firstFilterValueSeparator) {
+                $this->url .= $this->firstFilterValueSeparator;
+            }
+
+            $and = '';
+            foreach ($values as $value) {
+                $this->url .= $and . $value;
+                $and = $this->filterValueSeparator;
+            }
+
+            return $this;
         }
 
-        $and = '';
         foreach ($values as $value) {
-            $this->url .= $and . $value;
-            $and = $this->filterValueSeparator;
+            $this->url .=
+                $filter .
+                $this->firstFilterValueSeparator .
+                str_replace('-', ';', $value) .
+                $this->filterSeparator;
         }
 
         return $this;
@@ -91,7 +103,16 @@ class UrlBuilder
      */
     public function addFilterArray(array $filtersAndValues) : self
     {
+        $endFilters = [];
         foreach ($filtersAndValues as $filterAndValue) {
+            if ($filterAndValue[0][0] !== '/') {
+                $this->addFilter($filterAndValue[0], $filterAndValue[1]);
+                continue;
+            }
+            $endFilters[] = $filterAndValue;
+        }
+
+        foreach ($endFilters as $filterAndValue) {
             $this->addFilter($filterAndValue[0], $filterAndValue[1]);
         }
 
@@ -130,7 +151,9 @@ class UrlBuilder
     public function reset() : self
     {
         $this->url = '';
+
         $this->firstParamAdded = false;
+        $this->repeatingFilter = false;
 
         $this->filterValueSeparator = null;
         $this->firstFilterValueSeparator = null;
@@ -156,6 +179,26 @@ class UrlBuilder
     public function setUrl(string $url) : self
     {
         $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRepeatingFilter(): bool
+    {
+        return $this->repeatingFilter;
+    }
+
+    /**
+     * @param bool $repeatingFilter
+     *
+     * @return UrlBuilder
+     */
+    public function setRepeatingFilter(bool $repeatingFilter): self
+    {
+        $this->repeatingFilter = $repeatingFilter;
 
         return $this;
     }

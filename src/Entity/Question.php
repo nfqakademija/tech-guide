@@ -45,11 +45,6 @@ class Question
     private $categories;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Shop", mappedBy="questions")
-     */
-    private $shops;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\InfluenceArea", mappedBy="questions")
      */
     private $influenceAreas;

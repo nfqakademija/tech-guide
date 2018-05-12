@@ -2,8 +2,9 @@
 
 namespace App\Repository;
 
-use App\Entity\Filter;
+use App\Entity\InfluenceArea;
 use App\Entity\Regex;
+use App\Entity\ShopCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -14,13 +15,20 @@ class RegexRepository extends ServiceEntityRepository
         parent::__construct($registry, Regex::class);
     }
 
-    public function getRegexesByFilter(Filter $filter) : array
+    public function getRegexesForFilter(ShopCategory $shopCategory, InfluenceArea $influenceArea) : array
     {
         return $this->getEntityManager()
             ->getRepository('App:Regex')
             ->createQueryBuilder('regex')
-            ->where('regex.filter = :filter')
-            ->setParameter('filter', $filter)
+            ->where('regex.influenceArea = :influenceArea')
+            ->andWhere('regex.shop = :shop')
+            ->innerJoin('regex.categories', 'category')
+            ->andWhere('category.id = :category')
+            ->setParameters([
+                'shop' => $shopCategory->getShop(),
+                'category' => $shopCategory->getCategory(),
+                'influenceArea' => $influenceArea,
+            ])
             ->getQuery()
             ->getResult();
     }

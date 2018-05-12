@@ -1,11 +1,28 @@
 App\Entity\Shop:
     shop_1:
         homepage: "https://www.topocentras.lt/"
-        questions: ['@question_2', '@question_3', '@question_4']
+        logo: 'http://laisvespiknikas.lt/wp-content/uploads/2017/08/topo.png'
+        repeatingFilter: 0
         filterValueSeparator: '\%2C'
         firstFilterValueSeparator: '='
         firstFilterSeparator: '?'
         filterSeparator: '&'
+    shop_2:
+        homepage: "https://www.1a.lt/"
+        logo: 'https://m.1a.lt/images/img/logo/logo-2-lt.svg?changed=true'
+        repeatingFilter: 0
+        filterValueSeparator: ','
+        firstFilterValueSeparator: '-'
+        firstFilterSeparator: '/'
+        filterSeparator: ':'
+    shop_3:
+        homepage: "https://www.technorama.lt/"
+        logo: 'http://www.acme.eu/sites/default/files/technorama-logo.jpg'
+        repeatingFilter: 1
+        firstFilterSeparator: '#!&'
+        filterSeparator: '&'
+        firstFilterValueSeparator: '='
+        filterValueSeparator: ';'
 
 App\Entity\ShopCategory:
     shopCategory_1:
@@ -20,5 +37,32 @@ App\Entity\ShopCategory:
     shopCategory_3:
         prefix: "televizoriai-ir-garso-technika/televizoriai.html"
         shop: '@shop_1'
+        category: '@category_3'
+
+    shopCategory_4:
+        prefix: "telefonai_plansetiniai_kompiuteriai/telefonai/mobilieji_telefonai/filter"
+        shop: '@shop_2'
+        category: '@category_1'
+        categoryFilter: '448-19150'
+    shopCategory_5:
+        prefix: "kompiuterine_technika_biuro_prekes/nesiojami_kompiuteriai_ir_priedai/nesiojami_kompiuteriai/filter"
+        shop: '@shop_2'
+        category: '@category_2'
+    shopCategory_6:
+        prefix: "tv_audio_video_zaidimu_kompiuteriai/televizoriai_ir_priedai/led_tv/filter"
+        shop: '@shop_2'
+        category: '@category_3'
+
+    shopCategory_7:
+        prefix: "Mobilus-telefonai-ir-navigacijos/Mobilus-telefonai/"
+        shop: '@shop_3'
+        category: '@category_1'
+    shopCategory_8:
+        prefix: "Kompiuteriai-ir-ju-komponentai/Nesiojami-kompiuteriai"
+        shop: '@shop_3'
+        category: '@category_2'
+    shopCategory_9:
+        prefix: "Vaizdo-ir-garso-technika/Televizoriai/"
+        shop: '@shop_3'
         category: '@category_3'
 

@@ -5,8 +5,6 @@ namespace App\Utils\Filters;
 use App\Entity\InfluenceArea;
 use App\Entity\Regex;
 use App\Entity\ShopCategory;
-use App\Entity\Filter as EntityFilter;
-use App\Utils\InfluenceCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 
 abstract class Filter
@@ -17,7 +15,6 @@ abstract class Filter
     protected $influenceAreas;
     protected $influenceBounds;
 
-    private $filterRepository;
     private $regexRepository;
     private $influenceAreaRepository;
 
@@ -31,8 +28,6 @@ abstract class Filter
     {
         $this->influenceAreaRepository = $entityManager
             ->getRepository(InfluenceArea::class);
-        $this->filterRepository = $entityManager
-            ->getRepository(EntityFilter::class);
         $this->regexRepository = $entityManager
             ->getRepository(Regex::class);
 
@@ -55,32 +50,16 @@ abstract class Filter
         return array_merge(...$influenceAreas);
     }
 
+
     /**
-     * @param EntityFilter $filter
+     * @param ShopCategory  $shopCategory
+     * @param InfluenceArea $influenceArea
      *
      * @return array
      */
-    protected function findRegexes(EntityFilter $filter) : array
+    protected function retrieveRegexes(ShopCategory $shopCategory, InfluenceArea $influenceArea) : array
     {
-        return $this->regexRepository->getRegexesByFilter($filter);
-    }
-
-    /**
-     * @param ShopCategory $shopCategory
-     *
-     * @return array
-     */
-    protected function retrieveFilters(ShopCategory $shopCategory) : array
-    {
-        $filters = [[]];
-        foreach ($this->influenceAreas as $influenceArea) {
-            $filters[] = $this->filterRepository->getShopCategoryFiltersByInfluenceArea(
-                $shopCategory,
-                $influenceArea
-            );
-        }
-
-        return array_merge(...$filters);
+        return $this->regexRepository->getRegexesForFilter($shopCategory, $influenceArea);
     }
 
     /**
