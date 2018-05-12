@@ -3,8 +3,11 @@
 namespace App\Utils;
 
 use App\Entity\Category;
+use App\Entity\Regex;
 use App\Entity\Shop;
 use App\Entity\ShopCategory;
+use App\Repository\RegexRepository;
+use App\Repository\ShopCategoryRepository;
 use App\Utils\Filters\CameraFilter;
 use App\Utils\Filters\ColorFilter;
 use App\Utils\Filters\Filter;
@@ -23,7 +26,14 @@ class Provider
      */
     private $category;
 
+    /**
+     * @var ShopCategoryRepository $shopCategoryRepository
+     */
     private $shopCategoryRepository;
+    /**
+     * @var RegexRepository $regexRepository
+     */
+    private $regexRepository;
 
     private $urlBuilder;
     private $impactCalculator;
@@ -48,6 +58,8 @@ class Provider
 
         $this->shopCategoryRepository = $entityManager
             ->getRepository(ShopCategory::class);
+        $this->regexRepository = $entityManager
+            ->getRepository(Regex::class);
 
         $this->category = $entityManager
             ->getRepository(Category::class)
@@ -118,6 +130,7 @@ class Provider
                 'url' => $this->urlBuilder->getUrl(),
                 'logo' => $shopCategory->getShop()->getLogo(),
                 'filterUsage' => $this->impactCalculator->calculate(),
+                'count' => $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl()) !== -1 ? $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl()) : 'Unknown'
             ];
 
             $this->impactCalculator->reset();
@@ -139,5 +152,24 @@ class Provider
         }
 
         return [$filter, []];
+    }
+
+    private function getUrlCount(Shop $shop, string $url) : int
+    {
+        $regexes = $this->regexRepository->getPageContentRegex($shop);
+        if(isset($regexes[0])) {
+            try {
+                $pageContent = file_get_contents($url);
+            } catch (\Exception $e) {
+                return -1;
+            }
+
+            preg_match_all($regexes[0]->getContentRegex(), $pageContent, $matches);
+            if(isset($matches[1][0])) {
+                return $matches[1][0];
+            }
+        }
+
+        return -1;
     }
 }

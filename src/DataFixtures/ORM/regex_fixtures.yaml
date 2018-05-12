@@ -182,9 +182,9 @@ App\Entity\Regex:
 
 #check if there are any results
     regex_27:
-        contentRegex: '#Deja, nepavyko rasti prekių, atitinkančių paieškos frazę#isu'
+        contentRegex: '#data-total=.(\\d+).#is'
         shop: '@shop_1'
     regex_28:
-        contentRegex: '#.strong.1 - 0 ..strong. iš .strong.0.{2}strong.#isu'
+        contentRegex: '#.strong.1 - (?:\\d+) ..strong. iš .strong.(\\d+).{2}strong.#isu'
         shop: '@shop_2'
 
