@@ -4,9 +4,11 @@ const provider = (props) => {
 
   return (
     <li className="results__provider">
-      <a href={props.link} target="_blank">
-        <img className="provider__img" src="http://laisvespiknikas.lt/wp-content/uploads/2017/08/topo.png" />
-      </a>
+      <div className="results__provider--logo">
+        <a href={props.link} target="_blank">
+          <img className="provider__img" src={props.logo} />
+        </a>
+      </div>
       <a className="provider__button" href={props.link} target="_blank">Į parduotuvę</a>
     </li>
   );

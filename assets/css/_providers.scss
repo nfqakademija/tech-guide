@@ -6,14 +6,26 @@
         display: none;
     }
 }
-.provider__logo {
-    
-    &:not(:last-child) {
-        margin-bottom: 3rem;
+
+.providers-logos {
+    position: absolute;
+    right: 0;
+    text-align: right;
+
+    @include respond(phone-tab) {
+        display: none;
     }
+
+    .provider__logo {
+        width: 20rem;
     
-    img {
-        width: 80%;
-        margin: 0 auto;
+        &:not(:last-child) {
+            margin-bottom: 3rem;
+        }
+        
+        img {
+            width: 80%;
+            margin: 0 auto;
+        }
     }
 }

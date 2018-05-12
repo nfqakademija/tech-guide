@@ -1,22 +1,15 @@
 .card {
   position: relative;
-  width: 80%;
+  width: 85%;
   height: 90%;
   perspective: 150rem;
   background-color: transparent;
   border: none;
   backface-visibility: hidden;
   border-radius: 5rem 5rem 5rem 0;
-
+  
   @include respond(phone-tab) {
     width: 100%;
-    height: 95%;
-    border-radius: 2.5rem 2.5rem 2.5rem 0;
-  }
-
-  @include respond(phone) {
-    width: 100%;
-    border-radius: 0;
   }
 }
 
@@ -32,10 +25,6 @@
   backface-visibility: hidden;
   border-radius: 5rem 5rem 5rem 0;
   box-shadow: 0 1rem 2rem rgba($color-black, .2);
-
-   @include respond(phone) {
-     border-radius: 0;
-   }
 }
 
 .card__side--front {
@@ -43,15 +32,6 @@
   background-image: url(images/background2.svg);
   background-size: cover;
   background-color: rgb(240, 250, 252);
-
-  @include respond(md-dev) {
-    background-image: none;
-  }
-
-  @include respond(phone) {
-    background-size: cover;
-    background-image: url(images/background-body.svg);
-  }
 }
 
 .quiz-started .card__side--front {
@@ -74,32 +54,6 @@
 
 .card__main-picture {
   width: 40rem;
-
-  @include respond(md-desktop) {
-    width: 40rem;
-  }
-
-  @include respond(bg-desktop) {
-    width: 45rem;
-  }
-
-  @include respond(md-dev) {
-    width: 25rem;
-    position: absolute;
-    top: 15%;
-  }
-
-  @include respond(phone-tab) {
-    display: block;
-    margin: 0 auto;
-    position: relative;
-    top: 0;
-  }
-
-  @include respond(phone) {
-    display: none;
-  }
-
 }
 
 .card__text-box {
@@ -107,22 +61,11 @@
   top: 30%;
   text-align: center;
   width: 100%;
-
-  @include respond(phone-tab) {
-    top: 20%;
-  }
-
-  @include respond(phone) {
-    top: 30%;
-  }
 }
 
 .heading-primary {
   margin-bottom: 10rem;
 
-  @include respond(phone-tab) {
-    margin-bottom: 3rem;
-  }
 
   span {
     display: block;
@@ -131,50 +74,9 @@
   &__main {
     letter-spacing: .8rem;
     font-size: 6rem;
-
-    @include respond(md-desktop) {
-      letter-spacing: .6rem;
-      font-size: 5.6rem;
-    }
-
-    @include respond(phone-tab) {
-      letter-spacing: .2rem;
-      font-size: 5rem;
-    }
-
-    @include respond(phone) {
-      letter-spacing: .5rem;
-      font-size: 6rem;
-    }
   }
 
   &__sub {
     font-size: 1.3rem;
-  }
-}
-
-.col--text {
-
-  @include respond(md-dev) {
-    width: 100%;
-  }
-
-  @include respond(phone-tab) {
-    height: 45%
-  }
-
-  @include respond(phone) {
-    height: 100%;
-  }
-
-  .col--picture {
-
-    @include respond(md-dev) {
-      width: 100%;
-    }
-
-    @include respond(phone-tab) {
-      height: 55%
-    }
   }
 }

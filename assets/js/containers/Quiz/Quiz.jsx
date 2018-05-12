@@ -47,7 +47,7 @@ class Quiz extends Component {
 const mapStateToProps = state => {
   return {
     messages: state.guidebot.messages,
-    url: state.providers.urls,
+    providersInfo: state.providers.providersInfo,
     providersSet: state.providers.providersSet,
     loadingProviders: state.providers.loadingProviders,
     error: state.providers.error,

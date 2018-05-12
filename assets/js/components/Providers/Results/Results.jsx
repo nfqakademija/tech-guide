@@ -5,10 +5,12 @@ import Provider from '../Provider/Provider';
 
 const results = (props) => {
 
-  const generatedProviders = Object.keys( props.urls )
-            .map( urlKey => {
+  console.log(props.providersInfo);
+
+  const generatedProviders = Object.keys( props.providersInfo )
+            .map( providerKey => {
               return (
-                <Provider key={urlKey} link={props.urls[urlKey]} />
+                <Provider key={providerKey} link={props.providersInfo[providerKey].url} logo={props.providersInfo[providerKey].logo} />
               );
             });
 
@@ -28,7 +30,7 @@ const results = (props) => {
 
 const mapStateToProps = state => {
   return {
-    urls: state.providers.urls,
+    providersInfo: state.providers.providersInfo,
   }
 }
 
