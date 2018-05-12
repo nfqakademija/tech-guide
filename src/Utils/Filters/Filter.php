@@ -2,9 +2,13 @@
 
 namespace App\Utils\Filters;
 
+use App\Entity\Category;
 use App\Entity\InfluenceArea;
 use App\Entity\Regex;
 use App\Entity\ShopCategory;
+use App\Repository\InfluenceAreaRepository;
+use App\Repository\RegexRepository;
+use App\Utils\FilterUsageCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 
 abstract class Filter
@@ -15,7 +19,13 @@ abstract class Filter
     protected $influenceAreas;
     protected $influenceBounds;
 
+    /**
+     * @var RegexRepository $regexRepository
+     */
     private $regexRepository;
+    /**
+     * @var InfluenceAreaRepository $influenceAreaRepository
+     */
     private $influenceAreaRepository;
 
     /**
@@ -63,10 +73,26 @@ abstract class Filter
     }
 
     /**
-     * @param string       $pageContent
-     * @param ShopCategory $shopCategory
+     * @param Category      $category
+     * @param InfluenceArea $influenceArea
+     *
+     * @return bool
+     */
+    protected function categoryFilterExists(Category $category, InfluenceArea $influenceArea) : bool
+    {
+        return $this->influenceAreaRepository->getInfluenceAreaCountByCategory($category, $influenceArea) > 0;
+    }
+
+    /**
+     * @param string                $pageContent
+     * @param ShopCategory          $shopCategory
+     * @param FilterUsageCalculator $filterUsageCalculator
      *
      * @return array
      */
-    abstract public function filter(string $pageContent, ShopCategory $shopCategory) : array;
+    abstract public function filter(
+        string $pageContent,
+        ShopCategory $shopCategory,
+        FilterUsageCalculator $filterUsageCalculator
+    ) : array;
 }

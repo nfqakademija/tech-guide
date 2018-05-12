@@ -4,6 +4,7 @@ namespace App\Utils\Filters;
 
 use App\Entity\Regex;
 use App\Entity\ShopCategory;
+use App\Utils\FilterUsageCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 
 class MemoryFilter extends Filter
@@ -26,17 +27,22 @@ class MemoryFilter extends Filter
 
 
     /**
-     * @param string       $pageContent
-     * @param ShopCategory $shopCategory
+     * @param string                $pageContent
+     * @param ShopCategory          $shopCategory
+     * @param FilterUsageCalculator $filterUsageCalculator
      *
      * @return array
      */
-    public function filter(string $pageContent, ShopCategory $shopCategory) : array
-    {
+    public function filter(
+        string $pageContent,
+        ShopCategory $shopCategory,
+        FilterUsageCalculator $filterUsageCalculator
+    ) : array {
         $ssdRegexes = $this->retrieveRegexes($shopCategory, $this->influenceAreas[1]);
         $hddRegexes = $this->retrieveRegexes($shopCategory, $this->influenceAreas[2]);
 
         if (!empty($ssdRegexes) && !empty($hddRegexes)) {
+            $filterUsageCalculator->addValue(true);
             if ($this->influenceBounds['SSD'][1] > $this->influenceBounds['HDD'][1]) {
                 return $this->filterSubtype($pageContent, $ssdRegexes[0]);
             }
@@ -47,9 +53,15 @@ class MemoryFilter extends Filter
         $memoryRegexes = $this->retrieveRegexes($shopCategory, $this->influenceAreas[0]);
 
         if (!empty($memoryRegexes)) {
+            $filterUsageCalculator->addValue(true);
             return $this->filterMemory($pageContent, $memoryRegexes[0]);
         }
 
+        $filterUsageCalculator->addValue(
+            !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[0]) &&
+            !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[1]) &&
+            !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[2])
+        );
         return [null, []];
     }
 

@@ -4,6 +4,7 @@ namespace App\Utils\Filters;
 
 use App\Entity\Regex;
 use App\Entity\ShopCategory;
+use App\Utils\FilterUsageCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CameraFilter extends Filter
@@ -24,21 +25,26 @@ class CameraFilter extends Filter
 
 
     /**
-     * @param string       $pageContent
-     * @param ShopCategory $shopCategory
+     * @param string                $pageContent
+     * @param ShopCategory          $shopCategory
+     * @param FilterUsageCalculator $filterUsageCalculator
      *
      * @return array
      */
-    public function filter(string $pageContent, ShopCategory $shopCategory) : array
-    {
+    public function filter(
+        string $pageContent,
+        ShopCategory $shopCategory,
+        FilterUsageCalculator $filterUsageCalculator
+    ) : array {
         /**
          * @var Regex[] $regexes
          */
         $regexes = $this->retrieveRegexes($shopCategory, $this->influenceAreas[0]);
-
+        
         $cameraFilters = [];
         foreach ($regexes as $regex) {
             preg_match($regex->getHtmlReducingRegex(), $pageContent, $match);
+            $filterUsageCalculator->addValue(true);
             if (isset($match[0])) {
                 $mpxAndValues = [];
                 $pageContent = $match[0];
@@ -61,6 +67,12 @@ class CameraFilter extends Filter
                         * \count($mpxAndValues)),
                     true
                 ));
+        }
+        
+        if (\count($regexes) === 0) {
+            $filterUsageCalculator->addValue(
+                !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[0])
+            );
         }
 
         return $cameraFilters;
