@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\InfluenceArea;
 use App\Entity\Regex;
+use App\Entity\Shop;
 use App\Entity\ShopCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -29,6 +30,18 @@ class RegexRepository extends ServiceEntityRepository
                 'category' => $shopCategory->getCategory(),
                 'influenceArea' => $influenceArea,
             ])
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getPageContentRegex(Shop $shop) : array
+    {
+        return $this->getEntityManager()
+            ->getRepository('App:Regex')
+            ->createQueryBuilder('regex')
+            ->where('regex.influenceArea is NULL')
+            ->andWhere('regex.shop = :shop')
+            ->setParameter('shop', $shop)
             ->getQuery()
             ->getResult();
     }

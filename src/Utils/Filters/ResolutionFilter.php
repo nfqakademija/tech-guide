@@ -41,10 +41,6 @@ class ResolutionFilter extends Filter
          */
         $regexes = $this->retrieveRegexes($shopCategory, $this->influenceAreas[0]);
 
-        foreach ($regexes as $regex) {
-            var_dump($regex->getInfluenceArea()->getContent());
-        }
-
         if (isset($this->influenceBounds[self::TYPE][0])) {
             if (\count($regexes) > 0) {
                 $resolutionAndValues = [];

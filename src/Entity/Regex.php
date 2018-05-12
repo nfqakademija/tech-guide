@@ -29,13 +29,13 @@ class Regex
     private $contentRegex;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $urlParameter;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\InfluenceArea", inversedBy="regexes")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $influenceArea;
 
