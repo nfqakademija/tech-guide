@@ -1,7 +1,7 @@
 App\Entity\Shop:
     shop_1:
         homepage: "https://www.topocentras.lt/"
-        logo: ''
+        logo: 'http://laisvespiknikas.lt/wp-content/uploads/2017/08/topo.png'
         repeatingFilter: 0
         filterValueSeparator: '\%2C'
         firstFilterValueSeparator: '='
@@ -9,7 +9,7 @@ App\Entity\Shop:
         filterSeparator: '&'
     shop_2:
         homepage: "https://www.1a.lt/"
-        logo: ''
+        logo: 'https://m.1a.lt/images/img/logo/logo-2-lt.svg?changed=true'
         repeatingFilter: 0
         filterValueSeparator: ','
         firstFilterValueSeparator: '-'
@@ -17,7 +17,7 @@ App\Entity\Shop:
         filterSeparator: ':'
     shop_3:
         homepage: "https://www.technorama.lt/"
-        logo: ''
+        logo: 'http://www.acme.eu/sites/default/files/technorama-logo.jpg'
         repeatingFilter: 1
         firstFilterSeparator: '#!&'
         filterSeparator: '&'

@@ -111,7 +111,10 @@ class Provider
             }
 
             $this->urlBuilder->addFilterArray($filtersValues);
-            $urls[] = $this->urlBuilder->getUrl();
+            $urls[] = [
+                'url' => $this->urlBuilder->getUrl(),
+                'logo' => $shopCategory->getShop()->getLogo(),
+            ];
         }
 
         return $urls;
