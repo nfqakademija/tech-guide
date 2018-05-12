@@ -39,8 +39,11 @@ class ColorFilter extends Filter
      *
      * @return array
      */
-    public function filter(string $pageContent, ShopCategory $shopCategory, FilterUsageCalculator $filterUsageCalculator) : array
-    {
+    public function filter(
+        string $pageContent,
+        ShopCategory $shopCategory,
+        FilterUsageCalculator $filterUsageCalculator
+    ) : array {
         /**
          * @var Regex[] $regexes
          */
@@ -67,14 +70,19 @@ class ColorFilter extends Filter
                     $colorName = mb_substr(explode(' ', $colorName)[0], 0, -1);
                 }
 
-                $regex = str_replace('colorName', $colorName,
-                    $regexes[0]->getContentRegex());
+                $regex = str_replace(
+                    'colorName',
+                    $colorName,
+                    $regexes[0]->getContentRegex()
+                );
                 preg_match_all($regex, $pageContent, $matches);
 
                 return [$regexes[0]->getUrlParameter(), $matches[1]];
             }
 
-            $filterUsageCalculator->addValue(!$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[0]));
+            $filterUsageCalculator->addValue(
+                !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[0])
+            );
         }
 
         return [null, []];

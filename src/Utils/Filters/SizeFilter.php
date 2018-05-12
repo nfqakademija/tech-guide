@@ -31,8 +31,11 @@ class SizeFilter extends Filter
      *
      * @return array
      */
-    public function filter(string $pageContent, ShopCategory $shopCategory, FilterUsageCalculator $filterUsageCalculator) : array
-    {
+    public function filter(
+        string $pageContent,
+        ShopCategory $shopCategory,
+        FilterUsageCalculator $filterUsageCalculator
+    ) : array {
         /**
          * @var Regex[] $regexes
          */
@@ -71,7 +74,9 @@ class SizeFilter extends Filter
             }
         }
 
-        $filterUsageCalculator->addValue(!$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[0]));
+        $filterUsageCalculator->addValue(
+            !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[0])
+        );
         return [null, []];
     }
 }

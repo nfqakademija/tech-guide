@@ -31,8 +31,11 @@ class ResolutionFilter extends Filter
      *
      * @return array
      */
-    public function filter(string $pageContent, ShopCategory $shopCategory, FilterUsageCalculator $filterUsageCalculator) : array
-    {
+    public function filter(
+        string $pageContent,
+        ShopCategory $shopCategory,
+        FilterUsageCalculator $filterUsageCalculator
+    ) : array {
         /**
          * @var Regex[] $regexes
          */
@@ -46,8 +49,11 @@ class ResolutionFilter extends Filter
             if (\count($regexes) > 0) {
                 $resolutionAndValues = [];
                 $filterUsageCalculator->addValue(true);
-                preg_match($regexes[0]->getHtmlReducingRegex(), $pageContent,
-                    $match);
+                preg_match(
+                    $regexes[0]->getHtmlReducingRegex(),
+                    $pageContent,
+                    $match
+                );
                 if (isset($match[1])) {
                     $pageContent = $match[1];
 
@@ -72,7 +78,9 @@ class ResolutionFilter extends Filter
                 }
             }
 
-            $filterUsageCalculator->addValue(!$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[0]));
+            $filterUsageCalculator->addValue(
+                !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[0])
+            );
         }
 
         return [null, []];

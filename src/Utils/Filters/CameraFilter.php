@@ -31,8 +31,11 @@ class CameraFilter extends Filter
      *
      * @return array
      */
-    public function filter(string $pageContent, ShopCategory $shopCategory, FilterUsageCalculator $filterUsageCalculator) : array
-    {
+    public function filter(
+        string $pageContent,
+        ShopCategory $shopCategory,
+        FilterUsageCalculator $filterUsageCalculator
+    ) : array {
         /**
          * @var Regex[] $regexes
          */
@@ -66,8 +69,10 @@ class CameraFilter extends Filter
                 ));
         }
         
-        if(\count($regexes) === 0) {
-            $filterUsageCalculator->addValue(!$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[0]));
+        if (\count($regexes) === 0) {
+            $filterUsageCalculator->addValue(
+                !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[0])
+            );
         }
 
         return $cameraFilters;

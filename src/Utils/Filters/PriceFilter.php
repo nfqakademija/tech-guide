@@ -31,8 +31,11 @@ class PriceFilter extends Filter
      *
      * @return array
      */
-    public function filter(string $pageContent, ShopCategory $shopCategory, FilterUsageCalculator $filterUsageCalculator) : array
-    {
+    public function filter(
+        string $pageContent,
+        ShopCategory $shopCategory,
+        FilterUsageCalculator $filterUsageCalculator
+    ) : array {
         /**
          * @var Regex[] $regexes
          */
@@ -41,8 +44,11 @@ class PriceFilter extends Filter
         if (\count($regexes) > 0) {
             $filterUsageCalculator->addValue(true);
             if (\count($regexes) === 1) {
-                preg_match_all($regexes[0]->getContentRegex(), $pageContent,
-                    $matches);
+                preg_match_all(
+                    $regexes[0]->getContentRegex(),
+                    $pageContent,
+                    $matches
+                );
 
                 $value = round($matches[1][0]
                         * $this->influenceBounds['Price'][0]) . '-'
@@ -53,10 +59,16 @@ class PriceFilter extends Filter
             }
 
             if (\count($regexes) === 2) {
-                preg_match_all($regexes[0]->getContentRegex(), $pageContent,    
-                    $min);
-                preg_match_all($regexes[1]->getContentRegex(), $pageContent,
-                    $max);
+                preg_match_all(
+                    $regexes[0]->getContentRegex(),
+                    $pageContent,
+                    $min
+                );
+                preg_match_all(
+                    $regexes[1]->getContentRegex(),
+                    $pageContent,
+                    $max
+                );
 
                 $minValue = round($max[1][0]
                     * $this->influenceBounds['Price'][0] + $min[1][0]);
@@ -70,7 +82,9 @@ class PriceFilter extends Filter
             }
         }
 
-        $filterUsageCalculator->addValue(!$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[0]));
+        $filterUsageCalculator->addValue(
+            !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[0])
+        );
         return [null, []];
     }
 }

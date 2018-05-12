@@ -2,7 +2,6 @@
 
 namespace App\Utils;
 
-
 class FilterUsageCalculator
 {
     private $values = [];

@@ -90,5 +90,9 @@ abstract class Filter
      *
      * @return array
      */
-    abstract public function filter(string $pageContent, ShopCategory $shopCategory, FilterUsageCalculator $filterUsageCalculator) : array;
+    abstract public function filter(
+        string $pageContent,
+        ShopCategory $shopCategory,
+        FilterUsageCalculator $filterUsageCalculator
+    ) : array;
 }
