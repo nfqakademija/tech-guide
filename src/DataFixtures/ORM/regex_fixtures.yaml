@@ -179,3 +179,12 @@ App\Entity\Regex:
         urlParameter: 'filter\[B203]\[ ]'
         influenceArea: '@area_7'
         shop: '@shop_3'
+
+#check if there are any results
+    regex_27:
+        contentRegex: '#Deja, nepavyko rasti prekių, atitinkančių paieškos frazę#isu'
+        shop: '@shop_1'
+    regex_28:
+        contentRegex: '#.strong.1 - 0 ..strong. iš .strong.0.{2}strong.#isu'
+        shop: '@shop_2'
+
