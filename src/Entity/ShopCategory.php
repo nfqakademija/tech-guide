@@ -41,6 +41,16 @@ class ShopCategory
     private $categoryFilter;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $html;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $htmlAddedAt;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -116,6 +126,30 @@ class ShopCategory
     public function setCategoryFilter(?string $categoryFilter): self
     {
         $this->categoryFilter = $categoryFilter;
+
+        return $this;
+    }
+
+    public function getHtml(): ?string
+    {
+        return $this->html;
+    }
+
+    public function setHtml(?string $html): self
+    {
+        $this->html = $html;
+
+        return $this;
+    }
+
+    public function getHtmlAddedAt(): ?\DateTimeInterface
+    {
+        return $this->htmlAddedAt;
+    }
+
+    public function setHtmlAddedAt(?\DateTimeInterface $htmlAddedAt): self
+    {
+        $this->htmlAddedAt = $htmlAddedAt;
 
         return $this;
     }
