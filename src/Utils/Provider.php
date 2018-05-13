@@ -121,8 +121,10 @@ class Provider
 
             $this->urlBuilder->addFilterArray($filtersValues);
             $count = $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl());
+            $isAlternativeResult = false;
             if($count === 0) {
                 $filters = $this->filters->fetchPrioritizedRegexes($shopCategory);
+                $isAlternativeResult = true;
                 do {
                     $this->urlBuilder->removeFilter($filters[0]['urlParameter']);
                     array_splice($filters, 0, 1);
@@ -135,7 +137,8 @@ class Provider
                 'url' => $this->urlBuilder->getUrl(),
                 'logo' => $shopCategory->getShop()->getLogo(),
                 'filterUsage' => $this->filterUsageCalculator->calculate(),
-                'count' => $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl())
+                'count' => $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl()),
+                'isAlternativeResult' => $isAlternativeResult
             ];
 
             $this->filterUsageCalculator->reset();
