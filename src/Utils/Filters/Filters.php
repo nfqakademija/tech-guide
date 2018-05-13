@@ -2,7 +2,6 @@
 
 namespace App\Utils\Filters;
 
-
 use App\Entity\Regex;
 use App\Entity\ShopCategory;
 use App\Repository\RegexRepository;
@@ -70,6 +69,4 @@ class Filters
     {
         return $this->regexRepository->getRegexesByPriority($shopCategory);
     }
-
-
 }

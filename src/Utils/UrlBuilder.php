@@ -101,7 +101,7 @@ class UrlBuilder
      */
     public function removeFilter(string $filter) : self
     {
-        if($this->repeatingFilter) {
+        if ($this->repeatingFilter) {
             preg_match_all(
                 '#' . $filter . $this->firstFilterValueSeparator . '(\w+)' . $this->filterSeparator . '#is',
                 $this->url,
@@ -122,7 +122,7 @@ class UrlBuilder
             $match
         );
 
-        if(isset($match[0])) {
+        if (isset($match[0])) {
             $this->url = str_replace(explode($this->filterSeparator, $match[0])[0], '', $this->url);
         }
         return $this;

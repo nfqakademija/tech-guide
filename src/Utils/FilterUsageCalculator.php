@@ -21,7 +21,7 @@ class FilterUsageCalculator
     public function replaceWithFalse() : self
     {
         foreach ($this->values as $i => $iValue) {
-            if($this->values[$i]) {
+            if ($this->values[$i]) {
                 $this->values[$i] = false;
                 break;
             }

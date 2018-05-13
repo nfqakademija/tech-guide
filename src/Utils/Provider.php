@@ -122,7 +122,7 @@ class Provider
             $this->urlBuilder->addFilterArray($filtersValues);
             $count = $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl());
             $isAlternativeResult = false;
-            if($count === 0) {
+            if ($count === 0) {
                 $filters = $this->filters->fetchPrioritizedRegexes($shopCategory);
                 $isAlternativeResult = true;
                 do {
