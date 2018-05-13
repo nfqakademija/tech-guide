@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 
 import ChatBot from 'react-simple-chatbot';
 import { ThemeProvider } from 'styled-components';
@@ -17,13 +16,8 @@ class Quiz extends Component {
       userFontColor: 'white',
     }
 
-    let otherClasses = [];
-    if (this.props.quizStarted) {
-      otherClasses = ["priority"];
-    }
-
     return (
-      <div className={`card__side card__side--back ${otherClasses.join('')}`}>
+      <Hoc>
         <Providers
           loadingProviders={this.props.loadingProviders}
           show={this.props.providersSet}
@@ -39,7 +33,7 @@ class Quiz extends Component {
             className="rsc-root"
           />
         </ThemeProvider>
-      </div>
+      </Hoc>
     );
   }
 }

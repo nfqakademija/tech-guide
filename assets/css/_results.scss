@@ -11,14 +11,21 @@
   &__providers {
     list-style: none;
     padding: 1.5rem 5rem;
+    height: 90%;
   }
 
   &__provider {
-    border-bottom: .1rem solid grey;
     position: relative;
+    float: left;
+    width: 33%;
+    height: 100%;
+
+    &:not(:last-child) {
+      border-right: .1rem solid grey;
+    }
 
     &--logo {
-      width: 35%;
+      width: 100%;
       text-align: center;
     }
   }
@@ -36,8 +43,12 @@
     background: rgb(126,213,111);
     color: white;
     position: absolute;
-    top: 25%;
-    right: 0;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, -50%);
+    display: block;
+    width: 90%;
+    text-align: center;
   }
 
   .provider__img {

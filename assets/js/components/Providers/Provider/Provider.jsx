@@ -9,7 +9,7 @@ const provider = (props) => {
           <img className="provider__img" src={props.logo} />
         </a>
       </div>
-      <a className="provider__button" href={props.link} target="_blank">Į parduotuvę</a>
+      <a className="provider__button" href={props.link} target="_blank">Į parduotuvę {props.count}</a>
     </li>
   );
 }

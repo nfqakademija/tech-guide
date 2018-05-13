@@ -9,8 +9,13 @@ const results = (props) => {
 
   const generatedProviders = Object.keys( props.providersInfo )
             .map( providerKey => {
+              let count;
+              console.log(props.providersInfo[providerKey].count);
+              if (props.providersInfo[providerKey].count != "Unknown") {
+                count = `(${props.providersInfo[providerKey].count})`;
+              }
               return (
-                <Provider key={providerKey} link={props.providersInfo[providerKey].url} logo={props.providersInfo[providerKey].logo} />
+                <Provider key={providerKey} link={props.providersInfo[providerKey].url} logo={props.providersInfo[providerKey].logo} count={count} />
               );
             });
 
