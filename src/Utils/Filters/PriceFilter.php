@@ -36,6 +36,11 @@ class PriceFilter extends Filter
         ShopCategory $shopCategory,
         FilterUsageCalculator $filterUsageCalculator
     ) : array {
+
+        if($this->influenceBounds[self::TYPE][0] === $this->influenceBounds[self::TYPE][1]) {
+            return [null, []];
+        }
+
         /**
          * @var Regex[] $regexes
          */
@@ -51,9 +56,9 @@ class PriceFilter extends Filter
                 );
 
                 $value = round($matches[1][0]
-                        * $this->influenceBounds['Price'][0]) . '-'
+                        * $this->influenceBounds[self::TYPE][0]) . '-'
                     . round($matches[1][0]
-                        * $this->influenceBounds['Price'][1]);
+                        * $this->influenceBounds[self::TYPE][1]);
 
                 return [$regexes[0]->getUrlParameter(), [$value]];
             }
@@ -71,9 +76,9 @@ class PriceFilter extends Filter
                 );
 
                 $minValue = round($max[1][0]
-                    * $this->influenceBounds['Price'][0] + $min[1][0]);
+                    * $this->influenceBounds[self::TYPE][0] + $min[1][0]);
                 $maxValue = round($max[1][0]
-                    * $this->influenceBounds['Price'][1]);
+                    * $this->influenceBounds[self::TYPE][1]);
 
                 return [
                     $regexes[0]->getUrlParameter(), [$minValue],

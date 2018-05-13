@@ -99,7 +99,7 @@ class UrlBuilder
      *
      * @return UrlBuilder
      */
-    public function removeFilter(string $filter) : self
+    public function removeFilter(string $filter) : bool
     {
         if ($this->repeatingFilter) {
             preg_match_all(
@@ -108,11 +108,13 @@ class UrlBuilder
                 $matches
             );
 
+            $isReplaced = false;
             foreach ($matches[0] as $match) {
+                $isReplaced = true;
                 $this->url = str_replace($match, '', $this->url);
             }
 
-            return $this;
+            return $isReplaced;
         }
 
 
@@ -122,10 +124,12 @@ class UrlBuilder
             $match
         );
 
+        $isReplaced = false;
         if (isset($match[0])) {
+            $isReplaced = true;
             $this->url = str_replace(explode($this->filterSeparator, $match[0])[0], '', $this->url);
         }
-        return $this;
+        return $isReplaced;
     }
 
     /**
