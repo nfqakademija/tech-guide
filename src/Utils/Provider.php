@@ -105,7 +105,7 @@ class Provider
                 )
                 ->addFilter($categoryFilter[0], [$categoryFilter[1]]);
 
-            if(($mainPage = $this->fetchHtmlCode($shopCategory)) === '') {
+            if (($mainPage = $this->fetchHtmlCode($shopCategory)) === '') {
                 continue;
             }
 
@@ -189,7 +189,9 @@ class Provider
 
     private function fetchHtmlCode(ShopCategory $shopCategory) : string
     {
-        if($shopCategory->getHtml() === NULL || $shopCategory->getHtmlAddedAt()->diff(new \DateTime('now'))->format('%a') > self::DATE_DIFF) {
+        if ($shopCategory->getHtml() === null ||
+            $shopCategory->getHtmlAddedAt()->diff(new \DateTime('now'))->format('%a') > self::DATE_DIFF
+        ) {
             try {
                 $pageContent = file_get_contents($this->urlBuilder->getUrl());
                 $this->shopCategoryRepository->updateHtmlCode($shopCategory, $pageContent);
