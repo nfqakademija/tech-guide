@@ -14,8 +14,6 @@ class UrlBuilder
     private $filterSeparator;
     private $firstFilterSeparator;
 
-    private $preparedFilters = [];
-
     /**
      * @param string $homepage
      *
@@ -93,6 +91,40 @@ class UrlBuilder
                 $this->filterSeparator;
         }
 
+        return $this;
+    }
+
+    /**
+     * @param string $filter
+     *
+     * @return UrlBuilder
+     */
+    public function removeFilter(string $filter) : self
+    {
+        if ($this->repeatingFilter) {
+            preg_match_all(
+                '#' . $filter . $this->firstFilterValueSeparator . '(\w+)' . $this->filterSeparator . '#is',
+                $this->url,
+                $matches
+            );
+
+            foreach ($matches[0] as $match) {
+                $this->url = str_replace($match, '', $this->url);
+            }
+
+            return $this;
+        }
+
+
+        preg_match(
+            '#' . $filter . $this->firstFilterValueSeparator . '(.*)(?:' . $this->filterSeparator . '|$)#is',
+            $this->url,
+            $match
+        );
+
+        if (isset($match[0])) {
+            $this->url = str_replace(explode($this->filterSeparator, $match[0])[0], '', $this->url);
+        }
         return $this;
     }
 

@@ -45,4 +45,44 @@ class RegexRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function getRegexesByPriority(ShopCategory $shopCategory) : array
+    {
+        $priceRegex  = $this->getEntityManager()
+            ->getRepository('App:Regex')
+            ->createQueryBuilder('regex')
+            ->select('regex.urlParameter')
+            ->where('regex.shop = :shop')
+            ->innerJoin('regex.influenceArea', 'influenceArea')
+            ->andWhere("influenceArea.content = 'Price'")
+            ->innerJoin('regex.categories', 'category')
+            ->andWhere('category = :category')
+            ->setParameters([
+                'category' => $shopCategory->getCategory(),
+                'shop' => $shopCategory->getShop(),
+            ])
+            ->getQuery()
+            ->getResult();
+
+        $filters = $this->getEntityManager()
+            ->getRepository('App:Regex')
+            ->createQueryBuilder('regex')
+            ->select('regex.urlParameter')
+            ->where('regex.shop = :shop')
+            ->innerJoin('regex.influenceArea', 'influenceArea')
+            ->andWhere("influenceArea.content != 'Price'")
+            ->innerJoin('regex.categories', 'category')
+            ->andWhere('category = :category')
+            ->innerJoin('influenceArea.questions', 'question')
+            ->groupBy('regex')
+            ->orderBy('MAX(question.priority)', 'DESC')
+            ->setParameters([
+                'category' => $shopCategory->getCategory(),
+                'shop' => $shopCategory->getShop(),
+            ])
+            ->getQuery()
+            ->getResult();
+
+        return array_merge($priceRegex, $filters);
+    }
 }

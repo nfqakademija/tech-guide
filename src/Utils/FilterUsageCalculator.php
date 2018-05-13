@@ -18,6 +18,18 @@ class FilterUsageCalculator
         return $this;
     }
 
+    public function replaceWithFalse() : self
+    {
+        foreach ($this->values as $i => $iValue) {
+            if ($this->values[$i]) {
+                $this->values[$i] = false;
+                break;
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * @return int
      */
@@ -32,6 +44,26 @@ class FilterUsageCalculator
     public function reset() : self
     {
         $this->values = [];
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getValues(): array
+    {
+        return $this->values;
+    }
+
+    /**
+     * @param array $values
+     *
+     * @return FilterUsageCalculator
+     */
+    public function setValues(array $values): self
+    {
+        $this->values = $values;
 
         return $this;
     }
