@@ -42,6 +42,8 @@ class Provider
     private $filterUsageCalculator;
     private $filters;
 
+    private const DATE_DIFF = 3;
+
     /**
      * Provider constructor.
      *
@@ -103,9 +105,7 @@ class Provider
                 )
                 ->addFilter($categoryFilter[0], [$categoryFilter[1]]);
 
-            try {
-                $mainPage = file_get_contents($this->urlBuilder->getUrl());
-            } catch (\Exception $e) {
+            if(($mainPage = $this->fetchHtmlCode($shopCategory)) === '') {
                 continue;
             }
 
@@ -185,5 +185,20 @@ class Provider
         }
 
         return -1;
+    }
+
+    private function fetchHtmlCode(ShopCategory $shopCategory) : string
+    {
+        if($shopCategory->getHtml() === NULL || $shopCategory->getHtmlAddedAt()->diff(new \DateTime('now'))->format('%a') > self::DATE_DIFF) {
+            try {
+                $pageContent = file_get_contents($this->urlBuilder->getUrl());
+                $this->shopCategoryRepository->updateHtmlCode($shopCategory, $pageContent);
+                return $pageContent;
+            } catch (\Exception $e) {
+                return '';
+            }
+        }
+
+        return stripslashes($shopCategory->getHtml());
     }
 }
