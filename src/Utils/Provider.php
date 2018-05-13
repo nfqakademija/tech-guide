@@ -52,6 +52,8 @@ class Provider
      */
     public function __construct(array $answers, EntityManagerInterface $entityManager)
     {
+        $answers = array_map('\intval', $answers);
+
         $userAnswers = new UserAnswers($answers, $entityManager);
         $userAnswers->saveAnswers();
 

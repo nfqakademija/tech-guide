@@ -29,7 +29,6 @@ class Filters
         $this->regexRepository = $entityManager
             ->getRepository(Regex::class);
 
-        $answers = array_map('\intval', $answers);
         $influenceCalculator = new InfluenceCalculator($answers, $entityManager);
         $influenceBounds = $influenceCalculator->calculateInfluenceBounds();
 
