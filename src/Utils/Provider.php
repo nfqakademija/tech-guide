@@ -3,14 +3,17 @@
 namespace App\Utils;
 
 use App\Entity\Category;
+use App\Entity\InfluenceArea;
 use App\Entity\Regex;
 use App\Entity\Shop;
 use App\Entity\ShopCategory;
+use App\Repository\InfluenceAreaRepository;
 use App\Repository\RegexRepository;
 use App\Repository\ShopCategoryRepository;
 use App\Utils\Filters\CameraFilter;
 use App\Utils\Filters\ColorFilter;
 use App\Utils\Filters\Filter;
+use App\Utils\Filters\Filters;
 use App\Utils\Filters\MemoryFilter;
 use App\Utils\Filters\PriceFilter;
 use App\Utils\Filters\ProcessorFilter;
@@ -36,7 +39,7 @@ class Provider
     private $regexRepository;
 
     private $urlBuilder;
-    private $impactCalculator;
+    private $filterUsageCalculator;
     private $filters;
 
     /**
@@ -52,9 +55,7 @@ class Provider
         $userAnswers = new UserAnswers($answers, $entityManager);
         $userAnswers->saveAnswers();
 
-        $answers = array_map('\intval', $answers);
-        $influenceCalculator = new InfluenceCalculator($answers, $entityManager);
-        $influenceBounds = $influenceCalculator->calculateInfluenceBounds();
+        $this->filters = new Filters($answers, $entityManager);
 
         $this->shopCategoryRepository = $entityManager
             ->getRepository(ShopCategory::class);
@@ -66,18 +67,7 @@ class Provider
             ->find($answers[0]);
 
         $this->urlBuilder = new UrlBuilder();
-        $this->impactCalculator = new FilterUsageCalculator();
-
-        $this->filters = [
-            new PriceFilter($entityManager, $influenceBounds),
-            new ColorFilter($entityManager, $influenceBounds),
-            new MemoryFilter($entityManager, $influenceBounds),
-            new RAMFilter($entityManager, $influenceBounds),
-            new ProcessorFilter($entityManager, $influenceBounds),
-            new SizeFilter($entityManager, $influenceBounds),
-            new ResolutionFilter($entityManager, $influenceBounds),
-            new CameraFilter($entityManager, $influenceBounds),
-        ];
+        $this->filterUsageCalculator = new FilterUsageCalculator();
     }
 
     /**
@@ -118,25 +108,37 @@ class Provider
             }
 
             $filtersValues = [];
-            foreach ($this->filters as $filter) {
-                $values = array_chunk($filter->filter($mainPage, $shopCategory, $this->impactCalculator), 2);
+
+            /**
+             * @var Filter $filter
+             */
+            foreach ($this->filters->getFilters() as $filter) {
+                $values = array_chunk($filter->filter($mainPage, $shopCategory, $this->filterUsageCalculator), 2);
                 foreach ($values as $value) {
                     $filtersValues[] = $value;
                 }
             }
 
             $this->urlBuilder->addFilterArray($filtersValues);
+            $count = $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl());
+            if($count === 0) {
+                $filters = $this->filters->fetchPrioritizedRegexes($shopCategory);
+                do {
+                    $this->urlBuilder->removeFilter($filters[0]['urlParameter']);
+                    array_splice($filters, 0, 1);
+                    $this->filterUsageCalculator->replaceWithFalse();
+                    $count = $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl());
+                } while ($count === 0);
+            }
+
             $urls[] = [
                 'url' => $this->urlBuilder->getUrl(),
                 'logo' => $shopCategory->getShop()->getLogo(),
-                'filterUsage' => $this->impactCalculator->calculate(),
-                'count' =>
-                    $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl()) !== -1 ?
-                        $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl()) :
-                        'Unknown'
+                'filterUsage' => $this->filterUsageCalculator->calculate(),
+                'count' => $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl())
             ];
 
-            $this->impactCalculator->reset();
+            $this->filterUsageCalculator->reset();
         }
 
         return $urls;
@@ -159,6 +161,9 @@ class Provider
 
     private function getUrlCount(Shop $shop, string $url) : int
     {
+        /**
+         * @var Regex[] $regexes
+         */
         $regexes = $this->regexRepository->getPageContentRegex($shop);
         if (isset($regexes[0])) {
             try {
