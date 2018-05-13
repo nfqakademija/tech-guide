@@ -10,7 +10,7 @@ const results = (props) => {
   const generatedProviders = Object.keys( props.providersInfo )
             .map( providerKey => {
               let count;
-              if (props.providersInfo[providerKey].count != "Unknown") {
+              if (props.providersInfo[providerKey].count != -1) {
                 count = `(${props.providersInfo[providerKey].count})`;
               }
               let progressBarRightSide;
