@@ -37,7 +37,7 @@ class PriceFilter extends Filter
         FilterUsageCalculator $filterUsageCalculator
     ) : array {
 
-        if($this->influenceBounds[self::TYPE][0] === $this->influenceBounds[self::TYPE][1]) {
+        if ($this->influenceBounds[self::TYPE][0] === $this->influenceBounds[self::TYPE][1]) {
             return [null, []];
         }
 

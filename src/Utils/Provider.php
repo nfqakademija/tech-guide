@@ -129,7 +129,7 @@ class Provider
                 $isAlternativeResult = true;
                 do {
                     array_splice($filters, 0, 1);
-                    if($this->urlBuilder->removeFilter($filters[0]['urlParameter'])) {
+                    if ($this->urlBuilder->removeFilter($filters[0]['urlParameter'])) {
                         $this->filterUsageCalculator->replaceWithFalse();
                     }
                     $count = $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl());
