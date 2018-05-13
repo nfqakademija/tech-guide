@@ -10,12 +10,32 @@ const results = (props) => {
   const generatedProviders = Object.keys( props.providersInfo )
             .map( providerKey => {
               let count;
-              console.log(props.providersInfo[providerKey].count);
               if (props.providersInfo[providerKey].count != "Unknown") {
                 count = `(${props.providersInfo[providerKey].count})`;
               }
+              let progressBarRightSide;
+              let progressBarLeftSide;
+              let progressBarPie;
+              if (props.providersInfo[providerKey].filterUsage <= 50) {
+                progressBarRightSide = {
+                  transform: `rotate(${props.providersInfo[providerKey].filterUsage/100*360}deg)`,
+                },
+                progressBarLeftSide = {
+                  display: "none",
+                }
+              } else {
+                progressBarRightSide = {
+                  transform: "rotate(180deg)",
+                }
+                progressBarLeftSide = {
+                  transform: `rotate(${props.providersInfo[providerKey].filterUsage/100*360}deg)`,
+                }
+                progressBarPie = {
+                  clip: "rect(auto, auto, auto, auto)",
+                }
+              }
               return (
-                <Provider key={providerKey} link={props.providersInfo[providerKey].url} logo={props.providersInfo[providerKey].logo} count={count} />
+                <Provider key={providerKey} link={props.providersInfo[providerKey].url} logo={props.providersInfo[providerKey].logo} count={count} efficiency={props.providersInfo[providerKey].filterUsage} progressBarLeftSide={progressBarLeftSide} progressBarRightSide={progressBarRightSide} progressBarPie={progressBarPie} />
               );
             });
 
