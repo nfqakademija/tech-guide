@@ -37,14 +37,6 @@ html {
     font-size: 55%;
   }
 
-  @include respond(phone-tab) {
-    font-size: 75%;
-  }
-
-  @include respond(phone) {
-    font-size: 50%;
-  }
-
 }
 
 body {
@@ -52,17 +44,15 @@ body {
   font-size: 1.6rem;
   height: 100vh;
   color: $color-black;
+  min-width: 99.8rem;
 }
 
 #root {
   height: 100%;
+  width: 100%;
   background-size: cover;
   background-image: url(images/background-body.svg);
   padding: 3rem 2rem;
-
-  @include respond(phone) {
-    padding: 0;
-  }
 }
 
 .main {

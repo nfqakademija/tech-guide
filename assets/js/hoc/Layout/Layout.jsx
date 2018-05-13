@@ -37,6 +37,7 @@ class Layout extends Component {
             <Home clicked={this.props.onShowGuidebot} />
             {this.props.guidebotDataSet && <Quiz quizStarted={this.props.showGuidebot} />}
           </div>
+          <ProvidersLogos />
         </div>
       );
   }

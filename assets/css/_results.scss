@@ -16,6 +16,11 @@
   &__provider {
     border-bottom: .1rem solid grey;
     position: relative;
+
+    &--logo {
+      width: 35%;
+      text-align: center;
+    }
   }
 
   &__exit {
@@ -36,7 +41,7 @@
   }
 
   .provider__img {
-    width: 25rem;
+    height: 10rem;
   }
 
 }
