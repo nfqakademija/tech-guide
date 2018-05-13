@@ -52,6 +52,8 @@ class Provider
      */
     public function __construct(array $answers, EntityManagerInterface $entityManager)
     {
+        $answers = array_map('\intval', $answers);
+
         $userAnswers = new UserAnswers($answers, $entityManager);
         $userAnswers->saveAnswers();
 
@@ -126,9 +128,10 @@ class Provider
                 $filters = $this->filters->fetchPrioritizedRegexes($shopCategory);
                 $isAlternativeResult = true;
                 do {
-                    $this->urlBuilder->removeFilter($filters[0]['urlParameter']);
                     array_splice($filters, 0, 1);
-                    $this->filterUsageCalculator->replaceWithFalse();
+                    if ($this->urlBuilder->removeFilter($filters[0]['urlParameter'])) {
+                        $this->filterUsageCalculator->replaceWithFalse();
+                    }
                     $count = $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl());
                 } while ($count === 0);
             }
