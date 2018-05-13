@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 
 import Navigation from '../../components/Navigation/Navigation';
-import SideDrawer from '../../components/SideDrawer/SideDrawer';
 import Hoc from '../Hoc/Hoc.jsx';
 import Quiz from '../../containers/Quiz/Quiz';
 import Home from '../../containers/Home/Home';
@@ -21,8 +19,10 @@ class Layout extends Component {
 
   render() {
     let attachedClasses = [];
+    let otherClasses = [];
     if (this.props.showGuidebot) {
         attachedClasses = ["quiz-started"];
+        otherClasses = ["priority"];
     }
 
    
@@ -35,7 +35,9 @@ class Layout extends Component {
           }
           <div className={`card ${attachedClasses.join(' ')}`}>
             <Home clicked={this.props.onShowGuidebot} />
-            {this.props.guidebotDataSet && <Quiz quizStarted={this.props.showGuidebot} />}
+            <div className={`card__side card__side--back ${otherClasses.join('')}`}>
+              {this.props.guidebotDataSet && this.props.showGuidebot ? <Quiz quizStarted={this.props.showGuidebot} /> : null }
+            </div>
           </div>
           <ProvidersLogos />
         </div>
