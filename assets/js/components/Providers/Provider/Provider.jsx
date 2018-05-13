@@ -9,14 +9,15 @@ const provider = (props) => {
           <img className="provider__img" src={props.logo} />
         </a>
       </div>
-      <div class="set-size charts-container">
-        <div class="pie-wrapper progress-bar">
-          <span class="label">{props.efficiency}<span class="smaller">%</span></span>
-          <div class="pie" style={props.progressBarPie}>
-            <div class="left-side half-circle" style={props.progressBarLeftSide}></div>
-            <div class="right-side half-circle" style={props.progressBarRightSide}></div>
+      <div className="set-size charts-container">
+        <div className="pie-wrapper progress-bar">
+          <span className="label">{props.efficiency}<span className="smaller">%</span></span>
+          <div className="pie" style={props.progressBarPie}>
+            <div className="left-side half-circle" style={props.progressBarLeftSide}></div>
+            <div className="right-side half-circle" style={props.progressBarRightSide}></div>
           </div>
         </div>
+        <dfn data-info="Progress bar shows the percentage of your given answers that were used to generate offers just for you."><img class="progress-bar__info" src="images/information.svg" /></dfn>
       </div>
       <a className="provider__button" href={props.link} target="_blank">Į parduotuvę {props.count}</a>
     </li>
