@@ -63,10 +63,16 @@ class Shop
      */
     private $repeatingFilter;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Html", mappedBy="shop", orphanRemoval=true)
+     */
+    private $htmls;
+
     public function __construct()
     {
         $this->shopCategories = new ArrayCollection();
         $this->regexes = new ArrayCollection();
+        $this->htmls = new ArrayCollection();
     }
 
     /**
@@ -196,6 +202,37 @@ class Shop
     public function setRepeatingFilter(bool $repeatingFilter): self
     {
         $this->repeatingFilter = $repeatingFilter;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Html[]
+     */
+    public function getHtmls(): Collection
+    {
+        return $this->htmls;
+    }
+
+    public function addHtml(Html $html): self
+    {
+        if (!$this->htmls->contains($html)) {
+            $this->htmls[] = $html;
+            $html->setShop($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHtml(Html $html): self
+    {
+        if ($this->htmls->contains($html)) {
+            $this->htmls->removeElement($html);
+            // set the owning side to null (unless already changed)
+            if ($html->getShop() === $this) {
+                $html->setShop(null);
+            }
+        }
 
         return $this;
     }

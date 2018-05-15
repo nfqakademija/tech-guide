@@ -2,14 +2,14 @@
 
 namespace App\Repository;
 
-use App\Entity\ShopCategory;
+use App\Entity\Html;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class ShopCategoryRepository extends ServiceEntityRepository
+class HtmlRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, ShopCategory::class);
+        parent::__construct($registry, Html::class);
     }
 }
