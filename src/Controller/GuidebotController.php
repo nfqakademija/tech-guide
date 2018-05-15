@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Utils\Guidebot;
 use App\Utils\Provider;
+use App\Utils\UserAnswers;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -38,10 +39,22 @@ class GuidebotController extends Controller
      */
     public function retrieveAnswers(Request $request, EntityManagerInterface $entityManager)
     {
-        $provider = new Provider(
-            json_decode($request->getContent(), true)['data'],
-            $entityManager
-        );
+        $answers = array_map('\intval', json_decode($request->getContent(), true)['data']);
+
+        $userAnswers = new UserAnswers($answers, $entityManager);
+        $userAnswersId = $userAnswers->saveAnswers();
+
+        $date = (new \DateTime('+3 months'))->format(\DateTime::COOKIE);
+        if(!isset($_COOKIE['answers'])) {
+            setcookie('answers', json_encode([]), strtotime($date));
+        }
+
+        $data = json_decode($_COOKIE['answers'], true);
+        $data[] = ['id' => $userAnswersId, 'expireTime' => $date];
+        setcookie('answers', json_encode($data), strtotime($date));
+
+        $provider = new Provider($answers, $entityManager);
+
         return new JsonResponse($provider->makeUrls());
     }
 }
