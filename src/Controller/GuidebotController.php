@@ -2,6 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\FilterUsage;
+use App\Entity\Html;
+use App\Repository\FilterUsageRepository;
+use App\Repository\HtmlRepository;
 use App\Utils\Guidebot;
 use App\Utils\Provider;
 use App\Utils\UserAnswers;
@@ -41,8 +45,27 @@ class GuidebotController extends Controller
     {
         $answers = array_map('\intval', json_decode($request->getContent(), true)['data']);
 
+        $provider = new Provider($answers, $entityManager);
+        $urls = $provider->makeUrls();
+
         $userAnswers = new UserAnswers($answers, $entityManager);
-        $userAnswersId = $userAnswers->saveAnswers();
+        $answerHistory = $userAnswers->saveAnswers();
+
+        /**
+         * @var HtmlRepository $htmlRepository
+         * @var FilterUsageRepository $filterUsageRepository
+         */
+        $htmlRepository = $entityManager->getRepository(Html::class);
+        $filterUsageRepository = $entityManager->getRepository(FilterUsage::class);
+        foreach ($urls as $url) {
+            $answerHistory->addFilterUsage(
+                $filterUsageRepository->findByHtml(
+                    $htmlRepository->findByUrl($url['url'])
+                )
+            );
+        }
+
+        $entityManager->flush();
 
         $date = (new \DateTime('+3 months'))->format(\DateTime::COOKIE);
         if(!isset($_COOKIE['answers'])) {
@@ -50,11 +73,9 @@ class GuidebotController extends Controller
         }
 
         $data = json_decode($_COOKIE['answers'], true);
-        $data[] = ['id' => $userAnswersId, 'expireTime' => $date];
+        $data[] = ['id' => $answerHistory->getId(), 'expireTime' => $date];
         setcookie('answers', json_encode($data), strtotime($date));
 
-        $provider = new Provider($answers, $entityManager);
-
-        return new JsonResponse($provider->makeUrls());
+        return new JsonResponse($urls);
     }
 }

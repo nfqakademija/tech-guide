@@ -40,7 +40,7 @@ class Html
     private $shop;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\FilterUsage", mappedBy="htmls")
+     * @ORM\OneToMany(targetEntity="App\Entity\FilterUsage", mappedBy="html", orphanRemoval=true)
      */
     private $filterUsages;
 
@@ -115,7 +115,7 @@ class Html
     {
         if (!$this->filterUsages->contains($filterUsage)) {
             $this->filterUsages[] = $filterUsage;
-            $filterUsage->addHtml($this);
+            $filterUsage->setHtml($this);
         }
 
         return $this;
@@ -125,7 +125,10 @@ class Html
     {
         if ($this->filterUsages->contains($filterUsage)) {
             $this->filterUsages->removeElement($filterUsage);
-            $filterUsage->removeHtml($this);
+            // set the owning side to null (unless already changed)
+            if ($filterUsage->getHtml() === $this) {
+                $filterUsage->setHtml(null);
+            }
         }
 
         return $this;

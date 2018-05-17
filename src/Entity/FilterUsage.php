@@ -25,19 +25,15 @@ class FilterUsage
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\AnswerHistory", inversedBy="filterUsages")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $answerHistory;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Html", inversedBy="filterUsages")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Html", inversedBy="filterUsages")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $htmls;
-
-    public function __construct()
-    {
-        $this->htmls = new ArrayCollection();
-    }
+    private $html;
 
     public function getId()
     {
@@ -68,28 +64,14 @@ class FilterUsage
         return $this;
     }
 
-    /**
-     * @return Collection|Html[]
-     */
-    public function getHtmls(): Collection
+    public function getHtml(): ?Html
     {
-        return $this->htmls;
+        return $this->html;
     }
 
-    public function addHtml(Html $html): self
+    public function setHtml(?Html $html): self
     {
-        if (!$this->htmls->contains($html)) {
-            $this->htmls[] = $html;
-        }
-
-        return $this;
-    }
-
-    public function removeHtml(Html $html): self
-    {
-        if ($this->htmls->contains($html)) {
-            $this->htmls->removeElement($html);
-        }
+        $this->html = $html;
 
         return $this;
     }

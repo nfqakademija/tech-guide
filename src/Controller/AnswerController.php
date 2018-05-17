@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\AnswerHistory;
+use App\Utils\HtmlTools;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -21,10 +23,22 @@ class AnswerController extends Controller
     /**
      * @Route("/answers/get/{id}", name="get_answers")
      */
-    public function getAnswers(AnswerHistory $answerHistory)
+    public function getAnswers(AnswerHistory $answerHistory, HtmlTools $htmlTools)
     {
-        return $this->render('answer/answers.html.twig', [
-            'answerHistory' => $answerHistory
-        ]);
+        $urls = [];
+
+        var_dump($answerHistory->getId());
+        foreach ($answerHistory->getFilterUsages() as $filterUsage) {
+            $urls[] = [
+                'category' => $answerHistory->getCategory()->getCategoryName(),
+                'date' => $answerHistory->getAddedAt(),
+                'url' => $filterUsage->getHtml()->getUrl(),
+                'logo' => $filterUsage->getHtml()->getShop()->getLogo(),
+                'filterUsage' => $filterUsage->getValue(),
+                'count' => $htmlTools->getUrlCount($filterUsage->getHtml()->getShop(), $filterUsage->getHtml()->getUrl())
+            ];
+        }
+
+        return new JsonResponse($urls);
     }
 }

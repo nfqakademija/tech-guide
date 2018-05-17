@@ -39,7 +39,7 @@ class HtmlRepository extends ServiceEntityRepository
         $htmlEntity = new Html();
         $htmlEntity->setContent(addslashes($html));
         $htmlEntity->setShop($shop);
-        $htmlEntity->setUrl($url);
+        $htmlEntity->setUrl(addslashes($url));
 
         $manager->persist($htmlEntity);
         $manager->flush();

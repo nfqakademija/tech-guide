@@ -3,11 +3,13 @@
 namespace App\Utils;
 
 use App\Entity\Category;
+use App\Entity\FilterUsage;
 use App\Entity\Html;
 use App\Entity\InfluenceArea;
 use App\Entity\Regex;
 use App\Entity\Shop;
 use App\Entity\ShopCategory;
+use App\Repository\FilterUsageRepository;
 use App\Repository\HtmlRepository;
 use App\Repository\InfluenceAreaRepository;
 use App\Repository\RegexRepository;
@@ -43,6 +45,10 @@ class Provider
      * @var ShopCategoryRepository $shopCategoryRepository
      */
     private $shopCategoryRepository;
+    /**
+     * @var FilterUsageRepository $filterUsageRepository
+     */
+    private $filterUsageRepository;
 
     private $urlBuilder;
     private $filterUsageCalculator;
@@ -68,6 +74,8 @@ class Provider
             ->getRepository(Html::class);
         $this->shopCategoryRepository = $entityManager
             ->getRepository(ShopCategory::class);
+        $this->filterUsageRepository = $entityManager
+            ->getRepository(FilterUsage::class);
 
         $this->category = $entityManager
             ->getRepository(Category::class)
@@ -108,9 +116,11 @@ class Provider
                 )
                 ->addFilter($categoryFilter[0], [$categoryFilter[1]]);
 
-            if (($mainPage = $this->fetchHtmlCode($shopCategory->getShop())) === '') {
+            if (($html = $this->fetchHtmlCode($shopCategory->getShop())) === null) {
                 continue;
             }
+
+            $mainPage = stripslashes($html->getContent());
 
             $filtersValues = [];
 
@@ -139,10 +149,15 @@ class Provider
                 } while ($count === 0);
             }
 
+            /** change this later */
+            $html = $this->fetchHtmlCode($shopCategory->getShop());
+
+            $filterUsage = $this->filterUsageCalculator->calculate();
+            $this->filterUsageRepository->add($html, $filterUsage);
             $urls[] = [
                 'url' => $this->urlBuilder->getUrl(),
                 'logo' => $shopCategory->getShop()->getLogo(),
-                'filterUsage' => $this->filterUsageCalculator->calculate(),
+                'filterUsage' => $filterUsage,
                 'count' => $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl()),
                 'isAlternativeResult' => $isAlternativeResult
             ];
@@ -190,7 +205,7 @@ class Provider
         return -1;
     }
 
-    private function fetchHtmlCode(Shop $shop) : string
+    private function fetchHtmlCode(Shop $shop) : ?Html
     {
         $htmlEntity = $this->htmlRepository->findByUrl($this->urlBuilder->getUrl());
 
@@ -198,18 +213,18 @@ class Provider
             try {
                 $pageContent = file_get_contents($this->urlBuilder->getUrl());
             } catch (\Exception $exception) {
-                return '';
+                return null;
             }
             $htmlEntity = $this->htmlRepository->add($shop, $pageContent, $this->urlBuilder->getUrl());
         } elseif ($htmlEntity->getAddedAt()->diff(new \DateTime('now'))->format('%a') > self::DATE_DIFF) {
             try {
                 $pageContent = file_get_contents($this->urlBuilder->getUrl());
             } catch (\Exception $exception) {
-                return '';
+                return null;
             }
             $this->htmlRepository->update($htmlEntity, $pageContent);
         }
 
-        return stripslashes($htmlEntity->getContent());
+        return $htmlEntity;
     }
 }
