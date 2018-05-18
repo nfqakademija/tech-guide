@@ -27,9 +27,8 @@ class AnswerController extends Controller
     {
         $urls = [];
         foreach ($answerHistory->getFilterUsages() as $filterUsage) {
-            $urls[] = [
-                'category' => $answerHistory->getCategory()->getCategoryName(),
-                'date' => $answerHistory->getAddedAt(),
+            $urls[$answerHistory->getCategory()->getCategoryName()][] = [
+                'date' => $answerHistory->getAddedAt()->format('Y-m-d'),
                 'url' => $filterUsage->getHtml()->getUrl(),
                 'logo' => $filterUsage->getHtml()->getShop()->getLogo(),
                 'filterUsage' => $filterUsage->getValue(),
