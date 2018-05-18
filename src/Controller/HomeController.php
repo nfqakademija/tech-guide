@@ -16,10 +16,10 @@ class HomeController extends Controller
      */
     public function index(EntityManagerInterface $entityManager)
     {
-        if(isset($_COOKIE['answers'])) {
+        if (isset($_COOKIE['answers'])) {
             $data = json_decode($_COOKIE['answers'], true);
             foreach ($data as $key => $value) {
-                if((new \DateTime($value['expireTime']))->diff(new \DateTime('now'))->invert === 0) {
+                if ((new \DateTime($value['expireTime']))->diff(new \DateTime('now'))->invert === 0) {
                     unset($data[$key]);
                 }
             }

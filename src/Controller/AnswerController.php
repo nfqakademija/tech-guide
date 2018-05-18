@@ -26,8 +26,6 @@ class AnswerController extends Controller
     public function getAnswers(AnswerHistory $answerHistory, HtmlTools $htmlTools)
     {
         $urls = [];
-
-        var_dump($answerHistory->getId());
         foreach ($answerHistory->getFilterUsages() as $filterUsage) {
             $urls[] = [
                 'category' => $answerHistory->getCategory()->getCategoryName(),
@@ -35,7 +33,10 @@ class AnswerController extends Controller
                 'url' => $filterUsage->getHtml()->getUrl(),
                 'logo' => $filterUsage->getHtml()->getShop()->getLogo(),
                 'filterUsage' => $filterUsage->getValue(),
-                'count' => $htmlTools->getUrlCount($filterUsage->getHtml()->getShop(), $filterUsage->getHtml()->getUrl())
+                'count' => $htmlTools->getUrlCount(
+                    $filterUsage->getHtml()->getShop(),
+                    $filterUsage->getHtml()->getUrl()
+                )
             ];
         }
 

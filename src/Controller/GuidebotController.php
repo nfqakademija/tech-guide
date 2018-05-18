@@ -68,7 +68,7 @@ class GuidebotController extends Controller
         $entityManager->flush();
 
         $date = (new \DateTime('+3 months'))->format(\DateTime::COOKIE);
-        if(!isset($_COOKIE['answers'])) {
+        if (!isset($_COOKIE['answers'])) {
             setcookie('answers', json_encode([]), strtotime($date));
         }
 

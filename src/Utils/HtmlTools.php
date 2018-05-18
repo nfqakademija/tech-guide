@@ -2,7 +2,6 @@
 
 namespace App\Utils;
 
-
 use App\Entity\Html;
 use App\Entity\Regex;
 use App\Entity\Shop;
