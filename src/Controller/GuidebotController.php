@@ -70,6 +70,7 @@ class GuidebotController extends Controller
         $date = (new \DateTime('+3 months'))->format(\DateTime::COOKIE);
         if (!isset($_COOKIE['answers'])) {
             setcookie('answers', json_encode([]), strtotime($date));
+            $_COOKIE['answers'] = json_encode([]);
         }
 
         $data = json_decode($_COOKIE['answers'], true);
