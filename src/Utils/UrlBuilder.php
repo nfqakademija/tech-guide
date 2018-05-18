@@ -112,7 +112,6 @@ class UrlBuilder
 
             $isReplaced = false;
             foreach ($matches[0] as $match) {
-                var_dump($match);
                 $isReplaced = true;
                 $this->url = str_replace($match, '', $this->url);
             }

@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class UrlBuilderTest extends TestCase
 {
-    public function testAddFilter()
+    public function testAddFilter(): void
     {
         $urlBuilder = $this->createBuilder();
         $this->assertSame(
@@ -42,7 +42,7 @@ class UrlBuilderTest extends TestCase
         );
     }
 
-    public function testRemoveFilter()
+    public function testRemoveFilter(): void
     {
         $urlBuilder = $this->addAllFilters($this->createBuilder());
 
