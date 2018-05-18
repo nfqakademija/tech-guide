@@ -32,3 +32,8 @@ yarn-error.log
 /web/fonts
 .DS_Store
 ###< Old symfony and common infrastructure ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###
