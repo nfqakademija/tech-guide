@@ -7,7 +7,7 @@ fi
 docker-compose up -d
 
 if [[ $1 == '--prod' ]]; then
-    docker-compose run --rm frontend.symfony bash -c "npm install --no-save && yarn run encore production"
+    docker-compose run --rm frontend.symfony bash -c "npm install --unsafe-perm=true --no-save && yarn run encore production"
     docker-compose exec prod.php.symfony composer install --prefer-dist -n
     docker-compose exec prod.php.symfony bin/console doc:database:drop --if-exists --force
     docker-compose exec prod.php.symfony bin/console doc:database:create
@@ -15,7 +15,7 @@ if [[ $1 == '--prod' ]]; then
     echo -e "Generating project fixtures..."
     docker-compose exec prod.php.symfony bin/console doctrine:fixtures:load --no-interaction
 else
-    docker-compose run --rm frontend.symfony bash -c "npm install --no-save && yarn run encore dev"
+    docker-compose run --rm frontend.symfony bash -c "npm install --unsafe-perm=true --no-save && yarn run encore dev"
     docker-compose exec php.symfony composer install --prefer-dist -n
     if [[ $1 == '--schema' ]]; then
         docker-compose exec php.symfony bin/console doc:database:drop --if-exists --force
