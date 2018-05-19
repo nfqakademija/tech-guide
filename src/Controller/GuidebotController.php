@@ -2,8 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\FilterUsage;
+use App\Entity\Html;
+use App\Repository\FilterUsageRepository;
+use App\Repository\HtmlRepository;
 use App\Utils\Guidebot;
 use App\Utils\Provider;
+use App\Utils\UserAnswers;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -38,10 +43,40 @@ class GuidebotController extends Controller
      */
     public function retrieveAnswers(Request $request, EntityManagerInterface $entityManager)
     {
-        $provider = new Provider(
-            json_decode($request->getContent(), true)['data'],
-            $entityManager
-        );
-        return new JsonResponse($provider->makeUrls());
+        $answers = array_map('\intval', json_decode($request->getContent(), true)['data']);
+
+        $provider = new Provider($answers, $entityManager);
+        $urls = $provider->makeUrls();
+
+        $userAnswers = new UserAnswers($answers, $entityManager);
+        $answerHistory = $userAnswers->saveAnswers();
+
+        /**
+         * @var HtmlRepository $htmlRepository
+         * @var FilterUsageRepository $filterUsageRepository
+         */
+        $htmlRepository = $entityManager->getRepository(Html::class);
+        $filterUsageRepository = $entityManager->getRepository(FilterUsage::class);
+        foreach ($urls as $url) {
+            $answerHistory->addFilterUsage(
+                $filterUsageRepository->findByHtml(
+                    $htmlRepository->findByUrl($url['url'])
+                )
+            );
+        }
+
+        $entityManager->flush();
+
+        $date = (new \DateTime('+3 months'))->format(\DateTime::COOKIE);
+        if (!isset($_COOKIE['answers'])) {
+            setcookie('answers', json_encode([]), strtotime($date));
+            $_COOKIE['answers'] = json_encode([]);
+        }
+
+        $data = json_decode($_COOKIE['answers'], true);
+        $data[] = ['id' => $answerHistory->getId(), 'expireTime' => $date];
+        setcookie('answers', json_encode($data), strtotime($date));
+
+        return new JsonResponse($urls);
     }
 }

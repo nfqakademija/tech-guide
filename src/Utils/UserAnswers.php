@@ -38,7 +38,7 @@ class UserAnswers
         $this->questions = $this->category->getQuestions();
     }
 
-    public function saveAnswers(): void
+    public function saveAnswers(): AnswerHistory
     {
         $answerHistory = new AnswerHistory();
         $answerHistory->setCategory($this->category);
@@ -73,6 +73,8 @@ class UserAnswers
 
         $this->entityManager->persist($answerHistory);
         $this->entityManager->flush();
+
+        return $answerHistory;
     }
 
     /**

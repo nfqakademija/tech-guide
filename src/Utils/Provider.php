@@ -3,10 +3,14 @@
 namespace App\Utils;
 
 use App\Entity\Category;
+use App\Entity\FilterUsage;
+use App\Entity\Html;
 use App\Entity\InfluenceArea;
 use App\Entity\Regex;
 use App\Entity\Shop;
 use App\Entity\ShopCategory;
+use App\Repository\FilterUsageRepository;
+use App\Repository\HtmlRepository;
 use App\Repository\InfluenceAreaRepository;
 use App\Repository\RegexRepository;
 use App\Repository\ShopCategoryRepository;
@@ -30,13 +34,21 @@ class Provider
     private $category;
 
     /**
-     * @var ShopCategoryRepository $shopCategoryRepository
+     * @var HtmlRepository $htmlRepository
      */
-    private $shopCategoryRepository;
+    private $htmlRepository;
     /**
      * @var RegexRepository $regexRepository
      */
     private $regexRepository;
+    /**
+     * @var ShopCategoryRepository $shopCategoryRepository
+     */
+    private $shopCategoryRepository;
+    /**
+     * @var FilterUsageRepository $filterUsageRepository
+     */
+    private $filterUsageRepository;
 
     private $urlBuilder;
     private $filterUsageCalculator;
@@ -54,17 +66,16 @@ class Provider
      */
     public function __construct(array $answers, EntityManagerInterface $entityManager)
     {
-        $answers = array_map('\intval', $answers);
-
-        $userAnswers = new UserAnswers($answers, $entityManager);
-        $userAnswers->saveAnswers();
-
         $this->filters = new Filters($answers, $entityManager);
 
-        $this->shopCategoryRepository = $entityManager
-            ->getRepository(ShopCategory::class);
         $this->regexRepository = $entityManager
             ->getRepository(Regex::class);
+        $this->htmlRepository = $entityManager
+            ->getRepository(Html::class);
+        $this->shopCategoryRepository = $entityManager
+            ->getRepository(ShopCategory::class);
+        $this->filterUsageRepository = $entityManager
+            ->getRepository(FilterUsage::class);
 
         $this->category = $entityManager
             ->getRepository(Category::class)
@@ -105,9 +116,11 @@ class Provider
                 )
                 ->addFilter($categoryFilter[0], [$categoryFilter[1]]);
 
-            if (($mainPage = $this->fetchHtmlCode($shopCategory)) === '') {
+            if (($html = $this->fetchHtmlCode($shopCategory->getShop())) === null) {
                 continue;
             }
+
+            $mainPage = stripslashes($html->getContent());
 
             $filtersValues = [];
 
@@ -136,10 +149,15 @@ class Provider
                 } while ($count === 0);
             }
 
+            /** change this later */
+            $html = $this->fetchHtmlCode($shopCategory->getShop());
+
+            $filterUsage = $this->filterUsageCalculator->calculate();
+            $this->filterUsageRepository->add($html, $filterUsage);
             $urls[] = [
                 'url' => $this->urlBuilder->getUrl(),
                 'logo' => $shopCategory->getShop()->getLogo(),
-                'filterUsage' => $this->filterUsageCalculator->calculate(),
+                'filterUsage' => $filterUsage,
                 'count' => $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl()),
                 'isAlternativeResult' => $isAlternativeResult
             ];
@@ -187,20 +205,26 @@ class Provider
         return -1;
     }
 
-    private function fetchHtmlCode(ShopCategory $shopCategory) : string
+    private function fetchHtmlCode(Shop $shop) : ?Html
     {
-        if ($shopCategory->getHtml() === null ||
-            $shopCategory->getHtmlAddedAt()->diff(new \DateTime('now'))->format('%a') > self::DATE_DIFF
-        ) {
+        $htmlEntity = $this->htmlRepository->findByUrl($this->urlBuilder->getUrl());
+
+        if ($htmlEntity === null) {
             try {
                 $pageContent = file_get_contents($this->urlBuilder->getUrl());
-                $this->shopCategoryRepository->updateHtmlCode($shopCategory, $pageContent);
-                return $pageContent;
-            } catch (\Exception $e) {
-                return '';
+            } catch (\Exception $exception) {
+                return null;
             }
+            $htmlEntity = $this->htmlRepository->add($shop, $pageContent, $this->urlBuilder->getUrl());
+        } elseif ($htmlEntity->getAddedAt()->diff(new \DateTime('now'))->format('%a') > self::DATE_DIFF) {
+            try {
+                $pageContent = file_get_contents($this->urlBuilder->getUrl());
+            } catch (\Exception $exception) {
+                return null;
+            }
+            $this->htmlRepository->update($htmlEntity, $pageContent);
         }
 
-        return stripslashes($shopCategory->getHtml());
+        return $htmlEntity;
     }
 }

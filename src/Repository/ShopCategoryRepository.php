@@ -12,14 +12,4 @@ class ShopCategoryRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ShopCategory::class);
     }
-
-    public function updateHtmlCode(ShopCategory $shopCategory, string $html): void
-    {
-        $manager = $this->getEntityManager();
-
-        $shopCategory->setHtml(addslashes($html));
-        $shopCategory->setHtmlAddedAt(new \DateTime('now'));
-
-        $manager->flush();
-    }
 }

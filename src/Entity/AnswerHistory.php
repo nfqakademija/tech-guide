@@ -34,10 +34,16 @@ class AnswerHistory
      */
     private $addedAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\FilterUsage", mappedBy="answerHistory", orphanRemoval=true)
+     */
+    private $filterUsages;
+
     public function __construct()
     {
         $this->addedAt = new \DateTime("now");
         $this->answers = new ArrayCollection();
+        $this->filterUsages = new ArrayCollection();
     }
 
     public function getId()
@@ -91,6 +97,37 @@ class AnswerHistory
     public function setAddedAt(\DateTimeInterface $addedAt): self
     {
         $this->addedAt = $addedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|FilterUsage[]
+     */
+    public function getFilterUsages(): Collection
+    {
+        return $this->filterUsages;
+    }
+
+    public function addFilterUsage(FilterUsage $filterUsage): self
+    {
+        if (!$this->filterUsages->contains($filterUsage)) {
+            $this->filterUsages[] = $filterUsage;
+            $filterUsage->setAnswerHistory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFilterUsage(FilterUsage $filterUsage): self
+    {
+        if ($this->filterUsages->contains($filterUsage)) {
+            $this->filterUsages->removeElement($filterUsage);
+            // set the owning side to null (unless already changed)
+            if ($filterUsage->getAnswerHistory() === $this) {
+                $filterUsage->setAnswerHistory(null);
+            }
+        }
 
         return $this;
     }
