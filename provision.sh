@@ -17,6 +17,7 @@ if [[ $1 == '--prod' ]]; then
 else
     docker-compose run --rm frontend.symfony bash -c "npm install --no-save && yarn run encore dev"
     docker-compose exec php.symfony composer install --prefer-dist -n
+    docker-compose run php.symfony bash -c "cd acceptance-tests && composer install"
     if [[ $1 == '--schema' ]]; then
         docker-compose exec php.symfony bin/console doc:database:drop --if-exists --force
         docker-compose exec php.symfony bin/console doc:database:create
