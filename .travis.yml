@@ -8,11 +8,6 @@ php:
 services:
   - docker
 
-addons:
-  hosts:
-    - nginx.symfony
-    - selenium.symfony
-
 cache:
   yarn: true
   directories:

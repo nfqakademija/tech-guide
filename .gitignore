@@ -40,10 +40,6 @@ yarn-error.log
 
 ###> acceptance-tests (codeception dependencies) ###
 tests/acceptance/_support/_generated
+tests/acceptance/_output/
 !tests/acceptance/_output/.gitkeep
-tests/acceptance/_output
 ###< acceptance-tests (codeception dependencies) ###
-
-###> phpunit/phpunit ###
-/phpunit.xml
-###< phpunit/phpunit ###
