@@ -5,9 +5,6 @@ if [[ ! -f .env ]]; then
 fi
 
 docker-compose up -d
-docker pull selenium/standalone-chrome:3.11.0-dysprosium
-docker run -d -p 127.0.0.1:4444:4444 selenium/standalone-chrome:3.11.0-dysprosium
-docker ps -a
 
 if [[ $1 == '--prod' ]]; then
     docker-compose run --rm frontend.symfony bash -c "npm install --no-save && yarn run encore production"
@@ -18,9 +15,7 @@ if [[ $1 == '--prod' ]]; then
     echo -e "Generating project fixtures..."
     docker-compose exec prod.php.symfony bin/console doctrine:fixtures:load --no-interaction
 else
-    if [[ $3 != '--travis' ]]; then
-        docker-compose run --rm frontend.symfony bash -c "npm install --no-save && yarn run encore dev"
-    fi
+    docker-compose run --rm frontend.symfony bash -c "npm install --no-save && yarn run encore dev"
     docker-compose exec php.symfony composer install --prefer-dist -n
     docker-compose run php.symfony bash -c "cd acceptance-tests && composer install"
     if [[ $1 == '--schema' ]]; then
