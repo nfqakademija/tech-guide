@@ -14,6 +14,12 @@ addons:
     - nginx.symfony
     - selenium.symfony
 
+cache:
+  yarn: true
+  directories:
+  - $HOME/.composer/cache/files
+  - node_modules
+
 before_script:
   - ./provision.sh --schema --with-fixtures
   - echo "DATABASE_URL=mysql://root@127.0.0.1:3306/symfony" >> .env
