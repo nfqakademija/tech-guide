@@ -7,7 +7,6 @@ php:
 
 services:
   - docker
-  - mysql
 
 cache:
   yarn: true
