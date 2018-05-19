@@ -38,19 +38,6 @@
     margin: 1rem 1rem 0 0;
   }
 
-  .provider__button {
-    padding: 1rem 1rem;
-    background: rgb(126,213,111);
-    color: white;
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translate(-50%, -50%);
-    display: block;
-    width: 90%;
-    text-align: center;
-  }
-
   .provider__img {
     height: 10rem;
   }
@@ -202,4 +189,23 @@ dfn:hover {
 }
 
 dfn:hover::after,
-dfn:hover::before {opacity: 1;}
+dfn:hover::before {
+  opacity: 1;
+}
+
+.provider__button {
+  padding: 1rem 1rem;
+  background: rgb(126,213,111);
+  color: white;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, -50%);
+  display: block;
+  width: 90%;
+  text-align: center;
+
+  &:hover {
+    color: white;
+  }
+}

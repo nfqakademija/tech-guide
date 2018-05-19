@@ -6,6 +6,7 @@ import Hoc from '../Hoc/Hoc.jsx';
 import Quiz from '../../containers/Quiz/Quiz';
 import Home from '../../containers/Home/Home';
 import Loader from '../../components/Loader/Loader';
+import Results from '../../components/Providers/Results/Results';
 import ProvidersLogos from '../../components/Providers/ProvidersLogos/ProvidersLogos';
 import * as actionCreators from '../../store/actions/guidebot';
 import * as actionCreatorsProviders from '../../store/actions/providers';
@@ -25,7 +26,11 @@ const layout = (props) => {
           <div className={`card ${attachedClasses.join(' ')}`}>
             <Home />
             <div className={`card__side card__side--back ${otherClasses.join('')}`}>
-              {props.guidebotDataSet && props.showGuidebot ? <Quiz show="true" quizStarted={props.showGuidebot} /> : null }
+              {props.guidebotDataSet && props.showGuidebot ? 
+              <Hoc>
+                <Results />
+                <Quiz /> 
+              </Hoc> : null}
             </div>
           </div>
           <ProvidersLogos />
@@ -39,6 +44,7 @@ const mapStateToProps = state => {
     guidebotDataSet: state.guidebot.guidebotDataSet,
     showGuidebot: state.guidebot.showGuidebot,
     loadingProviders: state.providers.loadingProviders,
+    providersSet: state.providers.providersSet,
   }
 }
 

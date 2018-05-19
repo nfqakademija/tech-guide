@@ -169,4 +169,50 @@
             }
           }
     }
+
+    .results__provider {
+        width: 100%;
+        padding-top: 2rem;
+
+        &--logo {
+            height: auto;
+
+            .provider__img {
+                max-width: 60rem;
+                height: 100%;
+                padding: 2rem;
+                margin: 0 auto;
+
+                @include respond(phone) {
+                    height: auto;
+                    width: 100%;
+                    
+                }
+            }
+        }
+    
+        .charts-container {
+            width: 1em;
+            height: 1em;
+            top: 55%;
+            left: 50%;
+
+            @include respond(phone) {
+                top: 55%;
+                left: 45%
+            }
+    
+            .progress-bar__info {
+                width: 2rem;
+                right: -4rem;
+            }
+        }
+    
+        .provider__button {
+            position: absolute;
+            left: 50%;
+            bottom: 5%;
+            transform: translate(-50%, -50%);
+        }
+    }
 }
