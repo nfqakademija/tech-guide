@@ -21,7 +21,8 @@ cache:
   - node_modules
 
 before_script:
-  - ./provision.sh --schema --with-fixtures
+  - ./provision.sh --schema --with-fixtures --travis
+  - docker-compose run --rm frontend.symfony bash -c "sudo npm install --no-save && yarn run encore dev"
   - echo "DATABASE_URL=mysql://root@127.0.0.1:3306/symfony" >> .env
   - docker-compose exec -T php.symfony bin/console doctrine:mapping:info
   - docker-compose exec -T php.symfony bin/console doctrine:schema:validate
