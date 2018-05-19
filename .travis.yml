@@ -14,9 +14,6 @@ cache:
   - $HOME/.composer/cache/files
   - $HOME/.npm
 
-before_install:
-  - sudo chown -R travis /home
-
 before_script:
   - ./provision.sh --schema --with-fixtures
   - docker-compose exec -T php.symfony bin/console doctrine:mapping:info
