@@ -15,7 +15,7 @@ cache:
   - $HOME/.npm
 
 before_install:
-  - sudo chown -R travis /home/code
+  - sudo chown -R travis /home
 
 before_script:
   - ./provision.sh --schema --with-fixtures

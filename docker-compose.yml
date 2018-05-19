@@ -22,7 +22,6 @@ services:
       - DATABASE_URL=$DATABASE_URL
     volumes:
       - .:/code
-      - .docker/.composer:/home/php/.composer
 
   prod.php.symfony:
     container_name: prod.php.symfony
@@ -51,7 +50,6 @@ services:
     user: "$LOCAL_USER_ID:$LOCAL_GROUP_ID"
     volumes:
       - .:/code
-      - .docker/.npm:/home/node/.npm
 
   selenium.symfony:
     container_name: selenium.symfony
