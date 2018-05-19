@@ -38,14 +38,12 @@ yarn-error.log
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
-###> symfony/phpunit-bridge ###
-.phpunit
-/phpunit.xml
-###< symfony/phpunit-bridge ###
-
 ###> acceptance-tests (codeception dependencies) ###
-acceptance-tests/vendor
-acceptance-tests/tests/_support/_generated
-!acceptance-tests/tests/_output/.gitkeep
-acceptance-tests/tests/_output
+tests/acceptance/_support/_generated
+!tests/acceptance/_output/.gitkeep
+tests/acceptance/_output
 ###< acceptance-tests (codeception dependencies) ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+###< phpunit/phpunit ###

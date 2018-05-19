@@ -9,30 +9,23 @@ services:
   - docker
   - mysql
 
-addons:
-  hosts:
-    - nginx.symfony
-    - selenium.symfony
-
 cache:
   yarn: true
   directories:
   - $HOME/.composer/cache/files
   - node_modules
+  - vendor
 
 before_script:
-  - ./provision.sh --schema --with-fixtures --travis
-  - docker-compose run --rm frontend.symfony bash -c "yarn && yarn run encore dev"
-  - echo "DATABASE_URL=mysql://root@127.0.0.1:3306/symfony" >> .env
+  - ./provision.sh --schema --with-fixtures
   - docker-compose exec -T php.symfony bin/console doctrine:mapping:info
   - docker-compose exec -T php.symfony bin/console doctrine:schema:validate
-  - (php -S 172.17.0.1:8000 -t public &> /dev/null) &
 
 script:
   - vendor/bin/phpcs -p --colors --standard=PSR2 --extensions=php ./src
   - vendor/bin/phpmd ./src xml cleancode
-  - bin/phpunit
-  - cd acceptance-tests && vendor/bin/codecept run --debug --env=travis
+  - docker-compose exec -T php.symfony vendor/bin/phpunit
+  - docker-compose exec -T php.symfony vendor/bin/codecept run --debug --env=travis
 
 notifications:
   email: false
