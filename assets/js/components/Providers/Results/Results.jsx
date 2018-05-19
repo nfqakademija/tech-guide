@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import Provider from '../Provider/Provider';
 
 const results = (props) => {
-
-  console.log(props.providersInfo);
-
   const generatedProviders = Object.keys( props.providersInfo )
             .map( providerKey => {
               let count;

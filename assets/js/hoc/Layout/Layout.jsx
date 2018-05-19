@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import Navigation from '../../components/Navigation/Navigation';
@@ -11,39 +11,27 @@ import * as actionCreators from '../../store/actions/guidebot';
 import * as actionCreatorsProviders from '../../store/actions/providers';
 
 
-class Layout extends Component {
+const layout = (props) => {
 
-  componentDidMount () {
-      this.props.onFetchGuidebotData();
-  }
-
-  render() {
     let attachedClasses = [];
     let otherClasses = [];
-    if (this.props.showGuidebot) {
+    if (props.showGuidebot) {
         attachedClasses = ["quiz-started"];
         otherClasses = ["priority"];
     }
-
    
       return (
         <div className="row main">
-          {
-          !this.props.guidebotDataSet ? <Loader loaderTitle="LOADING GUIDEBOT DATA..." />
-          : this.props.loadingProviders ? <Loader loaderTitle="PREPARING RESULTS..." /> 
-          : null
-          }
           <div className={`card ${attachedClasses.join(' ')}`}>
-            <Home clicked={this.props.onShowGuidebot} />
+            <Home />
             <div className={`card__side card__side--back ${otherClasses.join('')}`}>
-              {this.props.guidebotDataSet && this.props.showGuidebot ? <Quiz quizStarted={this.props.showGuidebot} /> : null }
+              {props.guidebotDataSet && props.showGuidebot ? <Quiz show="true" quizStarted={props.showGuidebot} /> : null }
             </div>
           </div>
           <ProvidersLogos />
         </div>
       );
   }
-}
 
 const mapStateToProps = state => {
   return {
@@ -54,11 +42,4 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onFetchGuidebotData: () => dispatch(actionCreators.fetchGuidebotData()),
-    onShowGuidebot: () => dispatch(actionCreators.showGuidebot()),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default connect(mapStateToProps, null)(layout);

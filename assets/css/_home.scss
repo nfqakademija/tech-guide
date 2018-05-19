@@ -1,12 +1,16 @@
 .card {
   position: relative;
-  width: 85%;
+  width: 83%;
   height: 90%;
   perspective: 150rem;
   background-color: transparent;
   border: none;
   backface-visibility: hidden;
   border-radius: 5rem 5rem 5rem 0;
+
+  @include respond(md-dev) {
+    width: 80%;
+  }
   
   @include respond(phone-tab) {
     width: 100%;
@@ -61,22 +65,22 @@
   top: 30%;
   text-align: center;
   width: 100%;
-}
 
-.heading-primary {
-  margin-bottom: 10rem;
-
-
-  span {
-    display: block;
-  }
-
-  &__main {
-    letter-spacing: .8rem;
-    font-size: 6rem;
-  }
-
-  &__sub {
-    font-size: 1.3rem;
+  .heading-primary {
+    margin-bottom: 10rem;
+  
+  
+    span {
+      display: block;
+    }
+  
+    &__main {
+      letter-spacing: .8rem;
+      font-size: 6rem;
+    }
+  
+    &__sub {
+      font-size: 1.3rem;
+    }
   }
 }

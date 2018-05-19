@@ -10,7 +10,7 @@
 .providers-logos {
     position: absolute;
     right: 0;
-    text-align: right;
+    text-align: left;
 
     @include respond(phone-tab) {
         display: none;
