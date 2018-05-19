@@ -9,11 +9,8 @@ services:
   - docker
 
 cache:
-  yarn: true
   directories:
-  - $HOME/.composer/cache/files
   - node_modules
-  - vendor
 
 before_script:
   - ./provision.sh --schema --with-fixtures
