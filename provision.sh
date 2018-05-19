@@ -5,6 +5,9 @@ if [[ ! -f .env ]]; then
 fi
 
 docker-compose up -d
+docker pull selenium/standalone-chrome:3.11.0-dysprosium
+docker run -d -p 127.0.0.1:4444:4444 selenium/standalone-chrome:3.11.0-dysprosium
+docker ps -a
 
 if [[ $1 == '--prod' ]]; then
     docker-compose run --rm frontend.symfony bash -c "npm install --no-save && yarn run encore production"

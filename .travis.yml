@@ -13,6 +13,7 @@ before_script:
   - ./provision.sh --schema --with-fixtures
   - docker-compose exec -T php.symfony bin/console doctrine:mapping:info
   - docker-compose exec -T php.symfony bin/console doctrine:schema:validate
+  - (php -S 172.17.0.1:8000 -t public &> /dev/null) &
 
 script:
   - vendor/bin/phpcs -p --colors --standard=PSR2 --extensions=php ./src
