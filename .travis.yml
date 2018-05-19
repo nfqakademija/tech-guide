@@ -9,6 +9,11 @@ services:
   - docker
   - mysql
 
+addons:
+  hosts:
+    - nginx.symfony
+    - selenium.symfony
+
 cache:
   yarn: true
   directories:
