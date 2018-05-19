@@ -7,6 +7,7 @@ php:
 
 services:
   - docker
+  - mysql
 
 before_script:
   - ./provision.sh --schema --with-fixtures
