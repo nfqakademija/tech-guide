@@ -9,8 +9,14 @@ services:
   - docker
   - mysql
 
+addons:
+  hosts:
+    - nginx.symfony
+    - selenium.symfony
+
 before_script:
   - ./provision.sh --schema --with-fixtures
+  - echo "DATABASE_URL=mysql://root@127.0.0.1:3306/symfony" >> .env
   - docker-compose exec -T php.symfony bin/console doctrine:mapping:info
   - docker-compose exec -T php.symfony bin/console doctrine:schema:validate
   - (php -S 172.17.0.1:8000 -t public &> /dev/null) &
