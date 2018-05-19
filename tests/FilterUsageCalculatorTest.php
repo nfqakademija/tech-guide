@@ -10,7 +10,7 @@ class FilterUsageCalculatorTest extends TestCase
     public function testCalculate(): void
     {
         $calculator = new FilterUsageCalculator();
-        for($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $calculator->addValue(true);
         }
 

@@ -18,4 +18,3 @@ class HomeControllerTest extends WebTestCase
         #root > div > div.card > div.card__side.card__side--front > div > div.col-6.col--text > div > a
     }
 }
-
