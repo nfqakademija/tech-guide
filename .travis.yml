@@ -9,10 +9,13 @@ services:
   - docker
 
 cache:
+  yarn: true
   directories:
-  - node_modules
+  - $HOME/.composer/cache/files
+  - $HOME/.npm
 
 before_script:
+  - env
   - ./provision.sh --schema --with-fixtures
   - docker-compose exec -T php.symfony bin/console doctrine:mapping:info
   - docker-compose exec -T php.symfony bin/console doctrine:schema:validate
