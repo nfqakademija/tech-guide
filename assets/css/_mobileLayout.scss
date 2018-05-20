@@ -14,6 +14,25 @@
         bottom: 0;
         background: white;
         height: 5%;
+
+        li {
+
+            button::before {
+                font-size: 1.6rem;
+
+                @include respond(ipad-land) {
+                    font-size: 1.5rem;
+                }
+
+                @include respond(phone) {
+                    font-size: 1rem;
+                }
+
+                @include respond(phone-land) {
+                    font-size: 1.2rem;
+                }
+            }
+        }
     }
 
     .mobile-landing {
@@ -32,7 +51,7 @@
             width: 100%;
     
             .heading-primary {
-                width: 80%;
+                width: 90%;
                 margin: 0 auto;
     
                 span {
@@ -126,14 +145,22 @@
             }
           
             .rsc-os-option-element, .rsc-ts-bubble {
-              font-size: 1.6rem;
+              font-size: 2rem;
           
               @include respond(md-dev) {
-                font-size: 2.5rem;
+                font-size: 3rem;
               }
-          
+
+              @include respond(ipad-land) {
+                font-size: 2rem;
+              }
+
               @include respond(phone) {
                 font-size: 1.6rem;
+              }
+          
+              @include respond(phone-land) {
+                font-size: 2rem;
               }
             }
           

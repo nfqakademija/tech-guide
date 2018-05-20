@@ -43,6 +43,18 @@ html {
     font-size: 65%;
   }
 
+  @include respond(phone-land) {
+    font-size: 40%;
+  }
+
+  @include respond(ipad-port) {
+    font-size: 80%;
+  }
+  
+  @include respond(ipad-land) {
+    font-size: 70%;
+  }
+
 }
 
 body {

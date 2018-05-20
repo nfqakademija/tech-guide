@@ -12,7 +12,7 @@
     right: 0;
     text-align: left;
 
-    @include respond(phone-tab) {
+    @include respond(md-dev) {
         display: none;
     }
 
