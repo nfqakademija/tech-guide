@@ -6,6 +6,8 @@
 @import "buttons.scss";
 @import "providers.scss";
 @import "backdrop.scss";
+@import "mobileNavigation.scss";
+@import "mobileLayout.scss";
 @import "results.scss";
 @import "loader.scss";
 @import "guidebot.scss";
@@ -37,6 +39,10 @@ html {
     font-size: 55%;
   }
 
+  @include respond(phone) {
+    font-size: 65%;
+  }
+
 }
 
 body {
@@ -44,26 +50,12 @@ body {
   font-size: 1.6rem;
   height: 100vh;
   color: $color-black;
-  min-width: 99.8rem;
+  overflow: auto;
 }
 
 #root {
   height: 100%;
   width: 100%;
-  background-size: cover;
-  background-image: url(images/background-body.svg);
-  padding: 3rem 2rem;
-}
-
-.main {
-  height: 100%;
-  width: 97%;
-  margin: 0 auto;
-  position: relative;
-
-  @include respond(phone-tab) {
-    width: 100%;
-  }
 }
 
 .priority {

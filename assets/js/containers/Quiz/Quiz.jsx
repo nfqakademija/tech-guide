@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import ChatBot from 'react-simple-chatbot';
 import { ThemeProvider } from 'styled-components';
 import Hoc from '../../hoc/Hoc/Hoc';
-import Providers from '../../components/Providers/Providers';
 import * as actionCreators from '../../store/actions/providers';
+import { isMobile } from "react-device-detect";
 
 class Quiz extends Component {
   render() {
@@ -17,23 +17,19 @@ class Quiz extends Component {
     }
 
     return (
-      <Hoc>
-        <Providers
-          loadingProviders={this.props.loadingProviders}
-          show={this.props.providersSet}
+    <Hoc> 
+      <ThemeProvider theme={theme}>
+        <ChatBot
+          hideHeader="true"
+          steps={this.props.messages}
+          width="100%"
+          botDelay="100"
+          hideSubmitButton="true"
+          handleEnd={this.props.onGetResults}
+          className="rsc-root"
         />
-        <ThemeProvider theme={theme}>
-          <ChatBot
-            hideHeader="true"
-            steps={this.props.messages}
-            width="100%"
-            botDelay="150"
-            hideSubmitButton="true"
-            handleEnd={this.props.onGetResults}
-            className="rsc-root"
-          />
-        </ThemeProvider>
-      </Hoc>
+      </ThemeProvider>
+    </Hoc>
     );
   }
 }

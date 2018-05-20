@@ -1,0 +1,32 @@
+.mobile-navigation {
+    display: block;
+    width: 100%;
+    height: 10%;
+    position: fixed;
+    bottom: 0;
+    box-shadow: 0 -1rem 4rem rgba($color-black, .07);
+    z-index: 500;
+
+        &__button {
+            width: 50%;
+            height: 100%;
+            background-color: white;
+            font-weight: 600;
+            font-size: 3rem;
+            border: none;
+            position: absolute;
+    
+            @include respond(phone) {
+                font-size: 2rem;
+            }
+        }
+    
+        &__back {
+            left: 0;
+        }
+    
+        &__next {
+            right: 0;
+            color: #F64C72;
+        }
+}
