@@ -37,9 +37,3 @@ yarn-error.log
 .phpunit
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-
-###> acceptance-tests (codeception dependencies) ###
-tests/acceptance/_support/_generated
-tests/acceptance/_output/
-!tests/acceptance/_output/.gitkeep
-###< acceptance-tests (codeception dependencies) ###
