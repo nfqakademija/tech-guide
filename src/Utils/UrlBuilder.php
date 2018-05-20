@@ -87,9 +87,11 @@ class UrlBuilder
             $this->url .=
                 $filter .
                 $this->firstFilterValueSeparator .
-                str_replace('-', ';', $value) .
+                $value .
                 $this->filterSeparator;
         }
+
+        $this->url = substr($this->url, 0, -1);
 
         return $this;
     }
@@ -103,7 +105,7 @@ class UrlBuilder
     {
         if ($this->repeatingFilter) {
             preg_match_all(
-                '#' . $filter . $this->firstFilterValueSeparator . '(\w+)' . $this->filterSeparator . '#is',
+                '#' . $filter . $this->firstFilterValueSeparator . '(\w+)(?:' . $this->filterSeparator . '|$)#is',
                 $this->url,
                 $matches
             );
@@ -127,7 +129,11 @@ class UrlBuilder
         $isReplaced = false;
         if (isset($match[0])) {
             $isReplaced = true;
-            $this->url = str_replace(explode($this->filterSeparator, $match[0])[0], '', $this->url);
+            $replaceValue = explode($this->filterSeparator, $match[0])[0];
+            if (strpos($this->url, $replaceValue . $this->filterSeparator)) {
+                $replaceValue .= $this->filterSeparator;
+            }
+            $this->url = str_replace($replaceValue, '', $this->url);
         }
         return $isReplaced;
     }

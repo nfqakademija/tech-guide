@@ -7,9 +7,7 @@ RUN apt-get update \
  && apt-get install -y git \
  && rm -rf /var/lib/apt/lists/*
 
-# Not root user
-USER node
-ENV HOME /home/node
+ENV HOME /code
 
 WORKDIR /code
 VOLUME /code

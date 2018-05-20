@@ -31,10 +31,7 @@ RUN pecl install xdebug-2.6.0 && \
     touch /usr/local/etc/php/conf.d/custom-xdebug.ini && \
     chmod 777 /usr/local/etc/php/conf.d/custom-xdebug.ini
 
-# Not root user
-RUN useradd -c 'PHP user' -m -d /home/php -s /bin/bash php
-USER php
-ENV HOME /home/php
+ENV HOME /code
 
 WORKDIR /code
 VOLUME /code
