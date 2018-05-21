@@ -65,17 +65,19 @@ class GuidebotController extends Controller
             );
         }
 
-        $entityManager->flush();
-
         $date = (new \DateTime('+3 months'))->format(\DateTime::COOKIE);
         if (!isset($_COOKIE['answers'])) {
-            setcookie('answers', json_encode([]), strtotime($date));
             $_COOKIE['answers'] = json_encode([]);
         }
 
         $data = json_decode($_COOKIE['answers'], true);
         $data[] = ['id' => $answerHistory->getId(), 'expireTime' => $date];
-        setcookie('answers', json_encode($data), strtotime($date));
+        setcookie('answers', json_encode($data), strtotime($date), '/');
+
+        $answerHistory->setHash(
+            hash('md5',$request->headers->get('user-agent') . $request->headers->get('accept-language') . $answerHistory->getId() . $date)
+        );
+        $entityManager->flush();
 
         return new JsonResponse($urls);
     }
