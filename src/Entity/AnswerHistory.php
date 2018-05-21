@@ -39,6 +39,11 @@ class AnswerHistory
      */
     private $filterUsages;
 
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $hash;
+
     public function __construct()
     {
         $this->addedAt = new \DateTime("now");
@@ -128,6 +133,18 @@ class AnswerHistory
                 $filterUsage->setAnswerHistory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getHash(): ?string
+    {
+        return $this->hash;
+    }
+
+    public function setHash(string $hash): self
+    {
+        $this->hash = $hash;
 
         return $this;
     }
