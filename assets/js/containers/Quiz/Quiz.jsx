@@ -5,7 +5,6 @@ import ChatBot from 'react-simple-chatbot';
 import { ThemeProvider } from 'styled-components';
 import Hoc from '../../hoc/Hoc/Hoc';
 import * as actionCreators from '../../store/actions/providers';
-import { isMobile } from "react-device-detect";
 
 class Quiz extends Component {
   render() {
@@ -37,10 +36,6 @@ class Quiz extends Component {
 const mapStateToProps = state => {
   return {
     messages: state.guidebot.messages,
-    providersInfo: state.providers.providersInfo,
-    providersSet: state.providers.providersSet,
-    loadingProviders: state.providers.loadingProviders,
-    error: state.providers.error,
   }
 }
 

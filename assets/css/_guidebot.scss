@@ -42,14 +42,6 @@
 
   .rsc-os-option-element, .rsc-ts-bubble {
     font-size: 1.6rem;
-
-    @include respond(md-dev) {
-      font-size: 3.5rem;
-    }
-
-    @include respond(phone) {
-      font-size: 1.6rem;
-    }
   }
 
   .rsc-cs {

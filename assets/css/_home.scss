@@ -9,10 +9,6 @@
   border-radius: 5rem 5rem 5rem 0;
 
   @include respond(md-dev) {
-    width: 80%;
-  }
-  
-  @include respond(phone-tab) {
     width: 100%;
   }
 }
@@ -35,6 +31,7 @@
   // background-color: rgb(249, 250, 252);
   background-image: url(images/background2.svg);
   background-size: cover;
+  background-position: center;
   background-color: rgb(240, 250, 252);
 }
 
@@ -57,7 +54,9 @@
 }
 
 .card__main-picture {
-  width: 40rem;
+  width: 80%;
+  position: absolute;
+  right: 5%;
 }
 
 .card__text-box {
@@ -76,7 +75,7 @@
   
     &__main {
       letter-spacing: .8rem;
-      font-size: 6rem;
+      font-size: 5.9rem;
     }
   
     &__sub {

@@ -21,6 +21,20 @@ class Results extends Component {
   }
 
   render() {
+        const settings = {
+          dots: true,
+          infinite: false,
+          speed: 500,
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          beforeChange: (oldIndex, newIndex) => {
+              if (newIndex === 1) {
+                  this.setState({ showGuidebot: true });
+              }
+              this.setState({ pageCount: newIndex });
+          },
+      }
+
       const generatedProviders = Object.keys( this.props.providersInfo )
                                     .map( providerKey => {
                                       let count;
@@ -52,25 +66,22 @@ class Results extends Component {
 
                                       return (
                                         <Provider 
-                                          key={providerKey} 
-                                          link={this.props.providersInfo[providerKey].url} 
-                                          logo={this.props.providersInfo[providerKey].logo} 
-                                          count={count} 
-                                          efficiency={this.props.providersInfo[providerKey].filterUsage} 
-                                          progressBarLeftSide={progressBarLeftSide} 
-                                          progressBarRightSide={progressBarRightSide} 
-                                          progressBarPie={progressBarPie} />
+                                        key={providerKey} 
+                                        link={this.props.providersInfo[providerKey].url} 
+                                        logo={this.props.providersInfo[providerKey].logo} 
+                                        count={count} 
+                                        efficiency={this.props.providersInfo[providerKey].filterUsage} 
+                                        progressBarLeftSide={progressBarLeftSide} 
+                                        progressBarRightSide={progressBarRightSide} 
+                                        progressBarPie={progressBarPie} />
                                       );
                                     });
 
     if (this.props.providersSet) {
       return (
-        <div className="results">
-            <div className="results__providers">
-              {generatedProviders}
-            </div>
-            <a onClick={this.resultsToggleHandler} href="#"><img className="results__exit" src="images/close-button.svg" /></a>
-        </div>
+        <Slider ref={slider => (this.slider = slider)} {...settings} >
+        {generatedProviders}
+        </Slider>
       );
     } else {
       return null;
