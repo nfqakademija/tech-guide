@@ -26,7 +26,7 @@ export const fetchProvidersFailed = () => {
 export const fetchProviders = ( values ) => {
     return dispatch => {
         dispatch(loadingProviders());
-        axios.post('/api/guidebotOffer', {
+        axios.post('/api/guidebotOffer/' + api_key, {
             data: values,
         })
         .then( (response) => {
