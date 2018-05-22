@@ -40,7 +40,10 @@ class AnswerController extends Controller
             }
         }
 
-        $hashData = $request->headers->get('user-agent') . $request->headers->get('accept-language') . $answerHistory->getId() . $expireDate;
+        $hashData = $request->headers->get('user-agent') .
+            $request->headers->get('accept-language') .
+            $answerHistory->getId() .
+            $expireDate;
 
         if (hash('md5', $hashData) !== $answerHistory->getHash()) {
             return $this->redirectToRoute('home');

@@ -20,7 +20,7 @@ export const loadingGuidebotData = () => {
 export const fetchGuidebotData = () => {
     return dispatch => {
         dispatch(loadingGuidebotData());
-        axios.get( '/api/guidebotSentences' )
+        axios.get('/api/guidebotSentences/' + api_key)
           .then( response => {
               const messages = [];
 

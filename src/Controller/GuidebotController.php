@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -29,20 +30,32 @@ class GuidebotController extends Controller
     }
 
     /**
-     * @Route("/api/guidebotSentences", name="guidebotSentences")
+     * @Route("/api/guidebotSentences/{apiKey}", name="guidebotSentences")
      * @Method({"GET"})
      */
-    public function retrieveSentences(Guidebot $guidebot)
+    public function retrieveSentences(string $apiKey, Guidebot $guidebot, SessionInterface $session)
     {
-        return new JsonResponse($guidebot->makeTriggeringMessages());
+        if ($apiKey === $session->get('api_key')) {
+            return new JsonResponse($guidebot->makeTriggeringMessages());
+        }
+
+        return $this->redirectToRoute('home');
     }
 
     /**
-     * @Route("/api/guidebotOffer", name="guidebotOffer")
+     * @Route("/api/guidebotOffer/{apiKey}", name="guidebotOffer")
      * @Method({"POST"})
      */
-    public function retrieveAnswers(Request $request, EntityManagerInterface $entityManager)
-    {
+    public function retrieveAnswers(
+        string $apiKey,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        SessionInterface $session
+    ) {
+        if ($apiKey !== $session->get('api_key')) {
+            return $this->redirectToRoute('home');
+        }
+
         $answers = array_map('\intval', json_decode($request->getContent(), true)['data']);
 
         $provider = new Provider($answers, $entityManager);
@@ -74,9 +87,11 @@ class GuidebotController extends Controller
         $data[] = ['id' => $answerHistory->getId(), 'expireTime' => $date];
         setcookie('answers', json_encode($data), strtotime($date), '/');
 
-        $answerHistory->setHash(
-            hash('md5',$request->headers->get('user-agent') . $request->headers->get('accept-language') . $answerHistory->getId() . $date)
-        );
+        $hashData = $request->headers->get('user-agent') .
+            $request->headers->get('accept-language') .
+            $answerHistory->getId() .
+            $date;
+        $answerHistory->setHash(hash('md5', $hashData));
         $entityManager->flush();
 
         return new JsonResponse($urls);

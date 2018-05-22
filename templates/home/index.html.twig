@@ -7,5 +7,8 @@
 {% endblock %}
 
 {% block body %}
+    <script>
+        const api_key = '{{  app.session.get('api_key') }}';
+    </script>
     <div id="root"></div>
 {% endblock %}
