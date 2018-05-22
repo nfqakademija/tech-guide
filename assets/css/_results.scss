@@ -1,211 +1,218 @@
-.results {
-  z-index: 500;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  background-color: white;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.card__side--back {
 
-  &__providers {
-    list-style: none;
-    padding: 1.5rem 5rem;
-    height: 90%;
+  .slick-slider {
+    height:100%;
+    background-color: white;
   }
 
-  &__provider {
-    position: relative;
-    float: left;
-    width: 33%;
+  .results {
+    z-index: 500;
     height: 100%;
-
-    &:not(:last-child) {
-      border-right: .1rem solid grey;
-    }
-
-    &--logo {
-      width: 100%;
-      text-align: center;
-    }
-  }
-
-  &__exit {
-    width: 1.5rem;
+    width: 100%;
     position: absolute;
-    right: 2%;
+    background-color: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  
+    &__providers {
+      list-style: none;
+      padding: 1.5rem 5rem;
+      height: 90%;
+    }
+  
+    &__provider {
+      position: relative;
+      float: left;
+      width: 100%;
+      height: 100%;
+  
+      &:not(:last-child) {
+        border-right: .1rem solid grey;
+      }
+  
+      &--logo {
+        width: 100%;
+        text-align: center;
+  
+        .provider__img {
+          height: 10rem;
+        }
+      }
+    }
+  
+    &__exit {
+      width: 1.5rem;
+      position: absolute;
+      right: 2%;
+      top: 0;
+      margin: 1rem 1rem 0 0;
+    }
+  }
+  
+  .set-size {
+    font-size: 10em;
+  }
+  
+  .charts-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 800;
+  }
+  
+  .charts-container:after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+  
+  .progress-bar {
+    background-color: white;
+  }
+  
+  .pie-wrapper {
+    height: 1em;
+    width: 1em;
+    float: left;
+    margin: 15px;
+    position: relative;
+  }
+  .pie-wrapper:nth-child(3n+1) {
+    clear: both;
+  }
+  .pie-wrapper .pie {
+    height: 100%;
+    width: 100%;
+    clip: rect(0, 1em, 1em, 0.5em);
+    left: 0;
+    position: absolute;
     top: 0;
-    margin: 1rem 1rem 0 0;
   }
-
-  .provider__img {
-    height: 10rem;
+  .pie-wrapper .pie .half-circle {
+    height: 100%;
+    width: 100%;
+    border: 0.1em solid #3498db;
+    border-radius: 50%;
+    clip: rect(0, 0.5em, 1em, 0);
+    left: 0;
+    position: absolute;
+    top: 0;
   }
-
-}
-
-.set-size {
-  font-size: 10em;
-}
-
-.charts-container {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 800;
-}
-
-.charts-container:after {
-  clear: both;
-  content: "";
-  display: table;
-}
-
-.progress-bar {
-  background-color: white;
-}
-
-.pie-wrapper {
-  height: 1em;
-  width: 1em;
-  float: left;
-  margin: 15px;
-  position: relative;
-}
-.pie-wrapper:nth-child(3n+1) {
-  clear: both;
-}
-.pie-wrapper .pie {
-  height: 100%;
-  width: 100%;
-  clip: rect(0, 1em, 1em, 0.5em);
-  left: 0;
-  position: absolute;
-  top: 0;
-}
-.pie-wrapper .pie .half-circle {
-  height: 100%;
-  width: 100%;
-  border: 0.1em solid #3498db;
-  border-radius: 50%;
-  clip: rect(0, 0.5em, 1em, 0);
-  left: 0;
-  position: absolute;
-  top: 0;
-}
-.pie-wrapper .label {
-  background: #34495e;
-  border-radius: 50%;
-  bottom: 0.4em;
-  color: #ecf0f1;
-  cursor: default;
-  display: block;
-  font-size: 0.25em;
-  left: 0.4em;
-  line-height: 2.6em;
-  position: absolute;
-  right: 0.4em;
-  text-align: center;
-  top: 0.4em;
-}
-.pie-wrapper .label .smaller {
-  color: #bdc3c7;
-  font-size: .45em;
-  padding-bottom: 20px;
-  vertical-align: super;
-}
-.pie-wrapper .shadow {
-  height: 100%;
-  width: 100%;
-  border: 0.1em solid #bdc3c7;
-  border-radius: 50%;
-}
-.pie-wrapper.style-2 .label {
-  background: none;
-  color: #7f8c8d;
-}
-.pie-wrapper.style-2 .label .smaller {
-  color: #bdc3c7;
-}
-
-.pie-wrapper.progress-bar .pie .half-circle {
-  border-color: #3498db;
-}
-
-.pie-wrapper.progress-60 .pie {
-  clip: rect(auto, auto, auto, auto);
-}
-
-.progress-bar__info {
-  width: 2rem;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
-
-dfn {
-  background: #e9e9e9;
-  padding: 0 0.4em;
-  cursor: help;
-  font-style: normal;
-  position: relative;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
-dfn::after {
-  content: attr(data-info);
-  display: inline;
-  position: absolute;
-  top: 10px; 
-  right: 5%;
-  opacity: 0;
-  width: 230px;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1.5em;
-  padding: 0.5em 0.8em;
-  background: rgba(0,0,0,0.8);
-  color: #fff;
-  pointer-events: none; /* This prevents the box from apearing when hovered. */
-  transition: opacity 250ms, top 250ms;
-}
-dfn::before {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 0px;
-  right: 5%;
-  opacity: 0;
-  width: 0; height: 0;
-  border: solid transparent 5px;
-  border-bottom-color: rgba(0,0,0,0.8);
-  transition: opacity 250ms, top 250ms;
-}
-
-dfn:hover {
-  z-index: 800;
-}
-
-dfn:hover::after,
-dfn:hover::before {
-  opacity: 1;
-}
-
-.provider__button {
-  padding: 1rem 1rem;
-  background: rgb(126,213,111);
-  color: white;
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translate(-50%, -50%);
-  display: block;
-  width: 90%;
-  text-align: center;
-
-  &:hover {
+  .pie-wrapper .label {
+    background: #34495e;
+    border-radius: 50%;
+    bottom: 0.4em;
+    color: #ecf0f1;
+    cursor: default;
+    display: block;
+    font-size: 0.25em;
+    left: 0.4em;
+    line-height: 2.6em;
+    position: absolute;
+    right: 0.4em;
+    text-align: center;
+    top: 0.4em;
+  }
+  .pie-wrapper .label .smaller {
+    color: #bdc3c7;
+    font-size: .45em;
+    padding-bottom: 20px;
+    vertical-align: super;
+  }
+  .pie-wrapper .shadow {
+    height: 100%;
+    width: 100%;
+    border: 0.1em solid #bdc3c7;
+    border-radius: 50%;
+  }
+  .pie-wrapper.style-2 .label {
+    background: none;
+    color: #7f8c8d;
+  }
+  .pie-wrapper.style-2 .label .smaller {
+    color: #bdc3c7;
+  }
+  
+  .pie-wrapper.progress-bar .pie .half-circle {
+    border-color: #3498db;
+  }
+  
+  .pie-wrapper.progress-60 .pie {
+    clip: rect(auto, auto, auto, auto);
+  }
+  
+  .progress-bar__info {
+    width: 2rem;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  
+  dfn {
+    background: #e9e9e9;
+    padding: 0 0.4em;
+    cursor: help;
+    font-style: normal;
+    position: relative;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  dfn::after {
+    content: attr(data-info);
+    display: inline;
+    position: absolute;
+    top: 10px; 
+    right: 5%;
+    opacity: 0;
+    width: 230px;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.5em;
+    padding: 0.5em 0.8em;
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    pointer-events: none; /* This prevents the box from apearing when hovered. */
+    transition: opacity 250ms, top 250ms;
+  }
+  dfn::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0px;
+    right: 5%;
+    opacity: 0;
+    width: 0; height: 0;
+    border: solid transparent 5px;
+    border-bottom-color: rgba(0,0,0,0.8);
+    transition: opacity 250ms, top 250ms;
+  }
+  
+  dfn:hover {
+    z-index: 800;
+  }
+  
+  dfn:hover::after,
+  dfn:hover::before {
+    opacity: 1;
+  }
+  
+  .provider__button {
+    padding: 1rem 1rem;
+    background: rgb(126,213,111);
     color: white;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, -50%);
+    display: block;
+    width: 90%;
+    text-align: center;
+  
+    &:hover {
+      color: white;
+    }
   }
 }
