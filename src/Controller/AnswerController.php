@@ -59,7 +59,8 @@ class AnswerController extends Controller
                 'count' => $htmlTools->getUrlCount(
                     $filterUsage->getHtml()->getShop(),
                     $filterUsage->getHtml()->getUrl()
-                )
+                ),
+                'description' => $filterUsage->getHtml()->getShop()->getDescription(),
             ];
         }
 
