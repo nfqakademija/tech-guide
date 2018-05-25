@@ -24,7 +24,7 @@ Nowadays, technologies take an important aspect of our lifes. However, many peop
 * docker: `>=18.x-ce` 
 * docker-compose: `>=1.20.1`
 
-# <a name="how-to-run"></a>How to Run?
+# <a name="how-to-run"></a>How to Run dev environment:
 
 ```bash
   $ git clone <project>
