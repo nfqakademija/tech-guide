@@ -10,7 +10,6 @@ TechGuide - helps when every device looks the same
 * [Requirements](#requirements)
 * [How to Run?](#how-to-run)
 * [Team Members](#team-members)
-* [License](#license)
 
 # <a name="project-description"></a>Project Description
 
@@ -36,7 +35,7 @@ Nowadays, technologies take an important aspect of our lifes. However, many peop
 * `--schema` - used to recreate project's database;
 * `--with-fixtures` - generates demo data (will not work without `--schema`); 
 
-Open `http://techguide.local:8000/`;
+Open `http://127.0.0.1:8000/`;
 
 # <a name="team-members"></a>Team Members
 
