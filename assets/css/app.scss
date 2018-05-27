@@ -8,6 +8,7 @@
 @import "backdrop.scss";
 @import "mobileNavigation.scss";
 @import "mobileLayout.scss";
+@import "sideDrawer.scss";
 @import "results.scss";
 @import "loader.scss";
 @import "guidebot.scss";
@@ -26,39 +27,10 @@
 
 html {
   font-size: 62.5%;
-
-  @include respond(md-desktop) {
-    font-size: 85%;
-  }
-
-  @include respond(bg-desktop) {
-    font-size: 105%;
-  }
-
-  @include respond(md-dev) {
-    font-size: 55%;
-  }
-
-  @include respond(phone) {
-    font-size: 65%;
-  }
-
-  @include respond(phone-land) {
-    font-size: 40%;
-  }
-
-  @include respond(ipad-port) {
-    font-size: 80%;
-  }
-  
-  @include respond(ipad-land) {
-    font-size: 70%;
-  }
-
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;;
+  font-family: 'Rubik', 'Montserrat', sans-serif;;
   font-size: 1.6rem;
   height: 100vh;
   color: $color-black;

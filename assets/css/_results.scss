@@ -1,19 +1,123 @@
-.card__side--back {
+.slick-slider {
+
+    div {
+      height: 100%;
+    }
+
+    .provider {
+      position: relative;
+    
+      &__header {
+        position: relative;
+        width: 100%;
+        height: 15%;
+        z-index: 100;
+        box-shadow: 0 1rem 5rem rgba(0, 0, 0, .2);
+    
+        &--logo, &--efficiency {
+          position: relative;
+        }
+    
+        .provider-logo {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+    
+      &__results {
+        position: relative;
+        width:100%;
+        height:100%;
+    
+        &--iframe {
+          width: 100%;
+          height:100%;
+          border: none;
+        }
+      }
+    }
+}
+
+.mobile-main {
+
+  .provider__header {
+
+    .provider-logo {
+      height: 95%;
+    }
+  }
+}
+
+.desktop-main {
 
   .slick-slider {
     height:100%;
     background-color: white;
+
+    .slick-slide {
+      background-color: white;
+    }
+
+    .slick-dots {
+      bottom: 0;
+      padding-bottom: .7rem;
+    }
   }
 
-  .results {
-    z-index: 500;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    background-color: white;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  .provider {
+    position: relative;
+    height: 94%;
+
+    &__header {
+
+      &--logo, &--efficiency {
+        float: left;
+      }
+
+      &--logo {
+        width: 30%;
+
+        @include respond(phone-tab) {
+          width: 40%;
+        }
+
+        .provider-logo {
+          width: 20rem;
+        }
+      }
+
+      &--efficiency {
+        width: 70%;
+
+        @include respond(phone-tab) {
+          width: 60%;
+        }
+
+        .progress-wrap {
+          height: 15%;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 90%;
+          background: #ddd;
+          overflow: visible;
+          position: relative;
+
+          .progress-bar {
+            max-width: 100%;
+            background: #f80;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 0;
+            transition: 2s all;
+          }
+        }
+      }
+    }
+  }
   
     &__providers {
       list-style: none;
@@ -25,19 +129,10 @@
       position: relative;
       float: left;
       width: 100%;
-      height: 100%;
+      height: 94%;
   
       &:not(:last-child) {
         border-right: .1rem solid grey;
-      }
-  
-      &--logo {
-        width: 100%;
-        text-align: center;
-  
-        .provider__img {
-          height: 10rem;
-        }
       }
     }
   
@@ -48,18 +143,17 @@
       top: 0;
       margin: 1rem 1rem 0 0;
     }
-  }
   
   .set-size {
     font-size: 10em;
   }
   
   .charts-container {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
+    width:100%;
+    height:80%;
     z-index: 800;
+    overflow: scroll;
   }
   
   .charts-container:after {
@@ -157,18 +251,18 @@
     font-style: normal;
     position: relative;
     position: absolute;
-    bottom: 0;
+    bottom: -3rem;
     right: 0;
   }
   dfn::after {
     content: attr(data-info);
     display: inline;
     position: absolute;
-    top: 10px; 
-    right: 5%;
+    top: 1rem; 
+    right: .6rem;
     opacity: 0;
-    width: 230px;
-    font-size: 13px;
+    width: 23rem;
+    font-size: 1.3rem;
     font-weight: 700;
     line-height: 1.5em;
     padding: 0.5em 0.8em;
@@ -182,10 +276,10 @@
     display: block;
     position: absolute;
     top: 0px;
-    right: 5%;
+    right: .6rem;
     opacity: 0;
     width: 0; height: 0;
-    border: solid transparent 5px;
+    border: solid transparent .5rem;
     border-bottom-color: rgba(0,0,0,0.8);
     transition: opacity 250ms, top 250ms;
   }
@@ -214,5 +308,28 @@
     &:hover {
       color: white;
     }
+  }
+}
+
+.results__summary {
+
+  .provider {
+    height: 33%;
+
+    &__header {
+      box-shadow: none;
+    }
+
+    &__header {
+      height: 100%;
+
+      .progress-wrap {
+        height: 10%;
+      }
+    }
+  }
+
+  .provider__results {
+    display: none;
   }
 }

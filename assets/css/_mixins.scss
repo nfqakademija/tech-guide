@@ -29,7 +29,7 @@
   }
 
   @if $breakpoint == md-dev {
-    @media (max-width: 1200px) { @content };
+    @media (max-width: 1092px) { @content };
   }
 
   @if $breakpoint == md-desktop {

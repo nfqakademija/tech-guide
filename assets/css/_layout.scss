@@ -1,15 +1,9 @@
-.main {
+.desktop-main {
     height: 100%;
     width: 100%;
-    min-width: 90rem;
-    min-height: 75rem;
+    min-width: 54.4rem;
     margin: 0 auto;
     position: relative;
-    background-size: cover;
-    background-image: url(images/background-body.svg);
+    background-image: url('images/9795.jpg');
     padding: 3rem 2rem;
-  
-    @include respond(phone-tab) {
-      width: 100%;
-    }
-  }
+}

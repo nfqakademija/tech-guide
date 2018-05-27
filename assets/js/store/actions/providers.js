@@ -37,3 +37,16 @@ export const fetchProviders = ( values ) => {
         });
     }
 }
+
+export const providersHistorySet = () => {
+  return {
+    type: actionTypes.PROVIDERS_HISTORY_SET,
+    providersHistorySet: true,
+  }
+}
+
+export const toggleProvidersHistory = () => {
+  return {
+    type: actionTypes.TOGGLE_PROVIDERS_HISTORY,
+  }
+}

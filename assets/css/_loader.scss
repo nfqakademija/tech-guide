@@ -4,15 +4,20 @@ body {
 
 .loader-title {
   position: absolute;
-  font-weight: 600;
-  font-size: 3rem;
+  font-weight: 400;
+  font-size: 1.6rem;
   color: white;
   left: 53%;
-  top: 65%;
+  bottom: 35%;
   margin-left: -2rem;
   transform: translate(-50%, -50%);
   z-index: 600;
   text-align: center;
+
+  @include respond(md-desktop) {
+    left: 50%;
+    transform: scale(1.8);
+  }
 
   @include respond(phone) {
     font-size: 2rem;
@@ -40,10 +45,21 @@ body {
     top: -1.9rem;
     left: 6rem;
     border-radius: .2rem 1rem .1rem 0;
+
+    @include respond(md-desktop) {
+      top: -3rem;
+      left: 11rem;
+      transform: scale(1.8);
+    }
   }
 }
 
 .base {
+
+  @include respond(md-desktop) {
+    transform: scale(1.8);
+  }
+
   span {
     position: absolute;
     width: 0;

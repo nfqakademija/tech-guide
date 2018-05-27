@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Navigation from '../../components/Navigation/Navigation';
 import Hoc from '../Hoc/Hoc.jsx';
+import Modal from '../../components/UI/Modal/Modal';
+import SavedQuizes from '../../containers/SavedQuizes/SavedQuizes';
 import Quiz from '../../containers/Quiz/Quiz';
 import Home from '../../containers/Home/Home';
 import Loader from '../../components/Loader/Loader';
 import Results from '../../components/Providers/Results/Results';
-import ProvidersLogos from '../../components/Providers/ProvidersLogos/ProvidersLogos';
 import * as actionCreators from '../../store/actions/guidebot';
 import * as actionCreatorsProviders from '../../store/actions/providers';
 
@@ -20,21 +20,25 @@ const layout = (props) => {
         attachedClasses = ["quiz-started"];
         otherClasses = ["priority"];
     }
-   
+
       return (
-        <div className="row main">
-          <div className={`card ${attachedClasses.join(' ')}`}>
-            <Home />
-            <div className={`card__side card__side--back ${otherClasses.join('')}`}>
-              {props.guidebotDataSet && props.showGuidebot ? 
-              <Hoc>
-                <Results />
-                <Quiz /> 
-              </Hoc> : null}
+        <Hoc>
+          <div className="row desktop-main">
+            <div className={`card ${attachedClasses.join(' ')}`}>
+              <Home />
+              <div className={`card__side card__side--back ${otherClasses.join('')}`}>
+                {props.guidebotDataSet && props.showGuidebot ? 
+                <Hoc>
+                  <Results />
+                  <Quiz /> 
+                </Hoc> : null}
+              </div>
             </div>
           </div>
-          <ProvidersLogos />
-        </div>
+          <Modal>
+            <SavedQuizes cookies={props.cookies} />
+          </Modal>
+        </Hoc>
       );
   }
 

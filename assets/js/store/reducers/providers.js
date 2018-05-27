@@ -5,6 +5,8 @@ const initialState = {
   providersSet: false,
   loadingProviders: false,
   error: false,
+  providersHistorySet: false,
+  showProvidersHistory: false,
 };
 
 const getResults = ( state, action ) => {
@@ -30,11 +32,27 @@ const fetchProvidersFailed = ( state, action ) => {
   }
 }
 
+const providersHistSet = ( state, action ) => {
+  return {
+    ...state,
+    providersHistorySet: true,
+  }
+}
+  
+const toggleProvidersHist = ( state, action ) => {
+  return {
+    ...state,
+    showProvidersHistory: !state.showProvidersHistory,
+  }
+}
+
 const reducer = ( state = initialState, action ) => {
   switch ( action.type ) {
     case actionTypes.HANDLE_END: return getResults( state, action );
     case actionTypes.LOADING_PROVIDERS: return loadingProviders( state, action );
     case actionTypes.FETCH_PROVIDERS_FAILED: return fetchProvidersFailed( state, action );
+    case actionTypes.PROVIDERS_HISTORY_SET: return providersHistSet( state, action );
+    case actionTypes.TOGGLE_PROVIDERS_HISTORY: return toggleProvidersHist( state, action );
     default: return state;
   }
 }

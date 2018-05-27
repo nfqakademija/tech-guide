@@ -4,17 +4,20 @@ import { connect } from 'react-redux';
 import Hoc from '../Hoc/Hoc';
 import MobileNavigation from '../../components/Navigation/MobileNavigation/MobileNavigation';
 import Home from '../../containers/Home/Home';
+import SavedQuizes from '../../containers/SavedQuizes/SavedQuizes';
 import Quiz from '../../containers/Quiz/Quiz';
 import Provider from '../../components/Providers/Provider/Provider';
 import MobileResults from '../../components/Providers/Results/MobileResults';
 import * as actionCreators from '../../store/actions/guidebot';
+import * as navigationActionCreators from '../../store/actions/navigation';
 import Slider from 'react-slick';
 
 class MobileLayout extends Component {
     constructor() {
         super();
         this.state = {
-            pageCount: 0,
+            pageCount: 1,
+            numberOfSlides: 3,
             showGuidebot: false,
         }
     }
@@ -23,16 +26,33 @@ class MobileLayout extends Component {
         if (this.props.providersSet) {
             this.slider.slickNext();
         }
+        let numberOfSlides;
+        numberOfSlides = document.querySelectorAll('.slick-slide').length;
+        if (numberOfSlides !== this.state.numberOfSlides) {
+            this.setState({ numberOfSlides: numberOfSlides });
+        }
     }
 
     render() {
         let navigationSteps;
-        if (this.state.pageCount === 0) {
+        if (this.props.providersHistorySet && this.props.currentPage === 0) {
             navigationSteps = {
                 back: "",
-                next: "Start quiz!",
+                next: "Home",
+            }        
+        } else if ((!this.props.providersHistorySet &&  this.props.currentPage === 0) || (this.props.providersHistorySet && this.props.currentPage === 1)) {
+            if (this.props.providersHistorySet) {
+                navigationSteps = {
+                    back: "History",
+                    next: "Start quiz!",
+                }
+            } else {
+                navigationSteps = {
+                    back: "",
+                    next: "Start quiz!",
+                }
             }
-        } else if (this.state.pageCount === 1) {
+        } else if ((!this.props.providersHistorySet &&  this.props.currentPage === 1) || (this.props.providersHistorySet && this.props.currentPage === 2)) {
             navigationSteps = {
                 back: "Back",
                 next: "",
@@ -42,9 +62,16 @@ class MobileLayout extends Component {
                 navigationSteps.next = "Results"
             }
         } else {
-            navigationSteps = {
-                back: "Back",
-                next: "",
+            if (this.state.numberOfSlides-1 === this.props.currentPage) {
+                navigationSteps = {
+                    back: "Back",
+                    next: "",
+                }
+            } else {
+                navigationSteps = {
+                    back: "Back",
+                    next: "Next",
+                }
             }
         }
 
@@ -55,11 +82,13 @@ class MobileLayout extends Component {
             speed: 500,
             slidesToShow: 1,
             slidesToScroll: 1,
+            initialSlide: this.props.currentPage,
             beforeChange: (oldIndex, newIndex) => {
-                if (newIndex === 1) {
+                if ( (this.props.providersHistorySet && newIndex === 2) || ( !this.props.providersHistorySet && newIndex === 1 ) ) {
                     this.setState({ showGuidebot: true });
                 }
                 this.setState({ pageCount: newIndex });
+                this.props.onSetCurrentPage(newIndex);
             },
         }
 
@@ -69,28 +98,6 @@ class MobileLayout extends Component {
                 if (this.props.providersInfo[providerKey].count != -1) {
                     count = `(${this.props.providersInfo[providerKey].count})`;
                 }
-
-                let progressBarRightSide;
-                let progressBarLeftSide;
-                let progressBarPie;
-                if (this.props.providersInfo[providerKey].filterUsage <= 50) {
-                    progressBarRightSide = {
-                        transform: `rotate(${this.props.providersInfo[providerKey].filterUsage/100*360}deg)`,
-                    },
-                    progressBarLeftSide = {
-                        display: "none",
-                    }
-                } else {
-                    progressBarRightSide = {
-                        transform: "rotate(180deg)",
-                    }
-                    progressBarLeftSide = {
-                        transform: `rotate(${this.props.providersInfo[providerKey].filterUsage/100*360}deg)`,
-                    }
-                    progressBarPie = {
-                        clip: "rect(auto, auto, auto, auto)",
-                    }
-                }
             
                 return (
                     <Provider 
@@ -99,26 +106,30 @@ class MobileLayout extends Component {
                         logo={this.props.providersInfo[providerKey].logo} 
                         count={count} 
                         efficiency={this.props.providersInfo[providerKey].filterUsage} 
-                        progressBarLeftSide={progressBarLeftSide} 
-                        progressBarRightSide={progressBarRightSide} 
-                        progressBarPie={progressBarPie} />
+                    />
                     );
         });
             
         return (
-            <Hoc>
+            <div className="mobile-main">
                 <Slider ref={slider => (this.slider = slider)} {...settings} >
+                    { this.props.providersHistorySet ? <div className="mobile-savedQuizes"><SavedQuizes /></div> : null}
                     <div className="mobile-landing"><Home /></div>
                     <div className="mobile-quiz">
                         { this.state.showGuidebot ?                  
                             <Quiz /> 
                         : null}
                     </div>
-                    {/* { this.props.providersSet ? <MobileResults /> : null } */}
+                    { this.props.providersSet ?
+                        <div className="results__summary">
+                            {generatedProviders}
+                        </div>
+                    : null
+                    }
                     {generatedProviders}
                 </Slider>
                 <MobileNavigation clickedBack={() => this.slider.slickPrev()} clickedNext={() => this.slider.slickNext()} next={navigationSteps.next} back={navigationSteps.back} />
-            </Hoc>
+            </div>
         );
     }
 }
@@ -131,12 +142,15 @@ const mapStateToProps = state => {
       loadingProviders: state.providers.loadingProviders,
       providersSet: state.providers.providersSet,
       providersInfo: state.providers.providersInfo,
+      providersHistorySet: state.providers.providersHistorySet,
+      currentPage: state.navigation.currentPage,
     }
   }
 
 const mapDispatchToProps = dispatch => {
     return {
       onShowGuidebot: () => dispatch(actionCreators.showGuidebot()),
+      onSetCurrentPage: ( index ) => dispatch(navigationActionCreators.setCurrentPage( index )),
     };
 }
 

@@ -1,6 +1,17 @@
 .rsc-root {
   height: 100%;
-  background-color: white;
+  width: 82%;
+  position: relative;
+  background: white;
+  float: left;
+
+  @include respond(phone-tab) {
+    width: 80%;
+  }
+
+  @include respond(phone) {
+    width: 76%;
+  }
 
   .rsc-container {
     height: 100%;
@@ -10,7 +21,6 @@
     font-family: 'Helvetica Neue';
     font-size: 1.6rem;
     z-index: 200;
-
   }
 
   .rsc-content {
@@ -25,23 +35,29 @@
 
   .rsc-ts-image {
     box-shadow: none;
+    height: 4.7rem;
   }
 
   .rsc-os-option {
     color: $color-white;
 
     &-element {
-      background-color: rgb(40, 180, 133);
+      background-color: #f49569;
 
       &:hover {
-        background-color: #7ed56f;
+        background-color: #c05e3d;
         opacity: 1;
       }
     }
   }
 
+  .rsc-os-option-element {
+    border-radius: 1.4rem;
+  }
+
   .rsc-os-option-element, .rsc-ts-bubble {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
+    padding: .9rem 1.2rem
   }
 
   .rsc-cs {
