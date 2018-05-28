@@ -159,7 +159,8 @@ class Provider
                 'logo' => $shopCategory->getShop()->getLogo(),
                 'filterUsage' => $filterUsage,
                 'count' => $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl()),
-                'isAlternativeResult' => $isAlternativeResult
+                'isAlternativeResult' => $isAlternativeResult,
+                'description' => $shopCategory->getShop()->getDescription(),
             ];
 
             $this->filterUsageCalculator->reset();

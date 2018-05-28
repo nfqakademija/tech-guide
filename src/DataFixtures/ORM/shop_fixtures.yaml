@@ -2,6 +2,7 @@ App\Entity\Shop:
     shop_1:
         homepage: "https://www.topocentras.lt/"
         logo: 'images/topo.png'
+        description: 'TOPO CENTRAS yra vieno didžiausių pasaulyje prekybos tinklų „Euronics International“ grupės narys. Lietuvoje veikia net 37 TOPO CENTRAS tinklo parduotuvės, išsidėsčiusios 25 miestuose bei internetinė parduotuvė www.topocentras.lt. TOPO CENTRAS visada siekia būti žingsniu priekyje, todėl yra klientų mėgstamas dėl plataus prekių asortimento, užtikrinto aptarnavimo, ekspertų konsultacijų ir naudingų paslaugų bei inovatyvių ir įdomių produktų pristatymų.'
         repeatingFilter: 0
         filterValueSeparator: '\%2C'
         firstFilterValueSeparator: '='
@@ -10,6 +11,7 @@ App\Entity\Shop:
     shop_2:
         homepage: "https://www.1a.lt/"
         logo: 'images/1aLogo.svg'
+        description: 'Internetinė parduotuvė 1a.lt pagal apyvartą yra viena didžiausių internetinių parduotuvių Lietuvoje, kuri dirba nuo 2008 m, aprūpindama savo pirkėjus puikiais pasiūlymais bei aukščiausios kokybės klientų aptarnavimu. "Verslo žinių" projekte smulkiajam ir vidutiniam verslui "Gazelė 2012" bendrovė UAB 1A.LT buvo nominuota ir pripažinta kaip viena iš sėkmingiausiai dirbančių ir sparčiausiai besivystančių Lietuvos bendrovių!'
         repeatingFilter: 0
         filterValueSeparator: ','
         firstFilterValueSeparator: '-'
@@ -18,6 +20,7 @@ App\Entity\Shop:
     shop_3:
         homepage: "https://www.technorama.lt/"
         logo: 'images/technorama.png'
+        description: 'Internetinė parduotuvė TECHNORAMA.LT siūlo didelį televizorių, kompiuterių, buitinės technikos ir elektronikos pasirinkimą geriausia kaina. Internetu pirkti pigiau, mokėk grynais, kai atveš'
         repeatingFilter: 1
         firstFilterSeparator: '#!&'
         filterSeparator: '&'
