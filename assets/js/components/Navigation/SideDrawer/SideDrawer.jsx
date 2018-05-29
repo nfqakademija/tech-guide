@@ -12,6 +12,20 @@ const sideDrawer = (props) => {
         props.onSetCurrentPage(index);
     }
 
+    const generatedProvidersNavigation = props.providersInfo.map( (providerInfo, index) => {
+        let leftSide = 'https://www.';
+        let leftSideLength = leftSide.length;
+        let urlLength = providerInfo.url.length;
+        let url = providerInfo.url.substring(leftSideLength, urlLength);
+        let provider = url.substring(0, url.indexOf("."));
+        provider = provider.charAt(0).toUpperCase() + provider.slice(1);
+        pageCounter = index+=3;
+        console.log(pageCounter);
+        return (
+            <li className={props.currentPage === pageCounter ? 'active' : null} ><a onClick={() => activateButton(pageCounter)} href="#" >{provider}</a></li>
+        );
+    } )
+
     return (
         <div className="sideDrawer">
             <div className="sideDrawer__navigation" >
@@ -31,9 +45,7 @@ const sideDrawer = (props) => {
                         <h2>Results</h2>
                         <ul>
                             <li className={props.currentPage === 2 ? 'active' : null} ><a onClick={() => activateButton(2)} href="#" >Summary</a></li>
-                            <li className={props.currentPage === 3 ? 'active' : null} ><a onClick={() => activateButton(3)} href="#" >Topocentras</a></li>
-                            <li className={props.currentPage === 4 ? 'active' : null} ><a onClick={() => activateButton(4)} href="#" >1a</a></li>
-                            <li className={props.currentPage === 5 ? 'active' : null} ><a onClick={() => activateButton(5)} href="#" >Technorama</a></li>
+                            {generatedProvidersNavigation}
                         </ul>
                     </div>
                 : null}
@@ -47,6 +59,7 @@ const mapStateToProps = state => {
         providersSet: state.providers.providersSet,
         currentPage: state.navigation.currentPage,
         providersHistorySet: state.providers.providersHistorySet,
+        providersInfo: state.providers.providersInfo,
     }
 }
 

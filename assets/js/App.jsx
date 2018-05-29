@@ -34,9 +34,7 @@ class App extends Component {
       .map( cookieKey => {
         promises.push(axios.get(`/answers/get/${parsedCookies[cookieKey].id}`))
     })
-
     let storedCookies = [];
-
     axios.all(promises).then(function(results) {
       results.forEach(function(response) {
         if (typeof response.data == 'object' && response.data.constructor === Object) {

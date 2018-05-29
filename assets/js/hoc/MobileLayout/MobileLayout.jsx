@@ -6,6 +6,7 @@ import Hoc from '../Hoc/Hoc';
 import MobileNavigation from '../../components/Navigation/MobileNavigation/MobileNavigation';
 import Home from '../../containers/Home/Home';
 import SavedQuizes from '../../containers/SavedQuizes/SavedQuizes';
+import Summary from '../../components/Providers/Results/Summary/Summary';
 import Quiz from '../../containers/Quiz/Quiz';
 import Provider from '../../components/Providers/Provider/Provider';
 import * as guidebotActionCreators from '../../store/actions/guidebot';
