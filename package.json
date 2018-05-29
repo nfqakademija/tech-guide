@@ -29,7 +29,6 @@
         "iframe-resizer": "^3.6.1",
         "prop-types": "^15.6.1",
         "react": "^16.3.2",
-        "react-canvas": "^1.3.0",
         "react-cookie": "^2.1.5",
         "react-device-detect": "^1.3.4",
         "react-dom": "^16.3.2",
