@@ -11,17 +11,6 @@ import * as actionCreators from '../../../store/actions/navigation';
 class Results extends Component {
 
   render() {
-        const settings = {
-          dots: true,
-          infinite: false,
-          speed: 500,
-          arrows: true,
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          beforeChange: (oldIndex, newIndex) => {
-            this.props.onSetCurrentPage(newIndex);
-        },
-      }
 
       const generatedProviders = Object.keys( this.props.providersInfo )
           .map( providerKey => {
@@ -44,22 +33,13 @@ class Results extends Component {
     if (this.props.providersSet) {
       return (
         <Hoc>
-          { this.props.resultsOpened ? 
-          <Hoc>
-            <SideDrawer goTo={(index) => this.slider.slickGoTo(index)} />
-            <Slider ref={slider => (this.slider = slider)} {...settings} >
-              <div className="results__summary">
-                {generatedProviders}
-              </div>
-              {generatedProviders}
-            </Slider> 
-          </Hoc>
-          : null}
+          <div className="results__summary">
+            {generatedProviders}
+          </div>
+          {generatedProviders}
         </Hoc>
       );
-    } else {
-      return null;
-    }
+    } else return null;
   }
 }
 
@@ -68,7 +48,6 @@ const mapStateToProps = state => {
     providersInfo: state.providers.providersInfo,
     providersSet: state.providers.providersSet,
     currentPage: state.navigation.currentPage,
-    resultsOpened: state.navigation.resultsOpened,
   }
 }
 

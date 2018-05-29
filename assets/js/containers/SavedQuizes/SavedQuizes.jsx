@@ -1,31 +1,56 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { isMobile } from "react-device-detect";
 
 import Hoc from '../../hoc/Hoc/Hoc';
+import * as providersActionCreators from '../../store/actions/providers';
+import * as navigationActionCreators from '../../store/actions/navigation';
 
 const savedQuizes = (props) => {
 
-    let visualiseCookie = props.cookies.map( cookie => {
-        let cookieInfo = cookie.map( (cookieInfo, index) => {
-            return (
-                <div className="providers__cookie" key={index}>CookieInfo</div>
-            );
-        })
+    const setProvidersInfo = (providersInfo) => {
+        props.onSetProviders(providersInfo);
+        props.onSetCurrentPage(2);
+    }
+
+    let visualiseCookie = props.cookies.map( (record, index) => {
+        let date;
+        let categoryLabel;
+        let providersInfo = [];
+        Object.keys(record).forEach( category => {
+            categoryLabel = category;
+            record[category].map( provider => {
+                providersInfo.push(provider);
+                date = provider.date;
+                return (
+                    <div className="quiz-history__provider" key={index}>
+                        <div>{provider}</div>
+                    </div>
+                );
+            } )
+        } )
 
         return (
-            <div>{cookieInfo}</div>
+            <div className="quiz-history__record" key={index}>
+                <div className="record__category">{categoryLabel}</div>
+                <div className="record__category">{date}</div>
+                <div className="record__category">
+                    <a href="#" onClick={() => setProvidersInfo(providersInfo)} >Show results</a>
+                </div>
+            </div>
         );
     })
 
     return (
-        <Hoc>
-            { isMobile ? 
-                <div>Mobile cookies</div>
-            : 
-                <div>{visualiseCookie}</div>
-            }
-        </Hoc>
+        <div className="quiz-history" >{props.cookies.length === 0 ? <img className="quiz-history__not-found" src="images/noHistory.svg" /> : visualiseCookie}</div>
     );
 }
 
-export default savedQuizes;
+const mapDispatchToProps = dispatch => {
+    return {
+        onSetProviders: ( providersInfo ) => dispatch(providersActionCreators.setProviders( providersInfo )), 
+        onSetCurrentPage: ( index ) => dispatch(navigationActionCreators.setCurrentPage( index )),       
+    }
+}
+
+export default connect(null, mapDispatchToProps)(savedQuizes);

@@ -1,0 +1,42 @@
+.slick-slider {
+
+    .quiz-history {
+        position: relative;
+        padding: 2rem;
+        color: #7F8C9A;
+        font-size: 1.2rem;
+
+        &__record {
+            height: auto;
+            width: 100%;
+            padding: 1.5rem 0;
+            border-bottom: .1rem solid #D2D7DC;
+
+            &::after {
+                content: "";
+                clear: both;
+                display: table;
+            }
+        }
+    
+        &__provider {
+            height: auto;
+            float: left;
+        }
+
+        .record__category {
+            float:left;
+            width: 33%;
+        }
+
+        &__not-found {
+            position: absolute;
+            width: 50%;
+            max-width: 40rem;
+            min-width: 25rem;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+}

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
+import { isMobile } from "react-device-detect";
+import axios from 'axios';
 import Transition from 'react-transition-group/Transition';
 
 import Hoc from './hoc/Hoc/Hoc';
 import Layout from './hoc/Layout/Layout';
 import MobileLayout from './hoc/MobileLayout/MobileLayout';
 import Loader from './components/Loader/Loader';
-import { isMobile } from "react-device-detect";
 import * as guidebotActionCreators from './store/actions/guidebot';
 import * as providersActionCreators from './store/actions/providers';
 
@@ -24,20 +24,28 @@ class App extends Component {
 
     let cookies = this.getCookie('answers');
     if (cookies === null) {
-      return this.setState({ cookies: -1 });
+      return this.props.onProvidersHistorySet();
     }
     let parsedCookies = JSON.parse(cookies);
 
     let arrayOfCookies = [];
+    let promises = [];
     let generateCookies = Object.keys( parsedCookies )
       .map( cookieKey => {
-        axios.get(`/answers/get/${parsedCookies[cookieKey].id}`)
-          .then( response => {
-            if (typeof response.data[Object.keys(response.data)[0]] == 'object') {
-              arrayOfCookies.push(response.data[Object.keys(response.data)[0]])
-              this.setState({cookies: arrayOfCookies});
-            }
-          });
+        promises.push(axios.get(`/answers/get/${parsedCookies[cookieKey].id}`))
+    })
+
+    let storedCookies = [];
+
+    axios.all(promises).then(function(results) {
+      results.forEach(function(response) {
+        if (typeof response.data == 'object' && response.data.constructor === Object) {
+          storedCookies.push(response.data);
+        }
+      })
+    }).then(() => {
+      this.setState({ cookies: storedCookies });
+      this.props.onProvidersHistorySet();
     })
   }
 
@@ -54,16 +62,10 @@ class App extends Component {
     return null;
   }
 
-  componentDidUpdate() {
-    if (this.state.cookies.length > 0 || this.state.cookies === -1) {
-      this.props.onProvidersHistorySet();
-    }
-  }
-
   render() {
 
     let loaderTitle;
-    if (this.props.loadingGuidebotData || (this.props.showLoader && this.props.guidebotDataSet) || this.state.cookies === -1 ) {
+    if (this.props.loadingGuidebotData || (this.props.showLoader && this.props.guidebotDataSet) || !this.props.providersHistorySet ) {
       loaderTitle = 'GUIDEBOT IS COMING...';
     } else if (this.props.loadingProviders || this.props.showLoader && this.props.providersSet) {
       loaderTitle = 'PREPARING RESULTS...'
@@ -89,13 +91,16 @@ class App extends Component {
       <Hoc>
         <Transition in={this.props.loadingGuidebotData || this.props.loadingProviders || !this.props.providersHistorySet} timeout={duration} unmountOnExit>
           {(state) => (
-            <Loader style={{
-              ...defaultStyle,
-              ...transitionStyles[state]
-            }} />
+            <Loader 
+              style={{
+                ...defaultStyle,
+                ...transitionStyles[state]
+              }} 
+              loaderTitle={loaderTitle}
+            />
           )}
         </Transition>
-        { isMobile ? <MobileLayout /> : <Layout cookies={this.state.cookies} /> }
+        { isMobile ? <MobileLayout cookies={this.state.cookies} /> : <Layout cookies={this.state.cookies} /> }
       </Hoc>
     );
   }

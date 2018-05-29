@@ -50,3 +50,10 @@ export const toggleProvidersHistory = () => {
     type: actionTypes.TOGGLE_PROVIDERS_HISTORY,
   }
 }
+
+export const loadProviders = ( providersInfo ) => {
+  return {
+    type: actionTypes.LOAD_PROVIDERS,
+    providersInfo: providersInfo,
+  }
+}

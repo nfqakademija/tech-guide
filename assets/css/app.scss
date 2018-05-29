@@ -11,6 +11,7 @@
 @import "sideDrawer.scss";
 @import "results.scss";
 @import "loader.scss";
+@import "savedQuizes.scss";
 @import "guidebot.scss";
 @import "home.scss";
 @import "layout.scss";
@@ -33,7 +34,7 @@ body {
   font-family: 'Rubik', 'Montserrat', sans-serif;;
   font-size: 1.6rem;
   height: 100vh;
-  color: $color-black;
+  color: #333;
   overflow: auto;
 }
 

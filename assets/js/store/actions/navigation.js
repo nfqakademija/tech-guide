@@ -7,6 +7,20 @@ export const setCurrentPage = ( index ) => {
     }
 }
 
+export const resultsShow = () => {
+    return {
+        type: actionTypes.RESULTS_SHOW,
+        resultsOpened: true,
+    }
+}
+
+export const resultsHide = () => {
+    return {
+        type: actionTypes.RESULTS_HIDE,
+        resultsOpened: false,
+    }
+}
+
 export const resultsToggle = () => {
     return {
         type: actionTypes.RESULTS_TOGGLE,

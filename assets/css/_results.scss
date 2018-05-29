@@ -311,25 +311,127 @@
   }
 }
 
-.results__summary {
+.results-summary {
+  padding: 3rem 2rem;
 
-  .provider {
-    height: 33%;
+  ul {
+    list-style-type: none;
+    content: "";
+    clear: both;
+    display: table;
+    height: 100%;
+    text-align: center;
+  }
 
-    &__header {
-      box-shadow: none;
-    }
+  &__provider {
+    float: left;
+    width: 33%;
+    position: relative;
+  }
 
-    &__header {
-      height: 100%;
+  .provider__logo {
+    height: 13rem;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
 
-      .progress-wrap {
-        height: 10%;
-      }
+    @include respond(phone-tab) {
+      font-size: 11rem;
     }
   }
 
-  .provider__results {
-    display: none;
+  .provider__link {
+    background-color: #f49569;
+    color: white;
+    text-decoration: none;
+    padding: .8rem;
+    width: 85%;
+    position: absolute;
+    left: 50%;
+    bottom: 5%;
+    transform: translate(-50%, 0);
+    text-align: center;
+  }
+
+  .progress-pie-chart {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: #E5E5E5;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(.7);
+
+    @include respond(phone-tab) {
+      transform: translate(-50%, -50%) scale(.6);
+    }
+
+  }
+  .progress-pie-chart.gt-50 {
+    background-color: #bf4349;
+  }
+  
+  .ppc-progress {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    left: calc(50% - 100px);
+    top: calc(50% - 100px);
+    width: 200px;
+    height: 200px;
+    clip: rect(0, 200px, 200px, 100px);
+  }
+  .ppc-progress .ppc-progress-fill {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    left: calc(50% - 100px);
+    top: calc(50% - 100px);
+    width: 200px;
+    height: 200px;
+    clip: rect(0, 100px, 200px, 0);
+    background: #bf4349;
+    transform: rotate(60deg);
+  }
+  .gt-50 .ppc-progress {
+    clip: rect(0, 100px, 200px, 0);
+  }
+  .gt-50 .ppc-progress .ppc-progress-fill {
+    clip: rect(0, 200px, 200px, 100px);
+    background: #E5E5E5;
+  }
+  
+  .ppc-percents {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    left: calc(50% - 173.9130434783px/2);
+    top: calc(50% - 173.9130434783px/2);
+    width: 173.9130434783px;
+    height: 173.9130434783px;
+    background: #fff;
+    text-align: center;
+    display: table;
+  }
+  .ppc-percents span {
+    display: block;
+    font-size: 2.6em;
+    font-weight: bold;
+    color: #A5B6C3;
+  }
+  
+  .pcc-percents-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  
+  body {
+    font-family: Arial;
+    background: #f7f7f7;
+  }
+  
+  .fill-progress {
+    transform: rotate()
   }
 }

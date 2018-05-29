@@ -1,17 +1,9 @@
 .rsc-root {
   height: 100%;
-  width: 82%;
+  width: 100%;
   position: relative;
   background: white;
   float: left;
-
-  @include respond(phone-tab) {
-    width: 80%;
-  }
-
-  @include respond(phone) {
-    width: 76%;
-  }
 
   .rsc-container {
     height: 100%;
@@ -26,7 +18,7 @@
   .rsc-content {
     height: 100%;
     overflow-y: auto;
-    padding: 2rem 5rem;
+    padding: 2rem 1rem;
 
     @include respond(phone) {
       padding: 0;
@@ -58,6 +50,10 @@
   .rsc-os-option-element, .rsc-ts-bubble {
     font-size: 1.4rem;
     padding: .9rem 1.2rem
+  }
+
+  .rsc-ts-bubble, .rsc-ts, .rsc-os {
+    height: auto;
   }
 
   .rsc-cs {

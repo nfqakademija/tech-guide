@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actions';
+import { loadProviders } from '../actions/providers';
 
 const initialState = {
   providersInfo: [],
@@ -6,7 +7,6 @@ const initialState = {
   loadingProviders: false,
   error: false,
   providersHistorySet: false,
-  showProvidersHistory: false,
 };
 
 const getResults = ( state, action ) => {
@@ -38,11 +38,11 @@ const providersHistSet = ( state, action ) => {
     providersHistorySet: true,
   }
 }
-  
-const toggleProvidersHist = ( state, action ) => {
+
+const loadProv = ( state, action ) => {
   return {
     ...state,
-    showProvidersHistory: !state.showProvidersHistory,
+    providersInfo: action.providersInfo,
   }
 }
 
@@ -52,7 +52,7 @@ const reducer = ( state = initialState, action ) => {
     case actionTypes.LOADING_PROVIDERS: return loadingProviders( state, action );
     case actionTypes.FETCH_PROVIDERS_FAILED: return fetchProvidersFailed( state, action );
     case actionTypes.PROVIDERS_HISTORY_SET: return providersHistSet( state, action );
-    case actionTypes.TOGGLE_PROVIDERS_HISTORY: return toggleProvidersHist( state, action );
+    case actionTypes.LOAD_PROVIDERS: return loadProv( state, action );
     default: return state;
   }
 }

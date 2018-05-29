@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-import ChatBot from 'react-simple-chatbot';
 import { ThemeProvider } from 'styled-components';
 import { isMobile } from "react-device-detect";
+import ChatBot from 'react-simple-chatbot';
+
 import Hoc from '../../hoc/Hoc/Hoc';
-import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
-import * as actionCreators from '../../store/actions/providers';
+import * as providersActionCreators from '../../store/actions/providers';
 import * as navigationActionCreators from '../../store/actions/navigation';
 
 class Quiz extends Component {
@@ -20,15 +19,13 @@ class Quiz extends Component {
     }
 
     const handleEnd = ( values ) => {
+      console.log(values);
       this.props.onGetResults(values);
-      if (!isMobile) {
-        this.props.onSetCurrentPage(0);
-      }
+      this.props.onSetCurrentPage(2);
     }
 
     return (
-    <Hoc> 
-      { !isMobile ? <SideDrawer image="images/chatbot-icon.svg" /> : null }
+    <Hoc>
       <ThemeProvider theme={theme}>
         <ChatBot
           hideHeader="true"
@@ -55,7 +52,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onGetResults: ({ values }) => dispatch(actionCreators.fetchProviders( values )),
+    onGetResults: ({ values }) => dispatch(providersActionCreators.fetchProviders( values )),
     onSetCurrentPage: ( index ) => dispatch(navigationActionCreators.setCurrentPage( index )),
   }
 }

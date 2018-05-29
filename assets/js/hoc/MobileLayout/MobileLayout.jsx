@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Slider from 'react-slick';
 
 import Hoc from '../Hoc/Hoc';
 import MobileNavigation from '../../components/Navigation/MobileNavigation/MobileNavigation';
@@ -7,18 +8,14 @@ import Home from '../../containers/Home/Home';
 import SavedQuizes from '../../containers/SavedQuizes/SavedQuizes';
 import Quiz from '../../containers/Quiz/Quiz';
 import Provider from '../../components/Providers/Provider/Provider';
-import MobileResults from '../../components/Providers/Results/MobileResults';
-import * as actionCreators from '../../store/actions/guidebot';
+import * as guidebotActionCreators from '../../store/actions/guidebot';
 import * as navigationActionCreators from '../../store/actions/navigation';
-import Slider from 'react-slick';
 
 class MobileLayout extends Component {
     constructor() {
         super();
         this.state = {
-            pageCount: 1,
             numberOfSlides: 3,
-            showGuidebot: false,
         }
     }
 
@@ -35,24 +32,17 @@ class MobileLayout extends Component {
 
     render() {
         let navigationSteps;
-        if (this.props.providersHistorySet && this.props.currentPage === 0) {
+        if (this.props.currentPage === 0) {
             navigationSteps = {
                 back: "",
                 next: "Home",
-            }        
-        } else if ((!this.props.providersHistorySet &&  this.props.currentPage === 0) || (this.props.providersHistorySet && this.props.currentPage === 1)) {
-            if (this.props.providersHistorySet) {
-                navigationSteps = {
-                    back: "History",
-                    next: "Start quiz!",
-                }
-            } else {
-                navigationSteps = {
-                    back: "",
-                    next: "Start quiz!",
-                }
             }
-        } else if ((!this.props.providersHistorySet &&  this.props.currentPage === 1) || (this.props.providersHistorySet && this.props.currentPage === 2)) {
+        } else if ( this.props.currentPage === 1 ) {
+            navigationSteps = {
+                back: "History",
+                next: "Start quiz!",
+            }
+        } else if (this.props.currentPage === 2) {
             navigationSteps = {
                 back: "Back",
                 next: "",
@@ -82,12 +72,11 @@ class MobileLayout extends Component {
             speed: 500,
             slidesToShow: 1,
             slidesToScroll: 1,
-            initialSlide: this.props.currentPage,
+            initialSlide: 1,
             beforeChange: (oldIndex, newIndex) => {
-                if ( (this.props.providersHistorySet && newIndex === 2) || ( !this.props.providersHistorySet && newIndex === 1 ) ) {
-                    this.setState({ showGuidebot: true });
+                if ( newIndex === 2 ) {
+                    this.props.onShowGuidebot();
                 }
-                this.setState({ pageCount: newIndex });
                 this.props.onSetCurrentPage(newIndex);
             },
         }
@@ -113,20 +102,13 @@ class MobileLayout extends Component {
         return (
             <div className="mobile-main">
                 <Slider ref={slider => (this.slider = slider)} {...settings} >
-                    { this.props.providersHistorySet ? <div className="mobile-savedQuizes"><SavedQuizes /></div> : null}
+                    <div className="mobile-savedQuizes"><SavedQuizes cookies={this.props.cookies}/></div>
                     <div className="mobile-landing"><Home /></div>
                     <div className="mobile-quiz">
-                        { this.state.showGuidebot ?                  
+                        { this.props.showGuidebot ?                  
                             <Quiz /> 
                         : null}
                     </div>
-                    { this.props.providersSet ?
-                        <div className="results__summary">
-                            {generatedProviders}
-                        </div>
-                    : null
-                    }
-                    {generatedProviders}
                 </Slider>
                 <MobileNavigation clickedBack={() => this.slider.slickPrev()} clickedNext={() => this.slider.slickNext()} next={navigationSteps.next} back={navigationSteps.back} />
             </div>
@@ -149,7 +131,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-      onShowGuidebot: () => dispatch(actionCreators.showGuidebot()),
+      onShowGuidebot: () => dispatch(guidebotActionCreators.showGuidebot()),
       onSetCurrentPage: ( index ) => dispatch(navigationActionCreators.setCurrentPage( index )),
     };
 }
