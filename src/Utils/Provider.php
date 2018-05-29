@@ -3,28 +3,10 @@
 namespace App\Utils;
 
 use App\Entity\Category;
-use App\Entity\FilterUsage;
-use App\Entity\Html;
-use App\Entity\InfluenceArea;
-use App\Entity\Regex;
-use App\Entity\Shop;
 use App\Entity\ShopCategory;
-use App\Repository\FilterUsageRepository;
-use App\Repository\HtmlRepository;
-use App\Repository\InfluenceAreaRepository;
-use App\Repository\RegexRepository;
 use App\Repository\ShopCategoryRepository;
-use App\Utils\Filters\CameraFilter;
-use App\Utils\Filters\ColorFilter;
-use App\Utils\Filters\Filter;
-use App\Utils\Filters\Filters;
-use App\Utils\Filters\MemoryFilter;
-use App\Utils\Filters\PriceFilter;
-use App\Utils\Filters\ProcessorFilter;
-use App\Utils\Filters\RAMFilter;
-use App\Utils\Filters\ResolutionFilter;
-use App\Utils\Filters\SizeFilter;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Process\Process;
 
 class Provider
 {
@@ -34,27 +16,11 @@ class Provider
     private $category;
 
     /**
-     * @var HtmlRepository $htmlRepository
-     */
-    private $htmlRepository;
-    /**
-     * @var RegexRepository $regexRepository
-     */
-    private $regexRepository;
-    /**
      * @var ShopCategoryRepository $shopCategoryRepository
      */
     private $shopCategoryRepository;
-    /**
-     * @var FilterUsageRepository $filterUsageRepository
-     */
-    private $filterUsageRepository;
 
-    private $urlBuilder;
-    private $filterUsageCalculator;
-    private $filters;
-
-    private const DATE_DIFF = 3;
+    private $answers;
 
     /**
      * Provider constructor.
@@ -66,23 +32,13 @@ class Provider
      */
     public function __construct(array $answers, EntityManagerInterface $entityManager)
     {
-        $this->filters = new Filters($answers, $entityManager);
-
-        $this->regexRepository = $entityManager
-            ->getRepository(Regex::class);
-        $this->htmlRepository = $entityManager
-            ->getRepository(Html::class);
+        $this->answers = $answers;
         $this->shopCategoryRepository = $entityManager
             ->getRepository(ShopCategory::class);
-        $this->filterUsageRepository = $entityManager
-            ->getRepository(FilterUsage::class);
 
         $this->category = $entityManager
             ->getRepository(Category::class)
             ->find($answers[0]);
-
-        $this->urlBuilder = new UrlBuilder();
-        $this->filterUsageCalculator = new FilterUsageCalculator();
     }
 
     /**
@@ -90,141 +46,43 @@ class Provider
      */
     public function makeUrls() : array
     {
-        $urls = [];
         /**
          * @var ShopCategory $shopCategory
          */
-        foreach ($this->shopCategoryRepository
-            ->findBy(['category' => $this->category]) as $shopCategory) {
-            $categoryFilter = $this->filterCategory(
-                $shopCategory->getCategoryFilter(),
-                $shopCategory->getShop()
-            );
 
-            $this->urlBuilder
-                ->reset()
-                ->setRepeatingFilter($shopCategory->getShop()->getRepeatingFilter())
-                ->addHomePage($shopCategory->getShop()->getHomepage())
-                ->addPrefix($shopCategory->getPrefix())
-                ->addFilterSeparators(
-                    $shopCategory->getShop()->getFilterSeparator(),
-                    $shopCategory->getShop()->getFirstFilterSeparator()
-                )
-                ->addFilterValueSeparators(
-                    $shopCategory->getShop()->getFilterValueSeparator(),
-                    $shopCategory->getShop()->getFirstFilterValueSeparator()
-                )
-                ->addFilter($categoryFilter[0], [$categoryFilter[1]]);
+        $htmlProcesses = [];
 
-            if (($html = $this->fetchHtmlCode($shopCategory->getShop())) === null) {
-                continue;
-            }
-
-            $mainPage = stripslashes($html->getContent());
-
-            $filtersValues = [];
-
-            /**
-             * @var Filter $filter
-             */
-            foreach ($this->filters->getFilters() as $filter) {
-                $values = array_chunk($filter->filter($mainPage, $shopCategory, $this->filterUsageCalculator), 2);
-                foreach ($values as $value) {
-                    $filtersValues[] = $value;
-                }
-            }
-
-            $this->urlBuilder->addFilterArray($filtersValues);
-            $count = $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl());
-            $isAlternativeResult = false;
-            if ($count === 0) {
-                $filters = $this->filters->fetchPrioritizedRegexes($shopCategory);
-                $isAlternativeResult = true;
-                do {
-                    array_splice($filters, 0, 1);
-                    if ($this->urlBuilder->removeFilter($filters[0]['urlParameter'])) {
-                        $this->filterUsageCalculator->replaceWithFalse();
-                    }
-                    $count = $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl());
-                } while ($count === 0);
-            }
-
-            /** change this later */
-            $html = $this->fetchHtmlCode($shopCategory->getShop());
-
-            $filterUsage = $this->filterUsageCalculator->calculate();
-            $this->filterUsageRepository->add($html, $filterUsage);
-            $urls[] = [
-                'url' => $this->urlBuilder->getUrl(),
-                'logo' => $shopCategory->getShop()->getLogo(),
-                'filterUsage' => $filterUsage,
-                'count' => $this->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl()),
-                'isAlternativeResult' => $isAlternativeResult
-            ];
-
-            $this->filterUsageCalculator->reset();
+        $shopCategories = $this->shopCategoryRepository->findBy(['category' => $this->category]);
+        foreach ($shopCategories as $shopCategory) {
+            $process = new Process('../bin/console app:makeUrl ' .
+                $shopCategory->getId() . ' ' .
+                json_encode($this->answers));
+            $process->start();
+            $htmlProcesses[] = $process;
         }
 
-        return $urls;
-    }
-
-    /**
-     * @param null|string $filter
-     * @param Shop        $shop
-     *
-     * @return array
-     */
-    private function filterCategory(?string $filter, Shop $shop) : array
-    {
-        if ($filter !== null) {
-            return explode($shop->getFirstFilterValueSeparator() ?? $shop->getFilterValueSeparator(), $filter);
+        $countProcesses = [];
+        $i = 0;
+        foreach ($shopCategories as $shopCategory) {
+            $htmlProcesses[$i]->wait();
+            $data = explode(' ', $htmlProcesses[$i]->getOutput());
+            $process = new Process('../bin/console app:countContent ' .
+                $shopCategory->getId() . ' ' .
+                escapeshellarg($data[0]) . ' ' . escapeshellarg($data[1]));
+            $process->start();
+            $countProcesses[] = $process;
+            $i++;
         }
 
-        return [$filter, []];
-    }
-
-    private function getUrlCount(Shop $shop, string $url) : int
-    {
+        $urls = [];
         /**
-         * @var Regex[] $regexes
+         * @var Process $process
          */
-        $regexes = $this->regexRepository->getPageContentRegex($shop);
-        if (isset($regexes[0])) {
-            try {
-                $pageContent = file_get_contents($url);
-            } catch (\Exception $e) {
-                return -1;
-            }
-
-            preg_match_all($regexes[0]->getContentRegex(), $pageContent, $matches);
-            if (isset($matches[1][0])) {
-                return $matches[1][0];
-            }
+        foreach ($countProcesses as $process) {
+            $process->wait();
+            $urls[] = json_decode($process->getOutput(), true);
         }
 
-        return -1;
-    }
-
-    private function fetchHtmlCode(Shop $shop) : ?Html
-    {
-        $htmlEntity = $this->htmlRepository->findByUrl($this->urlBuilder->getUrl());
-
-        if ($htmlEntity === null) {
-            try {
-                $pageContent = file_get_contents($this->urlBuilder->getUrl());
-            } catch (\Exception $exception) {
-                return null;
-            }
-            $htmlEntity = $this->htmlRepository->add($shop, $pageContent, $this->urlBuilder->getUrl());
-        } elseif ($htmlEntity->getAddedAt()->diff(new \DateTime('now'))->format('%a') > self::DATE_DIFF) {
-            try {
-                $pageContent = file_get_contents($this->urlBuilder->getUrl());
-            } catch (\Exception $exception) {
-                return null;
-            }
-            $this->htmlRepository->update($htmlEntity, $pageContent);
-        }
-
-        return $htmlEntity;
+        return array_filter($urls);
     }
 }

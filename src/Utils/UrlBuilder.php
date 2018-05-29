@@ -244,4 +244,85 @@ class UrlBuilder
 
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isFirstParamAdded(): bool
+    {
+        return $this->firstParamAdded;
+    }
+
+    /**
+     * @param bool $firstParamAdded
+     */
+    public function setFirstParamAdded(bool $firstParamAdded): void
+    {
+        $this->firstParamAdded = $firstParamAdded;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFilterValueSeparator()
+    {
+        return $this->filterValueSeparator;
+    }
+
+    /**
+     * @param mixed $filterValueSeparator
+     */
+    public function setFilterValueSeparator($filterValueSeparator): void
+    {
+        $this->filterValueSeparator = $filterValueSeparator;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstFilterValueSeparator()
+    {
+        return $this->firstFilterValueSeparator;
+    }
+
+    /**
+     * @param mixed $firstFilterValueSeparator
+     */
+    public function setFirstFilterValueSeparator($firstFilterValueSeparator
+    ): void
+    {
+        $this->firstFilterValueSeparator = $firstFilterValueSeparator;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFilterSeparator()
+    {
+        return $this->filterSeparator;
+    }
+
+    /**
+     * @param mixed $filterSeparator
+     */
+    public function setFilterSeparator($filterSeparator): void
+    {
+        $this->filterSeparator = $filterSeparator;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstFilterSeparator()
+    {
+        return $this->firstFilterSeparator;
+    }
+
+    /**
+     * @param mixed $firstFilterSeparator
+     */
+    public function setFirstFilterSeparator($firstFilterSeparator): void
+    {
+        $this->firstFilterSeparator = $firstFilterSeparator;
+    }
 }
