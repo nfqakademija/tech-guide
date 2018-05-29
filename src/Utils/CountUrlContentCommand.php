@@ -44,8 +44,11 @@ class CountUrlContentCommand extends ContainerAwareCommand
      * @param FilterUsageCalculator  $filterUsageCalculator
      * @param HtmlTools              $htmlTools
      */
-    public function __construct(EntityManagerInterface $entityManager, FilterUsageCalculator $filterUsageCalculator, HtmlTools $htmlTools)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        FilterUsageCalculator $filterUsageCalculator,
+        HtmlTools $htmlTools
+    ) {
         $this->shopCategoryRepository = $entityManager->getRepository(ShopCategory::class);
         $this->filterUsageRepository = $entityManager->getRepository(FilterUsage::class);
         $this->regexRepository = $entityManager->getRepository(Regex::class);

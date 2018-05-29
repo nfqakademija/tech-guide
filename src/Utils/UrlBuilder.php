@@ -289,7 +289,8 @@ class UrlBuilder
      * @param mixed $firstFilterValueSeparator
      */
     public function setFirstFilterValueSeparator($firstFilterValueSeparator
-    ): void {
+    ): void
+    {
         $this->firstFilterValueSeparator = $firstFilterValueSeparator;
     }
 

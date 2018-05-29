@@ -32,7 +32,7 @@ class QuizCest
 
         $I->see('I hope you liked our offers! ' .
             'If you want to view them again, just click on the arrow that has appeared on the right.');
-        $I->waitForElement('.results__providers', 30);
+        $I->waitForElement('.results__provider', 30);
 
     }
 }
