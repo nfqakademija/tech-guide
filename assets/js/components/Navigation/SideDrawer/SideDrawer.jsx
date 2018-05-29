@@ -19,10 +19,8 @@ const sideDrawer = (props) => {
         let url = providerInfo.url.substring(leftSideLength, urlLength);
         let provider = url.substring(0, url.indexOf("."));
         provider = provider.charAt(0).toUpperCase() + provider.slice(1);
-        pageCounter = index+=3;
-        console.log(pageCounter);
         return (
-            <li className={props.currentPage === pageCounter ? 'active' : null} ><a onClick={() => activateButton(pageCounter)} href="#" >{provider}</a></li>
+            <li className={props.currentPage === index ? 'active' : null} ><a onClick={() => activateButton(index)} href="#" >{provider}</a></li>
         );
     } )
 

@@ -5,7 +5,7 @@ import Hoc from '../../hoc/Hoc/Hoc';
 
   const loader = (props) => (
     <Hoc>
-      <Backdrop show="true" />
+      <Backdrop show="true" style={props.style} />
       <div className="body" style={props.style}>
         <span>
         <span />
