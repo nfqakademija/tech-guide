@@ -11,8 +11,8 @@ services:
 cache:
   yarn: true
   directories:
-  - /code/.composer/cache/files
-  - /code/.npm
+  - $HOME/.composer/cache/files
+  - $HOME/.npm
 
 before_script:
   - ./provision.sh --schema --with-fixtures
