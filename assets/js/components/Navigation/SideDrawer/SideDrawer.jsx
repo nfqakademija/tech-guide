@@ -20,7 +20,9 @@ const sideDrawer = (props) => {
         let provider = url.substring(0, url.indexOf("."));
         provider = provider.charAt(0).toUpperCase() + provider.slice(1);
         return (
-            <li index={index+3} className={props.currentPage === index+3 ? 'active' : null} ><a onClick={() => activateButton(index+3)} href="#" >{provider}</a></li>
+            <li key={index} index={index+3} className={props.currentPage === index+3 ? 'active' : null} >
+                <a onClick={() => activateButton(index+3)} href="#" >{provider}</a>
+            </li>
         );
     } )
 
