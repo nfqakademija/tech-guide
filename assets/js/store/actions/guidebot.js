@@ -6,20 +6,25 @@ export const setGuidebotData = ( messages ) => {
         type: actionTypes.FETCH_GUIDEBOT_DATA,
         messages: messages,
         guidebotDataSet: true,
-        loadingGuidebotData: false,
     }
 }
 
-export const loadingGuidebotData = () => {
+export const loadingGuidebotData = (bool) => {
+    let toggleLoading;
+    if (bool == 'true') {
+        toggleLoading = true;
+    } else {
+        toggleLoading = false;
+    }
     return {
         type: actionTypes.LOADING_GUIDEBOT_DATA,
-        loadingGuidebotData: true,
+        loadingGuidebotData: toggleLoading,
     }
 }
 
 export const fetchGuidebotData = () => {
     return dispatch => {
-        dispatch(loadingGuidebotData());
+        dispatch(loadingGuidebotData('true'));
         axios.get('/api/guidebotSentences/' + api_key)
           .then( response => {
               const messages = [];
@@ -35,8 +40,9 @@ export const fetchGuidebotData = () => {
               for (let i = 0; i < response.data.messages.options.length; i++) {
                 messages.push(response.data.messages.options[i]);
               }
-              dispatch(setGuidebotData(messages))
-          });
+              dispatch(setGuidebotData(messages));
+              dispatch(loadingGuidebotData('false'));
+        });
     }
 }
 
@@ -44,5 +50,19 @@ export const showGuidebot = () => {
     return {
         type: actionTypes.SHOW_GUIDEBOT,
         showGuidebot: true,
+    }
+}
+
+export const onShowLoader = () => {
+    return {
+        type: actionTypes.SHOW_LOADER,
+        showLoader: true,
+    }
+}
+
+export const onHideLoader = () => {
+    return {
+        type: actionTypes.HIDE_LOADER,
+        showLoader: false,
     }
 }

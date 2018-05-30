@@ -1,10 +1,12 @@
 import * as actionTypes from '../actions/actions';
+import { onShowLoader } from '../actions/guidebot';
 
 const initialState = {
     messages: [],
     loadingGuidebotData: false,
     guidebotDataSet: false,
     showGuidebot: false,
+    showLoader: false,
 };
 
 const fetchGuidebotData = ( state, action ) => {
@@ -17,9 +19,11 @@ const fetchGuidebotData = ( state, action ) => {
   }
 
 const loadingGuidebotData = ( state, action ) => {
+    let loading;
+
     return {
         ...state,
-        loadingGuidebotData: true,
+        loadingGuidebotData: action.loadingGuidebotData,
     }
 }
 
@@ -30,11 +34,27 @@ const showGuidebot = ( state, action ) => {
     }
 }
 
+const showLoader = ( state, action ) => {
+    return {
+        ...state,
+        showLoader: true,
+    }
+}
+
+const hideLoader = ( state, action ) => {
+    return {
+        ...state,
+        showLoader: false,
+    }
+}
+
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case actionTypes.FETCH_GUIDEBOT_DATA: return fetchGuidebotData( state, action );
         case actionTypes.LOADING_GUIDEBOT_DATA: return loadingGuidebotData( state, action );
-        case actionTypes.SHOW_GUIDEBOT: return showGuidebot( state, action ); 
+        case actionTypes.SHOW_GUIDEBOT: return showGuidebot( state, action );
+        case actionTypes.SHOW_LOADER: return showLoader( state, action ); 
+        case actionTypes.HIDE_LOADER: return hideLoader( state, action );
         default: return state;
     }
 }

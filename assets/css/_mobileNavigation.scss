@@ -15,6 +15,8 @@
             font-size: 3rem;
             border: none;
             position: absolute;
+            outline: none !important;
+            color: #333;
     
             @include respond(phone) {
                 font-size: 2rem;
@@ -27,6 +29,5 @@
     
         &__next {
             right: 0;
-            color: #F64C72;
         }
 }

@@ -24,6 +24,7 @@ export const fetchProvidersFailed = () => {
 }
 
 export const fetchProviders = ( values ) => {
+    console.log(values);
     return dispatch => {
         dispatch(loadingProviders());
         axios.post('/api/guidebotOffer/' + api_key, {
@@ -36,4 +37,24 @@ export const fetchProviders = ( values ) => {
             dispatch(fetchProvidersFailed());
         });
     }
+}
+
+export const providersHistorySet = () => {
+  return {
+    type: actionTypes.PROVIDERS_HISTORY_SET,
+    providersHistorySet: true,
+  }
+}
+
+export const toggleProvidersHistory = () => {
+  return {
+    type: actionTypes.TOGGLE_PROVIDERS_HISTORY,
+  }
+}
+
+export const loadProviders = ( providersInfo ) => {
+  return {
+    type: actionTypes.LOAD_PROVIDERS,
+    providersInfo: providersInfo,
+  }
 }

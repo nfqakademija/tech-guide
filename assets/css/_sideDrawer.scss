@@ -1,0 +1,73 @@
+.sideDrawer {
+    height: 100%;
+    width: 18%;
+    float:left;
+    z-index: 100;
+    position: relative;
+    background-color: #374050;
+    box-shadow: 0.6rem 0 2rem rgba(0, 0, 0, .2);
+    overflow: scroll;
+
+    @include respond(phone-tab) {
+        width: 20%;
+    }
+
+    @include respond(phone) {
+        width: 24%;
+    }
+
+    &__logo {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        transform: translate(0, -50%);
+    }
+
+    &--open {
+        display: visible;
+    }
+
+    &--close {
+        display:none;
+    }
+
+    &__navigation {
+        height: 100%;
+
+        &--currentSlide {
+            height: 30%;
+        }
+
+        &--section {
+            position: relative;
+            padding: 2rem 0;
+            border-bottom: .5rem solid #343C48;
+
+            h2 {
+                font-size: 1.3rem;
+                color: #607A99;
+                padding: 0 1.4rem;
+            }
+            
+            ul {
+                list-style: none;
+
+                li {
+                    font-size: 1.35rem;
+                    padding: .8rem 1.4rem .8rem 1.9rem;
+                    transition: .2s all;
+
+                    a {
+                        color: #A5B6C3;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.active {
+   border-left: .4rem solid #b1474b;
+   background-color: #343C48;
+   color: white; 
+}

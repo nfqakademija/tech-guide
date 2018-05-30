@@ -12,7 +12,7 @@ class QuizCest
         $I->amOnPage('/#');
         $I->waitForElementNotVisible('.backdrop');
         $I->waitForElement('.main-button');
-        $I->canSee('Start quiz!', '.main-button');
+        $I->canSee('Start quiz', '.main-button');
         $I->click('.main-button');
         $I->waitForElement('.igXdbl');
 
@@ -32,7 +32,7 @@ class QuizCest
 
         $I->see('I hope you liked our offers! ' .
             'If you want to view them again, just click on the arrow that has appeared on the right.');
-        $I->waitForElement('.results__provider', 30);
+        $I->waitForElement('.results-summary', 30);
 
     }
 }
