@@ -21,7 +21,7 @@ const sideDrawer = (props) => {
         provider = provider.charAt(0).toUpperCase() + provider.slice(1);
         return (
             <li key={index} index={index+3} className={props.currentPage === index+3 ? 'active' : null} >
-                <a onClick={() => activateButton(index+3)} href="#" >{provider}</a>
+                <a className="sidedrawer__navigation" onClick={() => activateButton(index+3)} href="#" >{provider}</a>
             </li>
         );
     } )
@@ -35,16 +35,16 @@ const sideDrawer = (props) => {
                 <div className="sideDrawer__navigation--section">
                     <h2>Main</h2>
                     <ul>
-                        <li><a href="/" >Start again</a></li>
-                        <li className={props.currentPage === 0 ? 'active' : null}><a onClick={() => activateButton(0)} href="#" >Your quizes</a></li>
-                        <li className={props.currentPage === 1 ? 'active' : null} ><a onClick={() => activateButton(1)} href="#" >Guidebot</a></li>
+                        <li><a className="sidedrawer__navigation" href="/" >Start again</a></li>
+                        <li className={props.currentPage === 0 ? 'active' : null}><a className="sidedrawer__navigation" onClick={() => activateButton(0)} href="#" >Your quizes</a></li>
+                        <li className={props.currentPage === 1 ? 'active' : null} ><a className="sidedrawer__navigation" onClick={() => activateButton(1)} href="#" >Guidebot</a></li>
                     </ul>
                 </div>
                 { props.providersSet ?
                     <div className="sideDrawer__navigation--section" >
                         <h2>Results</h2>
                         <ul>
-                            <li className={props.currentPage === 2 ? 'active' : null} ><a onClick={() => activateButton(2)} href="#" >Summary</a></li>
+                            <li className={props.currentPage === 2 ? 'active' : null} ><a className="sidedrawer__navigation" onClick={() => activateButton(2)} href="#" >Summary</a></li>
                             {generatedProvidersNavigation}
                         </ul>
                     </div>
