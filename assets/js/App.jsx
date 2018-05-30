@@ -85,6 +85,13 @@ class App extends Component {
       },
     };
 
+    let contentStyleBehindLoader;
+    if (this.props.loadingGuidebotData || this.props.loadingProviders || !this.props.providersHistorySet) {
+      contentStyleBehindLoader = {
+        filter: "blur(4px)",
+      }
+    }
+
     return (
       <Hoc>
         <Transition in={this.props.loadingGuidebotData || this.props.loadingProviders || !this.props.providersHistorySet} timeout={duration} unmountOnExit>
@@ -98,7 +105,7 @@ class App extends Component {
             />
           )}
         </Transition>
-        { isMobile ? <MobileLayout cookies={this.state.cookies} /> : <Layout cookies={this.state.cookies} /> }
+        { isMobile ? <MobileLayout cookies={this.state.cookies} style={contentStyleBehindLoader} /> : <Layout cookies={this.state.cookies} style={contentStyleBehindLoader} /> }
       </Hoc>
     );
   }
