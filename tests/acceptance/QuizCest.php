@@ -10,7 +10,7 @@ class QuizCest
     public function doQuiz(AcceptanceTester $I)
     {
         $I->amOnPage('/#');
-        $I->waitForElementNotVisible('.backdrop');
+        $I->waitForElementNotVisible('.loader');
         $I->waitForElement('.main-button');
         $I->canSee('Start quiz', '.main-button');
         $I->click('.main-button');

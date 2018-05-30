@@ -19,7 +19,6 @@ class Quiz extends Component {
     }
 
     const handleEnd = ( values ) => {
-      console.log(values);
       this.props.onGetResults(values);
       this.props.onSetCurrentPage(2);
     }
