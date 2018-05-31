@@ -60,7 +60,7 @@ class Layout extends Component {
 
       return (
         <Hoc>
-          <div className="row desktop-main" style={this.props.style}>
+          <div className="row desktop-main">
             <div className={`card ${attachedClasses.join(' ')}`}>
               <Home />
               <div className={`card__side card__side--back ${otherClasses.join('')}`}>
