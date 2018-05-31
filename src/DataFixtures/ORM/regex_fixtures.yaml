@@ -188,3 +188,14 @@ App\Entity\Regex:
         contentRegex: '#.strong.1 - (?:\\d+) ..strong. iš .strong.(\\d+).{2}strong.#isu'
         shop: '@shop_2'
 
+#regexes for articles
+    regex_29:
+        contentRegex: '#img data-src=.(.*?).alt(?:.*?)class=.title. href=.(.*?)"\>(?:\\s{2,})(.*?)(?:\\s{2,})(?:.*?)price(?:.*?)(\\d+,\\d+)#is'
+        shop: '@shop_1'
+    regex_30:
+        contentRegex: '#img alt(?:.*?)src=.(.*?). width(?:.*?)href=.(.*?).\>(.*?)\<.a(?:.*?)data-sell-price-w-vat=.(\\d+.\\d+)#is'
+        shop: '@shop_2'
+    regex_31:
+        contentRegex: '#productImage(?:.*?)img src=.(.*?). title(?:.*?)href=.(.*?)..rel=.product nofollow..(.*?)\<.a(?:.*?)price(?:.*?)(\\d+,\\d+)#is'
+        shop: '@shop_3'
+
