@@ -13,6 +13,7 @@ a:hover {
   animation: pulse 2.2s infinite;
   -webkit-animation: pulse 2.2s infinite;
   border-radius: 5rem;
+  backface-visibility: hidden;
 
   @include respond(md-desktop) {
     padding: 2rem 6rem;
@@ -27,14 +28,11 @@ a:hover {
 
 @-webkit-keyframes pulse {
   0% {
-    transform: scale(.95);
   }
   70% {
-    transform: scale(1);
     box-shadow: 0 0 0 1rem rgba(#5a99d4, 0);
   }
     100% {
-    transform: scale(.95);
     box-shadow: 0 0 0 0 rgba(#5a99d4, 0);
   }
 }
