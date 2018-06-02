@@ -17,7 +17,7 @@ class HomeController extends Controller
      */
     public function index(EntityManagerInterface $entityManager, SessionInterface $session)
     {
-        if($session->get('api_key') === null) {
+        if ($session->get('api_key') === null) {
             $session->set('api_key', uniqid('', false));
         }
 

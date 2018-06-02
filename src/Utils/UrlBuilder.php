@@ -105,7 +105,8 @@ class UrlBuilder
     {
         if ($this->repeatingFilter) {
             preg_match_all(
-                '#' . preg_quote($filter, '#') . $this->firstFilterValueSeparator . '(\w+)(?:' . $this->filterSeparator . '|$)#is',
+                '#' . preg_quote($filter, '#') .
+                    $this->firstFilterValueSeparator . '(\w+)(?:' . $this->filterSeparator . '|$)#is',
                 $this->url,
                 $matches
             );

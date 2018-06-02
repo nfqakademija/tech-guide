@@ -54,7 +54,7 @@ class FetchArticlesCommand extends ContainerAwareCommand
         $data = [];
 
         $homepage = '';
-        if (substr($matches[1][0], 0, 4 ) !== "http") {
+        if (substr($matches[1][0], 0, 4) !== "http") {
             $homepage = substr($html->getUrl(), 0, strpos($html->getUrl(), '.lt')) . '.lt';
         }
         for ($i = 0, $iMax = count($matches[1]); $i < $iMax; $i++) {

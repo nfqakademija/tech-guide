@@ -51,8 +51,11 @@ class HtmlTools
         if (isset($matches[1][0])) {
             $homepage = '';
             if (substr($matches[1][0], 0, 4) !== "http") {
-                $homepage = substr($urlBuilder->getUrl(), 0,
-                        strpos($urlBuilder->getUrl(), '.lt')) . '.lt';
+                $homepage = substr(
+                    $urlBuilder->getUrl(),
+                    0,
+                    strpos($urlBuilder->getUrl(), '.lt')
+                ) . '.lt';
             }
 
             for ($i = 0, $iMax = count($matches[1]); $i < $iMax; $i++) {
