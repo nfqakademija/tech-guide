@@ -94,9 +94,17 @@ class Guidebot
         $offerId = $this->createUniqueId();
         $allMessages['messages']['questions'][] = [
             'id' => $offerId,
-            'message' => 'I hope you liked our offers! If you want to view them again, ' .
-                'just click on the arrow that has appeared on the right.',
-            'end' => true
+            'message' => 'It was great to talk to you. I hope you`ll like our offers!',
+            'trigger' => $offerId + 1
+        ];
+
+        $allMessages['messages']['options'][] = [
+            'id' => $this->createUniqueId(),
+            'options' => [[
+                'value'   => '100',
+                'label' => 'Show me what you got!',
+                'end' => true
+            ]]
         ];
 
         foreach ($categories as $category) {
