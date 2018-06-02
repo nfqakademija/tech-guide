@@ -101,7 +101,7 @@ class MobileLayout extends Component {
         });
             
         return (
-            <div className="mobile-main" style={mobileStyles}>
+            <div className="mobile-main">
                 <Slider ref={slider => (this.slider = slider)} {...settings} >
                     <div className="mobile-savedQuizes"><SavedQuizes cookies={this.props.cookies}/></div>
                     <div className="mobile-landing"><Home /></div>
