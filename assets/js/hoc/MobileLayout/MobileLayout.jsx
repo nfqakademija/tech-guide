@@ -99,10 +99,6 @@ class MobileLayout extends Component {
                     />
                     );
         });
-
-        let mobileStyles = {
-            height: `${this.props.height}px`,
-        }
             
         return (
             <div className="mobile-main" style={mobileStyles}>
