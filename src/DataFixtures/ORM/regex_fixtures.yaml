@@ -182,7 +182,7 @@ App\Entity\Regex:
 
 #regexes for articles
     regex_29:
-        contentRegex: '#img data-src=.(.*?).(?:\\s{2,})alt(?:.*?)class=.title. href=.(.*?)"\>\\s{2,}(.*?)\\s{2,}.(?:.*?)price(?:.*?)(\\d+,\\d+)\\s€\\s{2,}#isu'
+        contentRegex: '#img data-src=.(.*?).(?:\\s{2,})alt(?:.*?)class=.title. href=.(.*?)"\>\\s{2,}(.*?)\\s{2,}.(?:.*?)price(?:.*?)((\\d\\s)?\\d+,\\d+)\\s€\\s{2,}#isu'
         htmlReducingRegex: '#(?:Prekių(?:.*) - (\\d+) iš (\\d+))|(?:.strong.(\\d+) Prekė\[(]s\[)]..strong.)#isu'
         shop: '@shop_1'
     regex_30:
@@ -190,6 +190,6 @@ App\Entity\Regex:
         htmlReducingRegex: '#- (\\d+) ..strong. iš .strong.(\\d+)..strong#isu'
         shop: '@shop_2'
     regex_31:
-        contentRegex: '#productImage(?:.*?)img src=.(.*?). title(?:.*?)href=.(.*?)..rel=.product nofollow..(.*?)\<.a(?:.*?)price(?:.*?)(\\d+,\\d+)#is'
+        contentRegex: '#productImage(?:.*?)img src=.(.*?). title(?:.*?)href=.(.*?)..rel=.product nofollow..(.*?)\<.a(?:.*?)price(?:.*?)((\\d\[.])?\\d+,\\d+)#is'
         shop: '@shop_3'
 

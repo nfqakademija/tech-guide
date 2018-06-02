@@ -66,16 +66,14 @@ class GuidebotController extends Controller
 
         /**
          * @var HtmlRepository $htmlRepository
-         * @var FilterUsageRepository $filterUsageRepository
          */
         $htmlRepository = $entityManager->getRepository(Html::class);
-        $filterUsageRepository = $entityManager->getRepository(FilterUsage::class);
         foreach ($urls as $url) {
-            $answerHistory->addFilterUsage(
-                $filterUsageRepository->findByHtml(
-                    $htmlRepository->findByUrl($url['url'])
-                )
-            );
+            $filterUsage = new FilterUsage();
+            $filterUsage
+                ->setValue($url['filterUsage'])
+                ->setHtml($htmlRepository->findByUrl($url['url']));
+            $answerHistory->addFilterUsage($filterUsage);
         }
 
         $date = (new \DateTime('+3 months'))->format(\DateTime::COOKIE);

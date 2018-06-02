@@ -15,22 +15,6 @@ class FilterUsageRepository extends ServiceEntityRepository
         parent::__construct($registry, FilterUsage::class);
     }
 
-    public function findByHtml(Html $html) : ?FilterUsage
-    {
-        try {
-            return $this->getEntityManager()
-                ->getRepository('App:FilterUsage')
-                ->createQueryBuilder('filterUsage')
-                ->where('filterUsage.html = :html')
-                ->setParameter('html', $html)
-                ->setMaxResults(1)
-                ->getQuery()
-                ->getSingleResult();
-        } catch (\Exception $exception) {
-            return null;
-        }
-    }
-
     public function add(Html $html, int $value) : FilterUsage
     {
         $manager = $this->getEntityManager();
