@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\AnswerHistory;
 use App\Utils\HtmlTools;
+use App\Utils\UrlBuilder;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,8 +26,12 @@ class AnswerController extends Controller
     /**
      * @Route("/answers/get/{id}", name="get_answers")
      */
-    public function getAnswers(AnswerHistory $answerHistory, HtmlTools $htmlTools, Request $request)
-    {
+    public function getAnswers(
+        AnswerHistory $answerHistory,
+        HtmlTools $htmlTools,
+        Request $request,
+        UrlBuilder $urlBuilder
+    ) {
         if (!isset($_COOKIE['answers'])) {
             return $this->redirectToRoute('home');
         }
@@ -51,15 +56,28 @@ class AnswerController extends Controller
 
         $urls = [];
         foreach ($answerHistory->getFilterUsages() as $filterUsage) {
+            $shop = $filterUsage->getHtml()->getShop();
+            $urlBuilder
+                ->reset()
+                ->setUrl($filterUsage->getHtml()->getUrl())
+                ->addFilterSeparators(
+                    $shop->getFilterSeparator(),
+                    $shop->getFirstFilterSeparator()
+                )
+                ->addFilterValueSeparators(
+                    $shop->getFilterValueSeparator(),
+                    $shop->getFirstFilterValueSeparator()
+                );
+
+            $articles = $htmlTools->fetchArticles($shop, $urlBuilder);
             $urls[$answerHistory->getCategory()->getCategoryName()][] = [
                 'date' => $answerHistory->getAddedAt()->format('Y-m-d'),
-                'url' => $filterUsage->getHtml()->getUrl(),
-                'logo' => $filterUsage->getHtml()->getShop()->getLogo(),
+                'url' => $urlBuilder->getUrl(),
+                'name' =>  $shop->getName(),
+                'logo' => $shop->getLogo(),
                 'filterUsage' => $filterUsage->getValue(),
-                'count' => $htmlTools->getUrlCount(
-                    $filterUsage->getHtml()->getShop(),
-                    $filterUsage->getHtml()->getUrl()
-                )
+                'articles' => $articles,
+                'count' => count($articles)
             ];
         }
 
