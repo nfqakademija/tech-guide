@@ -21,7 +21,7 @@ const sideDrawer = (props) => {
         provider = provider.charAt(0).toUpperCase() + provider.slice(1);
         return (
             <li key={index} index={index+3} className={props.currentPage === index+3 ? 'active' : null} >
-                <a className="sidedrawer__navigation" onClick={() => activateButton(index+3)} href="#" >{provider}</a>
+                <a className="sidedrawer__navigation" onClick={() => activateButton( index+3 )} href="#" >{provider}</a>
             </li>
         );
     } )
@@ -30,7 +30,7 @@ const sideDrawer = (props) => {
         <div className="sideDrawer">
             <div className="sideDrawer__navigation" >
                 <div className="sideDrawer__navigation--section sideDrawer__navigation--currentSlide" >
-                    <img className="sideDrawer__logo" src={props.image} />
+                    <img className="sideDrawer__logo" src={props.activeProviderLogo} />
                 </div>
                 <div className="sideDrawer__navigation--section">
                     <h2>Main</h2>
@@ -58,6 +58,7 @@ const mapStateToProps = state => {
     return {
         providersSet: state.providers.providersSet,
         currentPage: state.navigation.currentPage,
+        activeProviderLogo: state.navigation.activeProviderLogo,
         providersHistorySet: state.providers.providersHistorySet,
         providersInfo: state.providers.providersInfo,
     }

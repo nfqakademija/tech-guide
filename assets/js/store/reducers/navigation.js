@@ -3,12 +3,14 @@ import { setCurrentPage, resulstsOpenedToggle, resultsShow, resultsHide } from '
 
 const initialState = {
     currentPage: 1,
+    activeProviderLogo: "",
 };
 
 const getCurrentPage = ( state, action ) => {
     return {
         ...state,
         currentPage: action.currentPage,
+        activeProviderLogo: action.activeProviderLogo,
     }
 }
 

@@ -28,6 +28,10 @@
     right: 0;
     top: 0;
     width: 10rem;
+
+    @include respond(md-desktop) {
+      transform: scale(1.4);
+    }
   }
 
   &__line-wrap {
@@ -131,5 +135,9 @@
     z-index: 600;
     text-align: center;
     width: auto;
+
+    @include respond(md-desktop) {
+      width: 2.5rem;
+    }
   }
 }

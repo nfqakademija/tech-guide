@@ -22,7 +22,9 @@ const summary = (props) => {
 
         return (
             <div className="results-summary__provider" key={index}>
-                <img className="provider__logo" src={providerInfo.logo} />
+                <div className="provider__logo">
+                    <img src={providerInfo.logo} />
+                </div>
                 <div className={`progress-pie-chart ${attachClass}`} data-percent={providerInfo.filterUsage}>
                     <div className="ppc-progress">
                         <div className="ppc-progress-fill" style={fillStyles}></div>

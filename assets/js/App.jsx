@@ -16,11 +16,26 @@ class App extends Component {
     super(props);
     this.state = {
       cookies: [],
+      height: null,
     }
+    this.updateDimensions = this.updateDimensions.bind(this);
+  }
+
+  updateDimensions() {
+      this.setState({ height: window.innerHeight });
+  }
+
+  componentWillMount() {
+      this.updateDimensions();
+  }
+
+  componentWillUnmount() {
+      window.removeEventListener("resize", this.updateDimensions );
   }
 
   componentDidMount() {
     this.props.onFetchGuidebotData();
+    window.addEventListener("resize", this.updateDimensions );
 
     let cookies = this.getCookie('answers');
     if (cookies === null) {
@@ -98,7 +113,7 @@ class App extends Component {
             />
           )}
         </Transition>
-        { isMobile ? <MobileLayout cookies={this.state.cookies} /> : <Layout cookies={this.state.cookies} /> }
+        { isMobile ? <MobileLayout cookies={this.state.cookies} height={this.state.height} /> : <Layout cookies={this.state.cookies} /> }
       </Hoc>
     );
   }

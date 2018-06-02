@@ -8,9 +8,11 @@ import Home from '../../containers/Home/Home';
 import SavedQuizes from '../../containers/SavedQuizes/SavedQuizes';
 import Summary from '../../components/Providers/Results/Summary/Summary';
 import Quiz from '../../containers/Quiz/Quiz';
-import Provider from '../../components/Providers/Provider/Provider';
+import Product from '../../components/Providers/Product/Product';
+import Results from '../../components/Providers/Results/Results';
 import * as guidebotActionCreators from '../../store/actions/guidebot';
 import * as navigationActionCreators from '../../store/actions/navigation';
+import data from '../../data.json';
 
 class MobileLayout extends Component {
     constructor() {
@@ -82,22 +84,25 @@ class MobileLayout extends Component {
             },
         }
 
-        const generatedProviders = Object.keys( this.props.providersInfo )
-                .map( providerKey => {
-                let count;
-                if (this.props.providersInfo[providerKey].count != -1) {
-                    count = `(${this.props.providersInfo[providerKey].count})`;
-                }
-            
+        const generatedResults = this.props.providersInfo.map( (providerInfo, index) => {
+            const generatedProductList = providerInfo.articles.map ( (product, index) => {
                 return (
-                    <Provider 
-                        key={providerKey} 
-                        link={this.props.providersInfo[providerKey].url} 
-                        logo={this.props.providersInfo[providerKey].logo} 
-                        count={count} 
-                        efficiency={this.props.providersInfo[providerKey].filterUsage} 
-                    />
-                    );
+                  <Product 
+                    key={index}
+                    url={product.url}
+                    img={product.img}
+                    title={product.title}
+                    price={product.price}
+                  />
+                );
+            })
+
+            return (
+                <Results
+                    productList={generatedProductList}
+                    key={index}
+              />
+            );
         });
             
         return (
@@ -114,7 +119,7 @@ class MobileLayout extends Component {
                       <Summary />
                     : null}
                     {this.props.providersSet ? 
-                      generatedProviders
+                      generatedResults
                     : null}
                 </Slider>
                 <MobileNavigation clickedBack={() => this.slider.slickPrev()} clickedNext={() => this.slider.slickNext()} next={navigationSteps.next} back={navigationSteps.back} />
