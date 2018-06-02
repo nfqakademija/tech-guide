@@ -1,13 +1,16 @@
 App\Entity\Shop:
     shop_1:
+        name: 'Topocentras'
         homepage: "https://www.topocentras.lt/"
         logo: 'images/topo.png'
         repeatingFilter: 0
+        priceSeparator: '-'
         filterValueSeparator: '\%2C'
         firstFilterValueSeparator: '='
         firstFilterSeparator: '?'
         filterSeparator: '&'
     shop_2:
+        name: '1A'
         homepage: "https://www.1a.lt/"
         logo: 'images/1aLogo.svg'
         repeatingFilter: 0
@@ -16,11 +19,13 @@ App\Entity\Shop:
         firstFilterSeparator: '/'
         filterSeparator: ':'
     shop_3:
+        name: 'Technorama'
         homepage: "https://www.technorama.lt/"
         logo: 'images/technorama.png'
         repeatingFilter: 1
-        firstFilterSeparator: '#!&'
+        priceSeparator: '\%3B'
         filterSeparator: '&'
+        firstFilterSeparator: '&'
         firstFilterValueSeparator: '='
         filterValueSeparator: ';'
 
@@ -54,15 +59,15 @@ App\Entity\ShopCategory:
         category: '@category_3'
 
     shopCategory_7:
-        prefix: "Mobilus-telefonai-ir-navigacijos/Mobilus-telefonai/"
+        prefix: "index.php?tpl=&_artperpage=999999&cl=alist&searchparam=&cnid=dec1824d483da0c4686fbb1ca7a1b8accl=alist&searchparam=&cnid=dec1824d483da0c4686fbb1ca7a1b8ac"
         shop: '@shop_3'
         category: '@category_1'
     shopCategory_8:
-        prefix: "Kompiuteriai-ir-ju-komponentai/Nesiojami-kompiuteriai"
+        prefix: "index.php?tpl=&_artperpage=999999&cl=alist&searchparam=&cnid=dec7d6c4b6b4b5b9173a9f05c5cf795fcl=alist&searchparam=&cnid=dec7d6c4b6b4b5b9173a9f05c5cf795f"
         shop: '@shop_3'
         category: '@category_2'
     shopCategory_9:
-        prefix: "Vaizdo-ir-garso-technika/Televizoriai/"
+        prefix: "index.php?tpl=&_artperpage=999999&cl=alist&searchparam=&cnid=9d0b6af9421b087d8cfb45d0e48a53facl=alist&searchparam=&cnid=9d0b6af9421b087d8cfb45d0e48a53fa"
         shop: '@shop_3'
         category: '@category_3'
 

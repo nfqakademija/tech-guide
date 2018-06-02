@@ -56,7 +56,7 @@ class PriceFilter extends Filter
                 );
 
                 $value = round($matches[1][0]
-                        * $this->influenceBounds[self::TYPE][0]) . '-'
+                        * $this->influenceBounds[self::TYPE][0]) . $shopCategory->getShop()->getPriceSeparator()
                     . round($matches[1][0]
                         * $this->influenceBounds[self::TYPE][1]);
 

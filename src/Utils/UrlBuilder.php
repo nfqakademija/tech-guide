@@ -105,7 +105,8 @@ class UrlBuilder
     {
         if ($this->repeatingFilter) {
             preg_match_all(
-                '#' . $filter . $this->firstFilterValueSeparator . '(\w+)(?:' . $this->filterSeparator . '|$)#is',
+                '#' . preg_quote($filter, '#') .
+                    $this->firstFilterValueSeparator . '(\w+)(?:' . $this->filterSeparator . '|$)#is',
                 $this->url,
                 $matches
             );
@@ -203,6 +204,20 @@ class UrlBuilder
         $this->firstFilterSeparator = null;
 
         return $this;
+    }
+
+    /**
+     * @param int $page
+     *
+     * @return string
+     */
+    public function getPage(int $page) : string
+    {
+        if ($this->firstFilterSeparator === '/') {
+            return $this->url . '/' . $page;
+        }
+
+        return $this->url . $this->filterSeparator . 'p' . $this->firstFilterValueSeparator . $page;
     }
 
     /**
