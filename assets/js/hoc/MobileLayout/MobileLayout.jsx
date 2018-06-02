@@ -119,7 +119,7 @@ class MobileLayout extends Component {
                       <Summary />
                     : null}
                     {this.props.providersSet ? 
-                      generatedProviders
+                      generatedResults
                     : null}
                 </Slider>
                 <MobileNavigation clickedBack={() => this.slider.slickPrev()} clickedNext={() => this.slider.slickNext()} next={navigationSteps.next} back={navigationSteps.back} />
