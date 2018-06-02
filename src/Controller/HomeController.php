@@ -17,7 +17,9 @@ class HomeController extends Controller
      */
     public function index(EntityManagerInterface $entityManager, SessionInterface $session)
     {
-        $session->set('api_key', uniqid('', false));
+        if($session->get('api_key') === null) {
+            $session->set('api_key', uniqid('', false));
+        }
 
         if (isset($_COOKIE['answers'])) {
             $data = json_decode($_COOKIE['answers'], true);
