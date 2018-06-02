@@ -115,8 +115,11 @@ class MobileLayout extends Component {
                             <Quiz /> 
                         : null}
                     </div>
+                    {this.props.providersSet ?
+                      <Summary />
+                    : null}
                     {this.props.providersSet ? 
-                      generatedResults
+                      generatedProviders
                     : null}
                 </Slider>
                 <MobileNavigation clickedBack={() => this.slider.slickPrev()} clickedNext={() => this.slider.slickNext()} next={navigationSteps.next} back={navigationSteps.back} />

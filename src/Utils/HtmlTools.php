@@ -8,6 +8,7 @@ use App\Entity\Shop;
 use App\Repository\HtmlRepository;
 use App\Repository\RegexRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Process\Process;
 
 class HtmlTools
 {
@@ -33,26 +34,60 @@ class HtmlTools
             ->getRepository(Html::class);
     }
 
-    public function getUrlCount(Shop $shop, string $url) : int
+    public function fetchArticles(Shop $shop, UrlBuilder $urlBuilder) : array
     {
+        $pageContent = stripslashes($this->fetchHtmlCode($shop, $urlBuilder->getUrl())->getContent());
+
         /**
-         * @var Regex[] $regexes
+         * @var Regex $regex
          */
-        $regexes = $this->regexRepository->getPageContentRegex($shop);
-        if (isset($regexes[0])) {
-            try {
-                $pageContent = file_get_contents($url);
-            } catch (\Exception $e) {
-                return -1;
+        $regex = $this->regexRepository->getPageContentRegex($shop)[0];
+
+        preg_match_all($regex->getContentRegex(), $pageContent, $matches);
+
+        $data = [];
+
+
+        if (isset($matches[1][0])) {
+            $homepage = '';
+            if (substr($matches[1][0], 0, 4) !== "http") {
+                $homepage = substr(
+                    $urlBuilder->getUrl(),
+                    0,
+                    strpos($urlBuilder->getUrl(), '.lt')
+                ) . '.lt';
             }
 
-            preg_match_all($regexes[0]->getContentRegex(), $pageContent, $matches);
-            if (isset($matches[1][0])) {
-                return $matches[1][0];
+            for ($i = 0, $iMax = count($matches[1]); $i < $iMax; $i++) {
+                $data[] = [
+                    'img'   => $homepage . $matches[1][$i],
+                    'url'   => $homepage . $matches[2][$i],
+                    'title' => $matches[3][$i],
+                    'price' => $matches[4][$i],
+                ];
             }
         }
 
-        return -1;
+        if ($regex->getHtmlReducingRegex() !== null) {
+            preg_match($regex->getHtmlReducingRegex(), $pageContent, $match);
+            if (isset($match[2]) && $match[2] != 0) {
+                $processes = [];
+                for ($i = 2, $iMax = ceil($match[2] / $match[1]); $i <= $iMax; $i++) {
+                    $process = new Process('../bin/console app:fetchArticles ' .
+                        escapeshellarg($urlBuilder->getPage($i)) . ' ' . $shop->getId());
+                    $process->start();
+                    $processes[] = $process;
+                }
+
+                foreach ($processes as $process) {
+                    $process->wait();
+                    $data = array_merge($data, json_decode($process->getOutput()));
+//                    $data[] = $process->getErrorOutput();
+                }
+            }
+        }
+
+        return $data;
     }
 
     public function fetchHtmlCode(Shop $shop, string $url) : ?Html

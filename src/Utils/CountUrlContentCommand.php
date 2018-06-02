@@ -77,28 +77,33 @@ class CountUrlContentCommand extends ContainerAwareCommand
         $this->urlBuilder = $serializer->deserialize($input->getArgument('urlBuilder'), UrlBuilder::class, 'json');
         $this->filterUsageCalculator->setValues(json_decode($input->getArgument('filterUsageCalculator')));
 
-        $count = $this->htmlTools->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl());
-        if ($count === 0) {
+        $articles = $this->htmlTools->fetchArticles($shopCategory->getShop(), $this->urlBuilder);
+        if (count($articles) === 0) {
             $filters = $this->regexRepository->getRegexesByPriority($shopCategory);
             do {
                 array_splice($filters, 0, 1);
                 if ($this->urlBuilder->removeFilter($filters[0]['urlParameter'])) {
                     $this->filterUsageCalculator->replaceWithFalse();
                 }
-                $count = $this->htmlTools->getUrlCount($shopCategory->getShop(), $this->urlBuilder->getUrl());
-            } while ($count === 0);
+                $articles = $this->htmlTools->fetchArticles($shopCategory->getShop(), $this->urlBuilder);
+            } while (count($articles) === 0);
         }
 
         /** change this later */
         $html = $this->htmlTools->fetchHtmlCode($shopCategory->getShop(), $this->urlBuilder->getUrl());
 
+
+
+
         $filterUsage = $this->filterUsageCalculator->calculate();
         $this->filterUsageRepository->add($html, $filterUsage);
         $output->writeln(json_encode([
             'url' => $this->urlBuilder->getUrl(),
+            'name' => $shopCategory->getShop()->getName(),
             'logo' => $shopCategory->getShop()->getLogo(),
             'filterUsage' => $filterUsage,
-            'count' => $count
+            'count' => count($articles),
+            'articles' => $articles
         ]));
     }
 }

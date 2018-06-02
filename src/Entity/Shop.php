@@ -68,6 +68,16 @@ class Shop
      */
     private $htmls;
 
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=5, nullable=true)
+     */
+    private $priceSeparator;
+
     public function __construct()
     {
         $this->shopCategories = new ArrayCollection();
@@ -233,6 +243,30 @@ class Shop
                 $html->setShop(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getPriceSeparator(): ?string
+    {
+        return $this->priceSeparator;
+    }
+
+    public function setPriceSeparator(?string $priceSeparator): self
+    {
+        $this->priceSeparator = $priceSeparator;
 
         return $this;
     }

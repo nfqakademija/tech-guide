@@ -6,7 +6,7 @@
     position: relative;
     background-color: #374050;
     box-shadow: 0.6rem 0 2rem rgba(0, 0, 0, .2);
-    overflow: scroll;
+    overflow-y: auto;
 
     @include respond(phone-tab) {
         width: 20%;
