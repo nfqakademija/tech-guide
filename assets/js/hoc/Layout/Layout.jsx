@@ -5,12 +5,13 @@ import Hoc from '../Hoc/Hoc.jsx';
 import SavedQuizes from '../../containers/SavedQuizes/SavedQuizes';
 import Quiz from '../../containers/Quiz/Quiz';
 import Home from '../../containers/Home/Home';
-import Provider from '../../components/Providers/Provider/Provider';
+import Product from '../../components/Providers/Product/Product';
+import Results from '../../components/Providers/Results/Results';
 import Summary from '../../components/Providers/Results/Summary/Summary';
 import * as actionCreators from '../../store/actions/navigation';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 import Slider from 'react-slick';
-
+import data from '../../data.json';
 
 class Layout extends Component {
 
@@ -41,22 +42,26 @@ class Layout extends Component {
       },
     }
 
-    const generatedProviders = this.props.providersInfo.map( (providerInfo, index) => {
-        let count;
-        if (providerInfo.count != '-1') {
-          count = `(${providerInfo.count})`;
-        }
+      const generatedResults = this.props.providersInfo.map( (providerInfo, index) => {
+        const generatedProductList = providerInfo.articles.map ( (product, index) => {
+          return (
+            <Product 
+              key={index}
+              url={product.url}
+              img={product.img}
+              title={product.title}
+              price={product.price}
+            />
+          );
+        })
 
-      return (
-        <Provider 
-        key={index} 
-        link={providerInfo.url} 
-        logo={providerInfo.logo} 
-        count={count} 
-        efficiency={providerInfo.filterUsage}
-        />
-      );
-    });
+        return (
+          <Results
+            productList={generatedProductList}
+            key={index}
+          />
+        );
+      })
 
       return (
         <Hoc>
@@ -73,7 +78,7 @@ class Layout extends Component {
                       <Summary />
                     : null}
                     {this.props.providersSet ? 
-                      generatedProviders
+                      generatedResults
                     : null}
                   </Slider> 
                 : null}

@@ -1,1 +1,167 @@
-{"messages":{"greeting":[{"id":1,"message":"Hello!","trigger":2},{"id":2,"message":"I`m Guidebot - a technology advisor.","trigger":3}],"questions":[{"id":3,"message":"What type of tech would you like to know more about?","trigger":4},{"id":5,"message":"Your results will be offered soon.. or, on the next sprint ;)","end":true},{"id":6,"message":"Does price matter?","trigger":7},{"id":8,"message":"How often do you travel?","trigger":9},{"id":10,"message":"How often do you post on social media","trigger":11},{"id":12,"message":"What`s the color you prefer for your device?","trigger":13},{"id":14,"message":"Does price matter?","trigger":15},{"id":16,"message":"How often do you travel?","trigger":17},{"id":18,"message":"How often do you post on social media","trigger":19},{"id":20,"message":"What`s the color you prefer for your device?","trigger":21},{"id":22,"message":"Does price matter?","trigger":23},{"id":24,"message":"How often do you travel?","trigger":25},{"id":26,"message":"How often do you post on social media","trigger":27},{"id":28,"message":"What`s the color you prefer for your device?","trigger":29}],"options":[{"id":7,"options":[{"value":1,"label":"I want a cheap phone","trigger":8},{"value":2,"label":"Not really, I guess..","trigger":8},{"value":3,"label":"Luxury is what I strive for!","trigger":8}]},{"id":9,"options":[{"value":1,"label":"I don`t like travelling","trigger":10},{"value":2,"label":"Only a few times a year","trigger":10},{"value":3,"label":"I`m always on the road!","trigger":10}]},{"id":11,"options":[{"value":1,"label":"I don`t - it`s a waste of time","trigger":12},{"value":2,"label":"Few times in a month","trigger":12},{"value":3,"label":"Every other day!","trigger":12}]},{"id":13,"options":[{"value":1,"label":"Black","trigger":5},{"value":2,"label":"White","trigger":5},{"value":3,"label":"Gold","trigger":5},{"value":4,"label":"Silver","trigger":5}]},{"id":15,"options":[{"value":1,"label":"I want a cheap phone","trigger":16},{"value":2,"label":"Not really, I guess..","trigger":16},{"value":3,"label":"Luxury is what I strive for!","trigger":16}]},{"id":17,"options":[{"value":1,"label":"I don`t like travelling","trigger":18},{"value":2,"label":"Only a few times a year","trigger":18},{"value":3,"label":"I`m always on the road!","trigger":18}]},{"id":19,"options":[{"value":1,"label":"I don`t - it`s a waste of time","trigger":20},{"value":2,"label":"Few times in a month","trigger":20},{"value":3,"label":"Every other day!","trigger":20}]},{"id":21,"options":[{"value":1,"label":"Black","trigger":5},{"value":2,"label":"White","trigger":5},{"value":3,"label":"Gold","trigger":5},{"value":4,"label":"Silver","trigger":5}]},{"id":23,"options":[{"value":1,"label":"I want a cheap phone","trigger":24},{"value":2,"label":"Not really, I guess..","trigger":24},{"value":3,"label":"Luxury is what I strive for!","trigger":24}]},{"id":25,"options":[{"value":1,"label":"I don`t like travelling","trigger":26},{"value":2,"label":"Only a few times a year","trigger":26},{"value":3,"label":"I`m always on the road!","trigger":26}]},{"id":27,"options":[{"value":1,"label":"I don`t - it`s a waste of time","trigger":28},{"value":2,"label":"Few times in a month","trigger":28},{"value":3,"label":"Every other day!","trigger":28}]},{"id":29,"options":[{"value":1,"label":"Black","trigger":5},{"value":2,"label":"White","trigger":5},{"value":3,"label":"Gold","trigger":5},{"value":4,"label":"Silver","trigger":5}]},{"id":4,"options":[{"value":1,"label":"Smartphones","trigger":6},{"value":2,"label":"Smart watches","trigger":14},{"value":3,"label":"Laptops","trigger":22}]}]}}
+[
+    {
+        "url": "https://www.topocentras.lt",
+        "logo": "images/topo.png",
+        "filterUsage": "55",
+        "name": "Topocentras",
+        "count": "13",
+        "articles": [
+            {
+                "img": "https://www.topocentras.lt/media/catalog/product/cache/2/small_image/200x150/85e4522595efc69f496374d01ef2bf13/u/j/uj63_a_65_60_55_49_desktop_01_174062_1485497410.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.1a.lt/images/products/common/000753/551411_small.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.1a.lt/images/products/common/001256/918190_small.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.technorama.lt/out/pictures/dyn/00/f2/5b969ad6d82b5e3abfb6beca2f8decc0_08241faf79d__150x170.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.topocentras.lt/media/catalog/product/cache/2/small_image/200x150/85e4522595efc69f496374d01ef2bf13/u/j/uj63_a_65_60_55_49_desktop_01_174062_1485497410.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.topocentras.lt/media/catalog/product/cache/2/small_image/200x150/85e4522595efc69f496374d01ef2bf13/u/j/uj63_a_65_60_55_49_desktop_01_174062_1485497410.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.topocentras.lt/media/catalog/product/cache/2/small_image/200x150/85e4522595efc69f496374d01ef2bf13/u/j/uj63_a_65_60_55_49_desktop_01_174062_1485497410.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.topocentras.lt/media/catalog/product/cache/2/small_image/200x150/85e4522595efc69f496374d01ef2bf13/u/j/uj63_a_65_60_55_49_desktop_01_174062_1485497410.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            }
+        ]
+    },
+    {
+        "url": "https://www.topocentras.lt",
+        "logo": "images/topo.png",
+        "filterUsage": "55",
+        "name": "Topocentras",
+        "count": "13",
+        "articles": [
+            {
+                "img": "https://www.topocentras.lt/media/catalog/product/cache/2/small_image/200x150/85e4522595efc69f496374d01ef2bf13/u/j/uj63_a_65_60_55_49_desktop_01_174062_1485497410.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 110-15 Pentium W10",
+                "price": "55€"
+            },
+            {
+                "img": "https://www.topocentras.lt/media/catalog/product/cache/2/small_image/200x150/85e4522595efc69f496374d01ef2bf13/u/j/uj63_a_65_60_55_49_desktop_01_174062_1485497410.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.topocentras.lt/media/catalog/product/cache/2/small_image/200x150/85e4522595efc69f496374d01ef2bf13/u/j/uj63_a_65_60_55_49_desktop_01_174062_1485497410.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.topocentras.lt/media/catalog/product/cache/2/small_image/200x150/85e4522595efc69f496374d01ef2bf13/u/j/uj63_a_65_60_55_49_desktop_01_174062_1485497410.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.topocentras.lt/media/catalog/product/cache/2/small_image/200x150/85e4522595efc69f496374d01ef2bf13/u/j/uj63_a_65_60_55_49_desktop_01_174062_1485497410.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.topocentras.lt/media/catalog/product/cache/2/small_image/200x150/85e4522595efc69f496374d01ef2bf13/u/j/uj63_a_65_60_55_49_desktop_01_174062_1485497410.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.topocentras.lt/media/catalog/product/cache/2/small_image/200x150/85e4522595efc69f496374d01ef2bf13/u/j/uj63_a_65_60_55_49_desktop_01_174062_1485497410.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            }
+        ]
+    },
+    {
+        "url": "https://www.topocentras.lt",
+        "logo": "images/topo.png",
+        "filterUsage": "55",
+        "name": "Topocentras",
+        "count": "13",
+        "articles": [
+            {
+                "img": "https://www.topocentras.lt/media/catalog/product/cache/2/small_image/200x150/85e4522595efc69f496374d01ef2bf13/u/j/uj63_a_65_60_55_49_desktop_01_174062_1485497410.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.1a.lt/images/products/common/000753/551411_small.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.1a.lt/images/products/common/001256/918190_small.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.technorama.lt/out/pictures/dyn/00/f2/5b969ad6d82b5e3abfb6beca2f8decc0_08241faf79d__150x170.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.topocentras.lt/media/catalog/product/cache/2/small_image/200x150/85e4522595efc69f496374d01ef2bf13/u/j/uj63_a_65_60_55_49_desktop_01_174062_1485497410.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.topocentras.lt/media/catalog/product/cache/2/small_image/200x150/85e4522595efc69f496374d01ef2bf13/u/j/uj63_a_65_60_55_49_desktop_01_174062_1485497410.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.topocentras.lt/media/catalog/product/cache/2/small_image/200x150/85e4522595efc69f496374d01ef2bf13/u/j/uj63_a_65_60_55_49_desktop_01_174062_1485497410.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            },
+            {
+                "img": "https://www.topocentras.lt/media/catalog/product/cache/2/small_image/200x150/85e4522595efc69f496374d01ef2bf13/u/j/uj63_a_65_60_55_49_desktop_01_174062_1485497410.jpg",
+                "url": "https://www.topocentras.lt",
+                "title": "Lenovo IdeaPad 320-15 Full HD Skylake i3",
+                "price": "25€"
+            }
+        ]
+    }
+]

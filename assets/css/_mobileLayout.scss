@@ -1,10 +1,12 @@
 
 .mobile-main {
+    overflow: hidden;
+    transition: .4s height;
     height: 100%;
 
     .slick-slider {
         height: 90%;
-        overflow-x: hidden;
+        overflow: hidden;
     
         .slick-list {
             height: 95%;
