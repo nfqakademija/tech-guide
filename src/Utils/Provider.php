@@ -81,6 +81,8 @@ class Provider
         foreach ($countProcesses as $process) {
             $process->wait();
             $urls[] = json_decode($process->getOutput(), true);
+//            $urls[] = $process->getOutput();
+//            $urls[] = $process->getErrorOutput();
         }
 
         return array_filter($urls);
