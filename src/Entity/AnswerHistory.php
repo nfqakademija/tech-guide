@@ -35,7 +35,7 @@ class AnswerHistory
     private $addedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\FilterUsage", mappedBy="answerHistory", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\FilterUsage", mappedBy="answerHistory", orphanRemoval=true, cascade={"persist"})
      */
     private $filterUsages;
 
