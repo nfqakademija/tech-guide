@@ -26,15 +26,15 @@ class QuizCest
             'Every other day!',
             'Of course it is!',
             'Black',
+            'Show me what you got!',
         ];
 
         foreach ($buttons as $button) {
             $I->click($button);
-            $I->wait(3);
+            $I->wait(2);
         }
 
-        $I->see('I hope you liked our offers! ' .
-            'If you want to view them again, just click on the arrow that has appeared on the right.');
+        $I->see('It was great to talk to you. I hope you`ll like our offers!');
         $I->waitForElement('.results-summary', 30);
         $I->canSee('Topocentras', '.sidedrawer__navigation');
         $I->click('Topocentras');
