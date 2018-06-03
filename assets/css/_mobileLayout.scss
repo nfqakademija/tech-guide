@@ -3,19 +3,45 @@
     overflow: hidden;
     transition: .4s height;
     height: 100%;
+    background-color: white;
+
+    img {
+        pointer-events: none;
+    }
 
     .slick-slider {
-        height: 90%;
+        height: 100%;
         overflow: hidden;
-    
-        .slick-list {
-            height: 95%;
+
+        .slick-slide {
+            padding-bottom: 5rem;
         }
     
         .slick-dots {
-            bottom: 0;
+            position: fixed;
+            bottom: 5rem;
             background: white;
-            height: 5%;
+            height: 3rem;
+
+            @include respond(phone-tab) {
+                bottom: 9rem;
+            }  
+                      
+            @include respond(phone-land) {
+                bottom: 5rem;
+            }
+            
+            @include respond(phone) {
+                bottom: 5rem;
+            } 
+
+            @include respond(ipad-land) {
+                bottom: 10%;
+            }
+        
+              @include respond(ipad-port) {
+                bottom: 10rem;
+            }
     
             li {
     
@@ -64,17 +90,50 @@
                         font-size: 5rem;
                         font-weight: bold;
                         margin-bottom: 3rem;
+
+                        @include respond(phone-tab) {
+                            font-size: 7rem;
+                        }
         
                         @include respond(phone) {
                             font-size: 3rem;
                         }
+
+                        @include respond(phone-land) {
+                            font-size: 3rem;
+                            margin-bottom: 0;
+                        }
+
+                        @include respond(ipad-land) {
+                            font-size: 7rem;
+                        }
+
+                        @include respond(ipad-port) {
+                            font-size: 7rem;
+                        }
                     }
         
                     &__sub {
-                        font-size: 4rem;
-        
+                        font-size: 2rem;
+
+                        @include respond(phone-tab) {
+                            font-size: 4rem;
+                        }
+
                         @include respond(phone) {
                             font-size: 2rem;
+                        }
+
+                        @include respond(phone-land) {
+                            font-size: 2rem;
+                        }
+
+                        @include respond(ipad-land) {
+                            font-size: 3rem;
+                        }
+
+                        @include respond(ipad-port) {
+                            font-size: 4rem;
                         }
                     }
                 }
@@ -99,6 +158,7 @@
         }
     
         .mobile-quiz {
+            height: 93%;
     
             div {
                 height: auto;
@@ -113,7 +173,7 @@
                   height: 100%;
                   box-shadow: none;
                   border-radius: 0;
-                  padding: 0 2rem 2rem 2rem;
+                  padding: 0 1rem 1rem 1rem;
                   font-family: 'Helvetica Neue';
                   font-size: 1.6rem;
                   z-index: 200;
@@ -123,7 +183,6 @@
                 .rsc-content {
                   height: 100%;
                   overflow-y: auto;
-                  padding: 2rem 5rem;
               
                   @include respond(phone) {
                     padding: 0;
@@ -161,7 +220,7 @@
                   }
               
                   @include respond(phone-land) {
-                    font-size: 2rem;
+                    font-size: 1.6rem;
                   }
                 }
               

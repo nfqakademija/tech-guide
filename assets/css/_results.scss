@@ -30,6 +30,7 @@
         position: relative;
         width:100%;
         height:100%;
+
       }
     }
 
@@ -41,6 +42,8 @@
   
       &__results {
         height: 100%;
+        overflow-y: scroll;
+        overflow-x: hidden;
       }
     
       &__product {
@@ -56,11 +59,16 @@
         }
   
         @include respond(phone) {
+          padding: .5rem;
           width: 50%;
+        }
+
+        @include respond(ipad-port) {
+          width: 33.3%;
         }
   
         .product__image {
-          height: 13rem;
+          height: 11rem;
           position: relative;
           overflow: hidden;
 
@@ -70,16 +78,15 @@
         }
   
         img {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
           max-width: 100%;
+          max-height: 100%;
+          margin: 0 auto;
+          pointer-events: none;
         }
       }
     
       .product__content {
-        height: 45%;
+        height: auto;
         position: relative;
         bottom: 0;
         text-align: center;
@@ -91,27 +98,41 @@
     
       .product__title {
         font-size: 1.2rem;
+        height: 5rem;
+        overflow: hidden;
+        padding-top: 1rem;
 
         @include respond(ipad-land) {
-          font-size: 2.5rem;
+          font-size: 2rem;
+          height: 6rem;
+        }
+
+        @include respond(ipad-port) {
+          font-size: 2rem;
+          height: 6rem;
         }
       }
     
       .product__price {
         position: relative;
+        height: auto;
         left: 10%;
-        font-size: 2.8rem;
+        font-size: 2.2rem;
         color: #7D1B99;
         text-align: left;
-        margin-bottom: 2rem;
-  
-        @include respond(phone-tab) {
-          font-size: 2.2rem;
-        }
+        padding: .4rem 0 1.5rem 0;
 
         @include respond(ipad-land) {
-          font-size: 4.4rem;
+          font-size: 4rem;
         }
+
+        @include respond(ipad-port) {
+          font-size: 4rem;
+        }
+      }
+
+      .price__currency {
+        font-size: 1.5rem;
       }
   
       .product__link {
@@ -122,27 +143,230 @@
         background-color: #333;
         padding: .3rem 2rem;
         left: 50%;
-        width: 80%;
+        width: 85%;
         text-align: center;
         transform: translate(-50%, 0);
   
         @include respond(phone-tab) {
-          font-size: 1.4rem;
+          font-size: 1.3rem;
+          padding: .3rem 1.6rem;
         }
 
         @include respond(ipad-land) {
           font-size: 2.7rem;
         }
+
+        @include respond(ipad-port) {
+          font-size: 2.3rem;
+        }
       }
+    }
+
+    .info {
+      background: transparent;
+      padding: 0.4rem;
+      cursor: help;
+      font-style: normal;
+      position: relative;
+      position: absolute;
+      bottom: -3rem;
+      right: -2rem;
+      height: auto;
+
+      .progress-bar__info {
+          width: 3rem;
+      }
+    }
+    .info::after {
+      content: attr(data-info);
+      display: inline;
+      position: absolute;
+      top: 4rem; 
+      right: 2rem;
+      opacity: 0;
+      width: 23rem;
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.5em;
+      padding: 0.5em 0.8em;
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      pointer-events: none;
+      transition: opacity 250ms, top 250ms;
+
+      @include respond(phone) {
+        font-size: 1.3rem;
+        width: 20rem;
+        top: 3rem;
+        right: 1rem;
+      }  
+
+      @include respond(phone-land) {
+        width: 23rem;
+        font-size: 1.3rem;
+        top: 3rem;
+        right: 1rem;
+      }
+    }
+    .info::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 3rem;
+      right: 2rem;
+      opacity: 0;
+      width: 0; height: 0;
+      border: solid transparent .5rem;
+      border-bottom-color: rgba(0,0,0,0.8);
+      transition: opacity 250ms, top 250ms;
+
+      @include respond(phone) {
+        top: 2rem;
+        right: 1rem;
+      }  
+
+      @include respond(phone-land) {
+        top: 2rem;
+        right: 1rem;
+      }
+    }
+    
+    .info:hover {
+      z-index: 800;
+    }
+    
+    .info:hover::after,
+    .info:hover::before {
+      opacity: 1;
     }
 }
 
 .mobile-main {
 
-  .provider__header {
+  .results-summary {
+    overflow: scroll;
 
-    .provider-logo {
-      height: 95%;
+    &__provider {
+      float: none;
+      width: 100%;
+      height: 30%;
+
+      @include respond(phone-tab) {
+        height: 32%
+      }
+
+      @include respond(ipad-port) {
+        height: 25%
+      }
+
+      @include respond(phone) {
+        height: 12rem;
+      } 
+
+      @include respond(phone-land) {
+        height: 12rem;
+      }   
+    }
+
+    .provider__logo {
+      position: absolute;
+      width: 35%;
+      height: 20rem;
+      top: 50%;
+      left: 0;
+      transform: translate(0, -50%);
+
+      @include respond(phone) {
+        height: 100%
+      }
+
+
+      img {
+        position: relative;
+        height: 100%;
+        width: auto;
+        margin: 0 auto;
+      }
+    }
+
+    .provider__link {
+      top: 50%;
+      width: 30%;
+      right: 2rem;
+      left: unset;
+      bottom: unset;
+      transform: translate(0, -50%);
+      font-size: 2.2rem;
+
+      @include respond(phone-tab) {
+        font-size: 1.8rem;
+        padding: .6rem;
+      }
+
+      @include respond(phone) {
+        font-size: 1.1rem;
+        right: 1rem;
+      }  
+    }
+
+    .progress-pie-chart {
+      transform: scale(1) translate(-50%, -50%);
+
+      @include respond(phone-land) {
+        transform: translate(-50%, -50%) scale(.5);
+        top: 50%;
+        left: 50%;
+      }
+
+      @include respond(phone) {
+        transform: translate(-50%, -50%) scale(.4);
+      }      
+    }
+
+    .summary__category {
+      float:left; 
+    }
+    
+    .provider__logo {
+      position: relative;
+      width: 35%;
+      height: 100%;
+      max-height: 20rem;
+      top: 50%;
+      left: 0; 
+      
+      img {
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+      }
+    }
+    
+    .progress-pie {
+      width: 30%;
+      position: relative;
+      margin: 0 auto;
+    }
+    
+    .info {
+      bottom: 0;
+      right: 2rem;
+      height: auto;
+
+      @include respond(phone) {
+        right: 1rem;
+      }
+      
+      img {
+
+        @include respond(phone-land) {
+          width: 2rem;
+        }  
+
+        @include respond(phone) {
+          width: 1.8rem;
+        }  
+      }
     }
   }
 }
@@ -169,54 +393,6 @@
   .provider {
     position: relative;
     height: 94%;
-
-    &__header {
-
-      &--logo, &--efficiency {
-        float: left;
-      }
-
-      &--logo {
-        width: 30%;
-
-        @include respond(phone-tab) {
-          width: 40%;
-        }
-
-        .provider-logo {
-          width: 20rem;
-        }
-      }
-
-      &--efficiency {
-        width: 70%;
-
-        @include respond(phone-tab) {
-          width: 60%;
-        }
-
-        .progress-wrap {
-          height: 15%;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 90%;
-          background: #ddd;
-          overflow: visible;
-          position: relative;
-
-          .progress-bar {
-            max-width: 100%;
-            background: #f80;
-            left: 0;
-            position: absolute;
-            top: 0;
-            width: 0;
-            transition: 2s all;
-          }
-        }
-      }
-    }
   }
   
     &__providers {
@@ -235,163 +411,6 @@
         border-right: .1rem solid grey;
       }
     }
-  
-    &__exit {
-      width: 1.5rem;
-      position: absolute;
-      right: 2%;
-      top: 0;
-      margin: 1rem 1rem 0 0;
-    }
-  
-  .set-size {
-    font-size: 10em;
-  }
-  
-  .charts-container {
-    position: relative;
-    width:100%;
-    height:80%;
-    z-index: 800;
-    overflow: scroll;
-  }
-  
-  .charts-container:after {
-    clear: both;
-    content: "";
-    display: table;
-  }
-  
-  .progress-bar {
-    background-color: white;
-  }
-  
-  .pie-wrapper {
-    height: 1em;
-    width: 1em;
-    float: left;
-    margin: 15px;
-    position: relative;
-  }
-  .pie-wrapper:nth-child(3n+1) {
-    clear: both;
-  }
-  .pie-wrapper .pie {
-    height: 100%;
-    width: 100%;
-    clip: rect(0, 1em, 1em, 0.5em);
-    left: 0;
-    position: absolute;
-    top: 0;
-  }
-  .pie-wrapper .pie .half-circle {
-    height: 100%;
-    width: 100%;
-    border: 0.1em solid #3498db;
-    border-radius: 50%;
-    clip: rect(0, 0.5em, 1em, 0);
-    left: 0;
-    position: absolute;
-    top: 0;
-  }
-  .pie-wrapper .label {
-    background: #34495e;
-    border-radius: 50%;
-    bottom: 0.4em;
-    color: #ecf0f1;
-    cursor: default;
-    display: block;
-    font-size: 0.25em;
-    left: 0.4em;
-    line-height: 2.6em;
-    position: absolute;
-    right: 0.4em;
-    text-align: center;
-    top: 0.4em;
-  }
-  .pie-wrapper .label .smaller {
-    color: #bdc3c7;
-    font-size: .45em;
-    padding-bottom: 20px;
-    vertical-align: super;
-  }
-  .pie-wrapper .shadow {
-    height: 100%;
-    width: 100%;
-    border: 0.1em solid #bdc3c7;
-    border-radius: 50%;
-  }
-  .pie-wrapper.style-2 .label {
-    background: none;
-    color: #7f8c8d;
-  }
-  .pie-wrapper.style-2 .label .smaller {
-    color: #bdc3c7;
-  }
-  
-  .pie-wrapper.progress-bar .pie .half-circle {
-    border-color: #3498db;
-  }
-  
-  .pie-wrapper.progress-60 .pie {
-    clip: rect(auto, auto, auto, auto);
-  }
-  
-  .progress-bar__info {
-    width: 2rem;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-  }
-  
-  dfn {
-    background: #e9e9e9;
-    padding: 0 0.4em;
-    cursor: help;
-    font-style: normal;
-    position: relative;
-    position: absolute;
-    bottom: -3rem;
-    right: 0;
-  }
-  dfn::after {
-    content: attr(data-info);
-    display: inline;
-    position: absolute;
-    top: 1rem; 
-    right: .6rem;
-    opacity: 0;
-    width: 23rem;
-    font-size: 1.3rem;
-    font-weight: 700;
-    line-height: 1.5em;
-    padding: 0.5em 0.8em;
-    background: rgba(0,0,0,0.8);
-    color: #fff;
-    pointer-events: none; /* This prevents the box from apearing when hovered. */
-    transition: opacity 250ms, top 250ms;
-  }
-  dfn::before {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0px;
-    right: .6rem;
-    opacity: 0;
-    width: 0; height: 0;
-    border: solid transparent .5rem;
-    border-bottom-color: rgba(0,0,0,0.8);
-    transition: opacity 250ms, top 250ms;
-  }
-  
-  dfn:hover {
-    z-index: 800;
-  }
-  
-  dfn:hover::after,
-  dfn:hover::before {
-    opacity: 1;
-  }
   
   .provider__button {
     padding: 1rem 1rem;
@@ -412,7 +431,7 @@
 }
 
 .results-summary {
-  padding: 3rem 1rem;
+  padding: 1rem;
   overflow: hidden;
 
   ul {
@@ -438,16 +457,27 @@
       font-size: 11rem;
     }
 
+    @include respond(phone-land) {
+      height: 10rem;
+    }
+
     img {
       position: absolute;
       top: 50%;
       transform: translate(0, -50%);
       width: 100%;
+
+      @include respond(phone-land) {
+        position: relative;
+        width: auto;
+        height: 100%;
+        margin: 0 auto;
+      }
     }
   }
 
   .provider__link {
-    background-color: #f49569;
+    background-color: #bf4349;
     color: white;
     text-decoration: none;
     padding: .8rem;
@@ -457,6 +487,11 @@
     bottom: 5%;
     transform: translate(-50%, 0);
     text-align: center;
+
+    @include respond(phone-tab) {
+      font-size: 1.4rem;
+      padding: .6rem;
+    }
   }
 
   .progress-pie-chart {
@@ -530,15 +565,5 @@
   .pcc-percents-wrapper {
     display: table-cell;
     vertical-align: middle;
-  }
-  
-  body {
-    font-family: Arial;
-    background: #f7f7f7;
-  }
-  
-  .fill-progress {
-    transform: rotate()
-  }
-  
+  } 
 }

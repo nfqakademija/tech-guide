@@ -9,8 +9,8 @@ const product = (props) => (
   </div>
   <div className="product__content">
     <h3 className="product__title">{props.title}</h3>
-    <div className="product__price">{props.price}</div>
-    <a className="product__link" href={props.url} target="_blank">Žiūrėti</a>
+    <div className="product__price">{props.price}<span className="price__currency">€</span></div>
+    <a className="product__link" href={props.url} target="_blank">Preview</a>
   </div>
 </div>
 );

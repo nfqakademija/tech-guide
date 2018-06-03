@@ -27,6 +27,11 @@
 
 html {
   font-size: 62.5%;
+  background: url("images/9795.jpg") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 body {
@@ -35,6 +40,7 @@ body {
   height: 100vh;
   color: #333;
   overflow: auto;
+  background-color: transparent;
 }
 
 #root {

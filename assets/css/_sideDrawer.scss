@@ -1,6 +1,6 @@
 .sideDrawer {
     height: 100%;
-    width: 18%;
+    width: 16.3rem;
     float:left;
     z-index: 100;
     position: relative;
@@ -8,19 +8,42 @@
     box-shadow: 0.6rem 0 2rem rgba(0, 0, 0, .2);
     overflow-y: auto;
 
-    @include respond(phone-tab) {
-        width: 20%;
-    }
-
-    @include respond(phone) {
-        width: 24%;
-    }
-
     &__logo {
+
+        img {
+            position: absolute;
+            width: 100%;
+            top: 40%;
+            transform: translate(0, -50%);
+        }
+    }
+
+    &__default-logo {
         position: absolute;
-        width: 100%;
         top: 50%;
+        width: 100%;
+        text-align: center;
         transform: translate(0, -50%);
+
+        &--main {
+            color: #bf4349;
+            text-transform: uppercase;
+            font-size: 2.2rem;
+        }
+    }
+
+    &__link {
+        position: absolute;
+        bottom: 3rem;
+        left: 50%;
+        transform: translate(-50%, 0);
+        width: 80%;
+        text-align: center;
+        color: white;
+        padding: .5rem 1rem;
+        background-color: #bf4349;
+        font-size: 1.2rem;
+        text-transform: uppercase;
     }
 
     &--open {
@@ -67,7 +90,7 @@
 }
 
 .active {
-   border-left: .4rem solid #b1474b;
+   border-left: .4rem solid #bf4349;
    background-color: #343C48;
    color: white; 
 }

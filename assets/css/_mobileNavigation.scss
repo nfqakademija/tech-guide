@@ -1,13 +1,32 @@
 .mobile-navigation {
     display: block;
     width: 100%;
-    height: 8%;
-    min-height: 5rem;
-    max-height: 10rem;
+    height: 5rem;
     position: fixed;
     bottom: 0;
     box-shadow: 0 -1rem 4rem rgba($color-black, .07);
     z-index: 500;
+
+    @include respond(phone-tab) {
+        height: 9rem;
+    }
+
+    @include respond(phone-land) {
+        font-size: 2rem;
+        height: 5rem;
+    }
+
+    @include respond(phone) {
+        height: 5rem;
+    }
+
+    @include respond(ipad-land) {
+        height: 10%;
+      }
+
+      @include respond(ipad-port) {
+        height: 10rem;
+    }
 
         &__button {
             width: 50%;
@@ -21,6 +40,10 @@
             color: #333;
     
             @include respond(phone) {
+                font-size: 2rem;
+            }
+
+            @include respond(phone-land) {
                 font-size: 2rem;
             }
         }

@@ -20,7 +20,11 @@ class Quiz extends Component {
 
     const handleEnd = ( values ) => {
       this.props.onGetResults(values);
-      this.props.onSetCurrentPage(2);
+      if ( isMobile ) {
+        this.props.onSetCurrentPage(3);
+      } else {
+        this.props.onSetCurrentPage(2);
+      }
     }
 
     return (
