@@ -16,22 +16,20 @@ class App extends Component {
     super(props);
     this.state = {
       cookies: [],
-      height: null,
     }
     this.updateDimensions = this.updateDimensions.bind(this);
   }
 
   updateDimensions() {
-      this.setState({ height: window.innerHeight });
+      document.body.style.height = window.innerHeight + 'px';
   }
 
   componentWillMount() {
-      this.updateDimensions();
-      document.body.style.height = this.state.height + 'px';
+      document.body.style.height = window.innerHeight + 'px';
   }
 
   componentDidUpdate() {
-    document.body.style.height = this.state.height + 'px';
+    document.body.style.height = window.innerHeight + 'px';
   }
 
   componentWillUnmount() {
@@ -118,7 +116,7 @@ class App extends Component {
             />
           )}
         </Transition>
-        { isMobile ? <MobileLayout cookies={this.state.cookies} height={this.state.height} /> : <Layout cookies={this.state.cookies} /> }
+        { isMobile ? <MobileLayout cookies={this.state.cookies}/> : <Layout cookies={this.state.cookies} /> }
       </Hoc>
     );
   }
