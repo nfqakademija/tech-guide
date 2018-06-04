@@ -74,7 +74,7 @@ class GuidebotController extends Controller
         $answers = array_map('\intval', json_decode($request->getContent(), true)['data']);
 
         $provider = new Provider($answers, $entityManager);
-        $urls = $provider->makeUrls();
+        $urls = $provider->makeData();
 
         $userAnswers = new UserAnswers($answers, $entityManager);
         $answerHistory = $userAnswers->saveAnswers();

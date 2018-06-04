@@ -129,7 +129,6 @@ class UrlBuilder
 
         $isReplaced = false;
         if (isset($match[0])) {
-//            $isReplaced = true;
             $replaceValue = explode($this->filterSeparator, $match[0])[0];
             if (strpos($this->url, $replaceValue . $this->filterSeparator)) {
                 $replaceValue .= $this->filterSeparator;

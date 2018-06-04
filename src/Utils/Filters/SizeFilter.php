@@ -26,7 +26,8 @@ class SizeFilter extends Filter
      *
      * @return array
      */
-    public function filter(string $pageContent, ShopCategory $shopCategory) : array {
+    public function filter(string $pageContent, ShopCategory $shopCategory) : array
+    {
         /**
          * @var Regex[] $regexes
          */
@@ -36,7 +37,9 @@ class SizeFilter extends Filter
             $pageContent = $this->reduceHtml($regexes[0], $pageContent);
             if ($pageContent !== null) {
                 return $this->formatResults(
-                    $regexes[0], $this->fetchFilterValues($regexes[0]->getContentRegex(), $pageContent));
+                    $regexes[0],
+                    $this->fetchFilterValues($regexes[0]->getContentRegex(), $pageContent)
+                );
             }
         }
 

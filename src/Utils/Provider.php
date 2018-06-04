@@ -44,7 +44,7 @@ class Provider
     /**
      * @return array
      */
-    public function makeUrls() : array
+    public function makeData() : array
     {
         /**
          * @var ShopCategory $shopCategory

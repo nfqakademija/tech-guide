@@ -35,7 +35,8 @@ class ColorFilter extends Filter
      *
      * @return array
      */
-    public function filter(string $pageContent, ShopCategory $shopCategory) : array {
+    public function filter(string $pageContent, ShopCategory $shopCategory) : array
+    {
         /**
          * @var Regex[] $regexes
          */

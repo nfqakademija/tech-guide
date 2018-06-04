@@ -26,7 +26,8 @@ class RAMFilter extends Filter
      *
      * @return array
      */
-    public function filter(string $pageContent, ShopCategory $shopCategory) : array {
+    public function filter(string $pageContent, ShopCategory $shopCategory) : array
+    {
         /**
          * @var Regex[] $regexes
          */
@@ -36,11 +37,17 @@ class RAMFilter extends Filter
             $pageContent = $this->reduceHtml($regexes[0], $pageContent);
             if ($pageContent !== null) {
                 $memoriesAndValues = $this->fetchFilterValues($regexes[0]->getContentRegex(), $pageContent);
-                if(strpos($regexes[0]->getContentRegex(), 'sizeValue')) {
-                    $memoriesAndValues += $this->fetchFilterValues(str_replace('sizeValue', 'MB',
-                        $regexes[0]->getContentRegex()), $pageContent, 1 / 1024) +
-                    $this->fetchFilterValues(str_replace('sizeValue', 'GB',
-                        $regexes[0]->getContentRegex()), $pageContent);
+                if (strpos($regexes[0]->getContentRegex(), 'sizeValue')) {
+                    $memoriesAndValues += $this->fetchFilterValues(str_replace(
+                        'sizeValue',
+                        'MB',
+                        $regexes[0]->getContentRegex()
+                    ), $pageContent, 1 / 1024) +
+                    $this->fetchFilterValues(str_replace(
+                        'sizeValue',
+                        'GB',
+                        $regexes[0]->getContentRegex()
+                    ), $pageContent);
                 }
 
                 return $this->formatResults($regexes[0], $memoriesAndValues);

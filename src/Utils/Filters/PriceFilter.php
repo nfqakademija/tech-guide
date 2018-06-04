@@ -26,7 +26,8 @@ class PriceFilter extends Filter
      *
      * @return array
      */
-    public function filter(string $pageContent, ShopCategory $shopCategory) : array {
+    public function filter(string $pageContent, ShopCategory $shopCategory) : array
+    {
         if ($this->influenceBounds[$this->type][0] === $this->influenceBounds[$this->type][1]) {
             return [null, []];
         }

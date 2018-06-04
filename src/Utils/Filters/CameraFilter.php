@@ -26,7 +26,8 @@ class CameraFilter extends Filter
      *
      * @return array
      */
-    public function filter(string $pageContent, ShopCategory $shopCategory) : array {
+    public function filter(string $pageContent, ShopCategory $shopCategory) : array
+    {
         /**
          * @var Regex[] $regexes
          */
@@ -36,7 +37,8 @@ class CameraFilter extends Filter
         foreach ($regexes as $regex) {
             $content = $this->reduceHtml($regex, $pageContent);
             if ($content !== null) {
-                $cameraFilters[] = $this->formatResults($regex, $this->fetchFilterValues($regex->getContentRegex(), $content));
+                $cameraFilters[] =
+                    $this->formatResults($regex, $this->fetchFilterValues($regex->getContentRegex(), $content));
             }
         }
 

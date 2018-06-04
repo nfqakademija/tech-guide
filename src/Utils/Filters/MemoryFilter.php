@@ -31,7 +31,8 @@ class MemoryFilter extends Filter
      *
      * @return array
      */
-    public function filter(string $pageContent, ShopCategory $shopCategory) : array {
+    public function filter(string $pageContent, ShopCategory $shopCategory) : array
+    {
         $ssdRegexes = $this->retrieveRegexes($shopCategory, $this->ssdInfluenceArea);
         $hddRegexes = $this->retrieveRegexes($shopCategory, $this->hddInfluenceArea);
 
