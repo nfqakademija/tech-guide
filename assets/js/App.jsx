@@ -22,14 +22,17 @@ class App extends Component {
 
   updateDimensions() {
       document.body.style.height = window.innerHeight + 'px';
+      window.scrollTo(0, 0);
   }
 
   componentWillMount() {
       document.body.style.height = window.innerHeight + 'px';
+      window.scrollTo(0, 0);
   }
 
   componentDidUpdate() {
     document.body.style.height = window.innerHeight + 'px';
+    window.scrollTo(0, 0);
   }
 
   componentWillUnmount() {
