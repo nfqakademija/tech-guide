@@ -8,7 +8,6 @@ use App\Entity\Regex;
 use App\Entity\ShopCategory;
 use App\Repository\InfluenceAreaRepository;
 use App\Repository\RegexRepository;
-use App\Utils\FilterUsageCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 
 abstract class Filter
@@ -16,6 +15,7 @@ abstract class Filter
     protected $influenceArea;
     protected $influenceBounds;
     protected $type;
+    protected $isUsed;
 
     /**
      * @var RegexRepository $regexRepository
@@ -86,6 +86,7 @@ abstract class Filter
     {
         asort($data);
         $count = \count($data);
+        $this->isUsed = true;
 
         return [
             $regex->getUrlParameter(),
@@ -98,10 +99,15 @@ abstract class Filter
         ];
     }
 
-    protected function reduceHtml(Regex $regex, $pageContent) : string
+    protected function reduceHtml(Regex $regex, $pageContent) : ?string
     {
         preg_match($regex->getHtmlReducingRegex(), $pageContent, $match);
-        return $match[0];
+
+        if (isset($match[0])) {
+            return $match[0];
+        }
+
+        return null;
     }
 
     /**
@@ -122,16 +128,43 @@ abstract class Filter
         return $filtersAndValues;
     }
 
+    protected function checkUsage(Category $category) : void
+    {
+        $this->checkInfluenceAreaUsage($category, $this->influenceArea);
+    }
+
+    protected function checkInfluenceAreaUsage(Category $category, InfluenceArea $influenceArea) : void
+    {
+        if ($this->influenceAreaRepository->getInfluenceAreaCountByCategory($category, $influenceArea) > 0) {
+            $this->isUsed = false;
+        }
+    }
+
     /**
-     * @param string                $pageContent
-     * @param ShopCategory          $shopCategory
-     * @param FilterUsageCalculator $filterUsageCalculator
+     * @param string       $pageContent
+     * @param ShopCategory $shopCategory
      *
      * @return array
      */
-    abstract public function filter(
-        string $pageContent,
-        ShopCategory $shopCategory,
-        FilterUsageCalculator $filterUsageCalculator
-    ) : array;
+    abstract public function filter(string $pageContent, ShopCategory $shopCategory) : array;
+
+    /**
+     * @return bool|null
+     */
+    public function isUsed(): ?bool
+    {
+        return $this->isUsed;
+    }
+
+    /**
+     * @param bool $isUsed
+     *
+     * @return Filter
+     */
+    public function setIsUsed(bool $isUsed): self
+    {
+        $this->isUsed = $isUsed;
+
+        return $this;
+    }
 }

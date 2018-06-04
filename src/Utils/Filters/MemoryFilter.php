@@ -27,22 +27,16 @@ class MemoryFilter extends Filter
 
 
     /**
-     * @param string                $pageContent
-     * @param ShopCategory          $shopCategory
-     * @param FilterUsageCalculator $filterUsageCalculator
+     * @param string       $pageContent
+     * @param ShopCategory $shopCategory
      *
      * @return array
      */
-    public function filter(
-        string $pageContent,
-        ShopCategory $shopCategory,
-        FilterUsageCalculator $filterUsageCalculator
-    ) : array {
+    public function filter(string $pageContent, ShopCategory $shopCategory) : array {
         $ssdRegexes = $this->retrieveRegexes($shopCategory, $this->ssdInfluenceArea);
         $hddRegexes = $this->retrieveRegexes($shopCategory, $this->hddInfluenceArea);
 
         if (!empty($ssdRegexes) && !empty($hddRegexes)) {
-            $filterUsageCalculator->addValue(true);
             if ($this->influenceBounds['SSD'][1] > $this->influenceBounds['HDD'][1]) {
                 return $this->filterSubtype($pageContent, $ssdRegexes[0]);
             }
@@ -53,15 +47,18 @@ class MemoryFilter extends Filter
         $memoryRegexes = $this->retrieveRegexes($shopCategory, $this->influenceArea);
 
         if (!empty($memoryRegexes)) {
-            $filterUsageCalculator->addValue(true);
             return $this->filterMemory($pageContent, $memoryRegexes[0]);
         }
 
-        $filterUsageCalculator->addValue(
-            !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceArea) &&
-            !$this->categoryFilterExists($shopCategory->getCategory(), $this->ssdInfluenceArea) &&
-            !$this->categoryFilterExists($shopCategory->getCategory(), $this->hddInfluenceArea)
-        );
+        $this->checkUsage($shopCategory->getCategory());
+        if (!$this->isUsed) {
+            $this->checkInfluenceAreaUsage($shopCategory->getCategory(), $this->ssdInfluenceArea);
+        }
+
+        if (!$this->isUsed) {
+            $this->checkInfluenceAreaUsage($shopCategory->getCategory(), $this->hddInfluenceArea);
+        }
+
         return [null, []];
     }
 
@@ -89,12 +86,11 @@ class MemoryFilter extends Filter
      */
     private function filterSubtype(string $pageContent, Regex $regex) : array
     {
-        preg_match($regex->getHtmlReducingRegex(), $pageContent, $match);
-        if (isset($match[1])) {
+        $pageContent = $this->reduceHtml($regex, $pageContent);
+        if ($pageContent !== null) {
             $memoriesAndValues =
-                $this->fetchFilterValues(str_replace('sizeValue', 'GB', $regex->getContentRegex()), $match[1]) +
-                $this->fetchFilterValues(str_replace('sizeValue', 'TB', $regex->getContentRegex()), $match[1], 1024);
-
+                $this->fetchFilterValues(str_replace('sizeValue', 'GB', $regex->getContentRegex()), $pageContent) +
+                $this->fetchFilterValues(str_replace('sizeValue', 'TB', $regex->getContentRegex()), $pageContent, 1024);
 
             return $this->formatResults($regex, $memoriesAndValues);
         }

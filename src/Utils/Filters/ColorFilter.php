@@ -31,17 +31,12 @@ class ColorFilter extends Filter
 
 
     /**
-     * @param string                $pageContent
-     * @param ShopCategory          $shopCategory
-     * @param FilterUsageCalculator $filterUsageCalculator
+     * @param string       $pageContent
+     * @param ShopCategory $shopCategory
      *
      * @return array
      */
-    public function filter(
-        string $pageContent,
-        ShopCategory $shopCategory,
-        FilterUsageCalculator $filterUsageCalculator
-    ) : array {
+    public function filter(string $pageContent, ShopCategory $shopCategory) : array {
         /**
          * @var Regex[] $regexes
          */
@@ -49,7 +44,6 @@ class ColorFilter extends Filter
 
         if (isset($this->influenceBounds[$this->type][0])) {
             if (\count($regexes) > 0) {
-                $filterUsageCalculator->addValue(true);
                 $answers
                     = $this->influenceArea->getQuestions()[0]->getAnswers()
                     ->filter(function (Answer $answer) {
@@ -68,19 +62,14 @@ class ColorFilter extends Filter
                     $colorName = mb_substr(explode(' ', $colorName)[0], 0, -1);
                 }
 
-                $regex = str_replace(
-                    'colorName',
-                    $colorName,
-                    $regexes[0]->getContentRegex()
-                );
+                $regex = str_replace('colorName', $colorName, $regexes[0]->getContentRegex());
                 preg_match_all($regex, $pageContent, $matches);
 
+                $this->isUsed = true;
                 return [$regexes[0]->getUrlParameter(), $matches[1]];
             }
 
-            $filterUsageCalculator->addValue(
-                !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceArea)
-            );
+            $this->checkUsage($shopCategory->getCategory());
         }
 
         return [null, []];

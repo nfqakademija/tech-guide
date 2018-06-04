@@ -22,17 +22,12 @@ class CameraFilter extends Filter
 
 
     /**
-     * @param string                $pageContent
-     * @param ShopCategory          $shopCategory
-     * @param FilterUsageCalculator $filterUsageCalculator
+     * @param string       $pageContent
+     * @param ShopCategory $shopCategory
      *
      * @return array
      */
-    public function filter(
-        string $pageContent,
-        ShopCategory $shopCategory,
-        FilterUsageCalculator $filterUsageCalculator
-    ) : array {
+    public function filter(string $pageContent, ShopCategory $shopCategory) : array {
         /**
          * @var Regex[] $regexes
          */
@@ -41,7 +36,6 @@ class CameraFilter extends Filter
         $cameraFilters = [];
         foreach ($regexes as $regex) {
             $pageContent = $this->reduceHtml($regex, $pageContent);
-            $filterUsageCalculator->addValue(true);
             if ($pageContent !== null) {
                 $cameraFilters = array_merge(
                     $cameraFilters,
@@ -49,13 +43,7 @@ class CameraFilter extends Filter
             }
         }
 
-        for ($i = 0; $i < 2 - \count($regexes); $i++) {
-            $filterUsageCalculator->addValue(
-                !$this->categoryFilterExists($shopCategory->getCategory(),
-                    $this->influenceArea)
-            );
-        }
-
+        $this->checkUsage($shopCategory->getCategory());
         return $cameraFilters;
     }
 }

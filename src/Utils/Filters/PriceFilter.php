@@ -22,18 +22,12 @@ class PriceFilter extends Filter
 
 
     /**
-     * @param string                $pageContent
-     * @param ShopCategory          $shopCategory
-     * @param FilterUsageCalculator $filterUsageCalculator
+     * @param string       $pageContent
+     * @param ShopCategory $shopCategory
      *
      * @return array
      */
-    public function filter(
-        string $pageContent,
-        ShopCategory $shopCategory,
-        FilterUsageCalculator $filterUsageCalculator
-    ) : array {
-
+    public function filter(string $pageContent, ShopCategory $shopCategory) : array {
         if ($this->influenceBounds[$this->type][0] === $this->influenceBounds[$this->type][1]) {
             return [null, []];
         }
@@ -44,7 +38,6 @@ class PriceFilter extends Filter
         $regexes = $this->retrieveRegexes($shopCategory, $this->influenceArea);
 
         if (\count($regexes) > 0) {
-            $filterUsageCalculator->addValue(true);
             if (\count($regexes) === 1) {
                 preg_match_all(
                     $regexes[0]->getContentRegex(),
@@ -57,6 +50,7 @@ class PriceFilter extends Filter
                     . round($matches[1][0]
                         * $this->influenceBounds[$this->type][1]);
 
+                $this->isUsed = true;
                 return [$regexes[0]->getUrlParameter(), [$value]];
             }
 
@@ -77,6 +71,8 @@ class PriceFilter extends Filter
                 $maxValue = round($max[1][0]
                     * $this->influenceBounds[$this->type][1]);
 
+
+                $this->isUsed = true;
                 return [
                     $regexes[0]->getUrlParameter(), [$minValue],
                     $regexes[1]->getUrlParameter(), [$maxValue]
@@ -84,9 +80,7 @@ class PriceFilter extends Filter
             }
         }
 
-        $filterUsageCalculator->addValue(
-            !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceArea)
-        );
+        $this->checkUsage($shopCategory->getCategory());
         return [null, []];
     }
 }
