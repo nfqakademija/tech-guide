@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Utils;
+namespace App\Utils\Commands;
 
 use App\Entity\Shop;
 use App\Entity\ShopCategory;
 use App\Utils\Filters\Filter;
 use App\Utils\Filters\Filters;
+use App\Utils\HtmlTools;
+use App\Utils\UrlBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -50,6 +52,13 @@ class MakeUrlCommand extends ContainerAwareCommand
             ->addArgument('answers');
     }
 
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return int|null|void
+     * @throws \Exception
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $shopCategoryId = $input->getArgument('shopCategoryId');

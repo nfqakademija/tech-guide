@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Utils;
+namespace App\Utils\Commands;
 
 use App\Entity\FilterUsage;
 use App\Entity\Regex;
 use App\Entity\ShopCategory;
 use App\Repository\FilterUsageRepository;
 use App\Repository\RegexRepository;
+use App\Utils\FilterUsageCalculator;
+use App\Utils\HtmlTools;
+use App\Utils\UrlBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,7 +18,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-class CountUrlContentCommand extends ContainerAwareCommand
+class FetchDataCommand extends ContainerAwareCommand
 {
     private $shopCategoryRepository;
 
@@ -36,7 +39,7 @@ class CountUrlContentCommand extends ContainerAwareCommand
     private $htmlTools;
 
     /**
-     * CountUrlContentCommand constructor.
+     * FetchDataCommand constructor.
      *
      * @param EntityManagerInterface $entityManager
      * @param FilterUsageCalculator  $filterUsageCalculator
@@ -59,12 +62,18 @@ class CountUrlContentCommand extends ContainerAwareCommand
 
     protected function configure()
     {
-        $this->setName('app:countContent')
+        $this->setName('app:fetchData')
             ->addArgument('shopCategoryId')
             ->addArgument('urlBuilder')
             ->addArgument('filterUsageCalculator');
     }
 
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return int|null|void
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $encoders = array(new JsonEncoder());
