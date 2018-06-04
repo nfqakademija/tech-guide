@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Utils;
+namespace App\Utils\Commands;
 
-use App\Entity\Html;
 use App\Entity\Shop;
 use App\Entity\ShopCategory;
-use App\Repository\HtmlRepository;
 use App\Utils\Filters\Filter;
 use App\Utils\Filters\Filters;
+use App\Utils\HtmlTools;
+use App\Utils\UrlBuilder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,7 +22,6 @@ class MakeUrlCommand extends ContainerAwareCommand
     private $shopCategoryRepository;
 
     private $urlBuilder;
-    private $filterUsageCalculator;
 
     private $htmlTools;
 
@@ -31,21 +30,16 @@ class MakeUrlCommand extends ContainerAwareCommand
      *
      * @param EntityManagerInterface $entityManager
      * @param UrlBuilder             $urlBuilder
-     * @param FilterUsageCalculator  $filterUsageCalculator
      * @param HtmlTools              $htmlTools
      */
     public function __construct(
         EntityManagerInterface $entityManager,
         UrlBuilder $urlBuilder,
-        FilterUsageCalculator $filterUsageCalculator,
         HtmlTools $htmlTools
     ) {
         $this->entityManager = $entityManager;
         $this->shopCategoryRepository = $entityManager->getRepository(ShopCategory::class);
-
         $this->urlBuilder = $urlBuilder;
-        $this->filterUsageCalculator = $filterUsageCalculator;
-
         $this->htmlTools = $htmlTools;
 
         parent::__construct();
@@ -58,6 +52,13 @@ class MakeUrlCommand extends ContainerAwareCommand
             ->addArgument('answers');
     }
 
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return int|null|void
+     * @throws \Exception
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $shopCategoryId = $input->getArgument('shopCategoryId');
@@ -100,8 +101,10 @@ class MakeUrlCommand extends ContainerAwareCommand
         /**
          * @var Filter $filter
          */
+        $wereAdded = [];
         foreach ($filters->getFilters() as $filter) {
-            $values = array_chunk($filter->filter($mainPage, $shopCategory, $this->filterUsageCalculator), 2);
+            $values = array_chunk($filter->filter($mainPage, $shopCategory), 2);
+            $wereAdded[] = $filter->isUsed();
             foreach ($values as $value) {
                 $filtersValues[] = $value;
             }
@@ -113,7 +116,7 @@ class MakeUrlCommand extends ContainerAwareCommand
 
         $serializer = new Serializer($normalizers, $encoders);
         $output->writeln($serializer->serialize($this->urlBuilder, 'json') . ' ');
-        $output->writeln(json_encode($this->filterUsageCalculator->getValues()));
+        $output->writeln(json_encode($wereAdded));
     }
 
     /**

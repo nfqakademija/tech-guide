@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\AnswerHistory;
 use App\Utils\HtmlTools;
 use App\Utils\UrlBuilder;
-use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,6 +23,13 @@ class AnswerController extends Controller
     }
 
     /**
+     * @param AnswerHistory $answerHistory
+     * @param HtmlTools     $htmlTools
+     * @param Request       $request
+     * @param UrlBuilder    $urlBuilder
+     *
+     * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     *
      * @Route("/answers/get/{id}", name="get_answers")
      */
     public function getAnswers(

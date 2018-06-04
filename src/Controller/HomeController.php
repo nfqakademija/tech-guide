@@ -2,10 +2,7 @@
 
 namespace App\Controller;
 
-use App\Utils\InfluenceCalculator;
-use App\Utils\Provider;
 use Doctrine\ORM\EntityManagerInterface;
-use Faker\Provider\DateTime;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,9 +10,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class HomeController extends Controller
 {
     /**
+     * @param EntityManagerInterface $entityManager
+     * @param SessionInterface       $session
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/", name="home")
      */
-    public function index(EntityManagerInterface $entityManager, SessionInterface $session)
+    public function index(SessionInterface $session)
     {
         if ($session->get('api_key') === null) {
             $session->set('api_key', uniqid('', false));

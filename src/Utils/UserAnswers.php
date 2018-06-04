@@ -5,7 +5,6 @@ namespace App\Utils;
 use App\Entity\Answer;
 use App\Entity\AnswerHistory;
 use App\Entity\Category;
-use App\Entity\InfluenceArea;
 use App\Entity\Question;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;

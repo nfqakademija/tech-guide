@@ -2,19 +2,12 @@
 
 namespace App\Utils\Filters;
 
-use App\Entity\Regex;
-use App\Entity\ShopCategory;
-use App\Repository\RegexRepository;
 use App\Utils\InfluenceCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 
 class Filters
 {
     private $filters;
-    /**
-     * @var RegexRepository $regexRepository
-     */
-    private $regexRepository;
 
     /**
      * Filters constructor.
@@ -26,9 +19,6 @@ class Filters
      */
     public function __construct(array $answers, EntityManagerInterface $entityManager)
     {
-        $this->regexRepository = $entityManager
-            ->getRepository(Regex::class);
-
         $influenceCalculator = new InfluenceCalculator($answers, $entityManager);
         $influenceBounds = $influenceCalculator->calculateInfluenceBounds();
 
@@ -62,10 +52,5 @@ class Filters
         $this->filters = $filters;
 
         return $this;
-    }
-
-    public function fetchPrioritizedRegexes(ShopCategory $shopCategory) : array
-    {
-        return $this->regexRepository->getRegexesByPriority($shopCategory);
     }
 }

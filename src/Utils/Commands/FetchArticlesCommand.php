@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Utils;
+namespace App\Utils\Commands;
 
 use App\Entity\Regex;
 use App\Entity\Shop;
 use App\Repository\RegexRepository;
+use App\Utils\HtmlTools;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,7 +23,8 @@ class FetchArticlesCommand extends ContainerAwareCommand
     /**
      * FetchArticlesCommand constructor.
      *
-     * @param $htmlTools
+     * @param EntityManagerInterface $entityManager
+     * @param HtmlTools              $htmlTools
      */
     public function __construct(EntityManagerInterface $entityManager, HtmlTools $htmlTools)
     {
@@ -40,6 +42,12 @@ class FetchArticlesCommand extends ContainerAwareCommand
             ->addArgument('shopId');
     }
 
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return int|null|void
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $shop = $this->shopRepository->find($input->getArgument('shopId'));

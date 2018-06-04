@@ -4,7 +4,7 @@ App\Entity\Question:
         priority: <questionPriority($current)>
     question_11:
         content: "Is the way your device looks important?"
-        priority: 100
+        priority: 12
         followUpQuestion: '@question_4'
     question_12:
         content: "How important TV is in your life?"

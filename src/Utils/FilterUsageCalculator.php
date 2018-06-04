@@ -11,9 +11,11 @@ class FilterUsageCalculator
      *
      * @return FilterUsageCalculator
      */
-    public function addValue(bool $value) : self
+    public function addValue(?bool $value) : self
     {
-        $this->values[] = $value;
+        if ($value !== null) {
+            $this->values[] = $value;
+        }
 
         return $this;
     }
@@ -63,7 +65,10 @@ class FilterUsageCalculator
      */
     public function setValues(array $values): self
     {
-        $this->values = $values;
+        $this->values = [];
+        foreach ($values as $value) {
+            $this->addValue($value);
+        }
 
         return $this;
     }

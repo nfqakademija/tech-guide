@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\FilterUsage;
 use App\Entity\Html;
-use App\Repository\FilterUsageRepository;
 use App\Repository\HtmlRepository;
 use App\Utils\Guidebot;
 use App\Utils\Provider;
@@ -20,6 +19,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class GuidebotController extends Controller
 {
     /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/guidebot", name="guidebot")
      */
     public function index()
@@ -30,6 +31,12 @@ class GuidebotController extends Controller
     }
 
     /**
+     * @param string           $apiKey
+     * @param Guidebot         $guidebot
+     * @param SessionInterface $session
+     *
+     * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     *
      * @Route("/api/guidebotSentences/{apiKey}", name="guidebotSentences")
      * @Method({"GET"})
      */
@@ -43,6 +50,14 @@ class GuidebotController extends Controller
     }
 
     /**
+     * @param string                 $apiKey
+     * @param Request                $request
+     * @param EntityManagerInterface $entityManager
+     * @param SessionInterface       $session
+     *
+     * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @throws \Exception
+     *
      * @Route("/api/guidebotOffer/{apiKey}", name="guidebotOffer")
      * @Method({"POST"})
      */
@@ -59,7 +74,7 @@ class GuidebotController extends Controller
         $answers = array_map('\intval', json_decode($request->getContent(), true)['data']);
 
         $provider = new Provider($answers, $entityManager);
-        $urls = $provider->makeUrls();
+        $urls = $provider->makeData();
 
         $userAnswers = new UserAnswers($answers, $entityManager);
         $answerHistory = $userAnswers->saveAnswers();

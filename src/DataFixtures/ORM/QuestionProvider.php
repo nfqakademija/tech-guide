@@ -11,7 +11,7 @@ class QuestionProvider extends BaseProvider
         'What type of tech would you like to know more about?' => 1,
         'How often do you travel?' => 10,
         'How often do you post on social media?' => 11,
-        'What`s the color you prefer for your device then?' => 101,
+        'What`s the color you prefer for your device then?' => 13,
         'Does price matter?' => 2,
         'Do you often try to complete all tasks at once?' => 10,
         'How often do you play video games?' => 11,

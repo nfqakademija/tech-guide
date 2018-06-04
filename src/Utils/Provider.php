@@ -44,7 +44,7 @@ class Provider
     /**
      * @return array
      */
-    public function makeUrls() : array
+    public function makeData() : array
     {
         /**
          * @var ShopCategory $shopCategory
@@ -66,7 +66,7 @@ class Provider
         foreach ($shopCategories as $shopCategory) {
             $htmlProcesses[$i]->wait();
             $data = explode(' ', $htmlProcesses[$i]->getOutput());
-            $process = new Process('../bin/console app:countContent ' .
+            $process = new Process('../bin/console app:fetchData ' .
                 $shopCategory->getId() . ' ' .
                 escapeshellarg($data[0]) . ' ' . escapeshellarg($data[1]));
             $process->start();

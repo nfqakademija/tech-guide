@@ -4,14 +4,12 @@ namespace App\Utils\Filters;
 
 use App\Entity\Regex;
 use App\Entity\ShopCategory;
-use App\Utils\FilterUsageCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 
 class MemoryFilter extends Filter
 {
-    private const TYPE = 'Memory';
-    private const SUBTYPE1 = 'SSD';
-    private const SUBTYPE2 = 'HDD';
+    private $ssdInfluenceArea;
+    private $hddInfluenceArea;
 
     /**
      * MemoryFilter constructor.
@@ -21,28 +19,24 @@ class MemoryFilter extends Filter
      */
     public function __construct(EntityManagerInterface $entityManager, array $influenceBounds)
     {
-        parent::__construct($entityManager, $influenceBounds);
-        $this->influenceAreas = $this->findInfluenceAreas([self::TYPE, self::SUBTYPE1, self::SUBTYPE2]);
+        parent::__construct($entityManager, $influenceBounds, 'Memory');
+        $this->ssdInfluenceArea = $this->findInfluenceArea('SSD');
+        $this->hddInfluenceArea = $this->findInfluenceArea('HDD');
     }
 
 
     /**
-     * @param string                $pageContent
-     * @param ShopCategory          $shopCategory
-     * @param FilterUsageCalculator $filterUsageCalculator
+     * @param string       $pageContent
+     * @param ShopCategory $shopCategory
      *
      * @return array
      */
-    public function filter(
-        string $pageContent,
-        ShopCategory $shopCategory,
-        FilterUsageCalculator $filterUsageCalculator
-    ) : array {
-        $ssdRegexes = $this->retrieveRegexes($shopCategory, $this->influenceAreas[1]);
-        $hddRegexes = $this->retrieveRegexes($shopCategory, $this->influenceAreas[2]);
+    public function filter(string $pageContent, ShopCategory $shopCategory) : array
+    {
+        $ssdRegexes = $this->retrieveRegexes($shopCategory, $this->ssdInfluenceArea);
+        $hddRegexes = $this->retrieveRegexes($shopCategory, $this->hddInfluenceArea);
 
         if (!empty($ssdRegexes) && !empty($hddRegexes)) {
-            $filterUsageCalculator->addValue(true);
             if ($this->influenceBounds['SSD'][1] > $this->influenceBounds['HDD'][1]) {
                 return $this->filterSubtype($pageContent, $ssdRegexes[0]);
             }
@@ -50,18 +44,21 @@ class MemoryFilter extends Filter
             return $this->filterSubtype($pageContent, $hddRegexes[0]);
         }
 
-        $memoryRegexes = $this->retrieveRegexes($shopCategory, $this->influenceAreas[0]);
+        $memoryRegexes = $this->retrieveRegexes($shopCategory, $this->influenceArea);
 
         if (!empty($memoryRegexes)) {
-            $filterUsageCalculator->addValue(true);
             return $this->filterMemory($pageContent, $memoryRegexes[0]);
         }
 
-        $filterUsageCalculator->addValue(
-            !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[0]) &&
-            !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[1]) &&
-            !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[2])
-        );
+        $this->checkUsage($shopCategory->getCategory());
+        if (!$this->isUsed) {
+            $this->checkInfluenceAreaUsage($shopCategory->getCategory(), $this->ssdInfluenceArea);
+        }
+
+        if (!$this->isUsed) {
+            $this->checkInfluenceAreaUsage($shopCategory->getCategory(), $this->hddInfluenceArea);
+        }
+
         return [null, []];
     }
 
@@ -73,30 +70,9 @@ class MemoryFilter extends Filter
      */
     private function filterMemory(string $pageContent, Regex $regex) : array
     {
-        $memoriesAndValues = [];
-        preg_match($regex->getHtmlReducingRegex(), $pageContent, $match);
-        if (isset($match[1])) {
-            $pageContent = $match[1];
-
-            preg_match_all($regex->getContentRegex(), $pageContent, $matches);
-
-            for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
-                $memoriesAndValues[$matches[1][$i]] = $matches[2][$i];
-            }
-
-            asort($memoriesAndValues);
-
-            return [
-                $regex->getUrlParameter(),
-                array_keys(\array_slice(
-                    $memoriesAndValues,
-                    round($this->influenceBounds[self::TYPE][0]
-                        * \count($memoriesAndValues)),
-                    round($this->influenceBounds[self::TYPE][1]
-                        * \count($memoriesAndValues)),
-                    true
-                ))
-            ];
+        $pageContent = $this->reduceHtml($regex, $pageContent);
+        if ($pageContent !== null) {
+            return $this->formatResults($regex, $this->fetchFilterValues($regex->getContentRegex(), $pageContent));
         }
 
         return [null, []];
@@ -110,42 +86,13 @@ class MemoryFilter extends Filter
      */
     private function filterSubtype(string $pageContent, Regex $regex) : array
     {
-        $memoriesAndValues = [];
-        preg_match($regex->getHtmlReducingRegex(), $pageContent, $match);
-        if (isset($match[1])) {
-            $pageContent = $match[1];
+        $pageContent = $this->reduceHtml($regex, $pageContent);
+        if ($pageContent !== null) {
+            $memoriesAndValues =
+                $this->fetchFilterValues(str_replace('sizeValue', 'GB', $regex->getContentRegex()), $pageContent) +
+                $this->fetchFilterValues(str_replace('sizeValue', 'TB', $regex->getContentRegex()), $pageContent, 1024);
 
-            preg_match_all(
-                str_replace('sizeValue', 'GB', $regex->getContentRegex()),
-                $pageContent,
-                $matches
-            );
-            for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
-                $memoriesAndValues[$matches[1][$i]] = $matches[2][$i];
-            }
-
-            preg_match_all(
-                str_replace('sizeValue', 'TB', $regex->getContentRegex()),
-                $pageContent,
-                $matches
-            );
-            for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
-                $memoriesAndValues[$matches[1][$i]] = $matches[2][$i] * 1024;
-            }
-
-            asort($memoriesAndValues);
-
-            return [
-                $regex->getUrlParameter(),
-                array_keys(\array_slice(
-                    $memoriesAndValues,
-                    round($this->influenceBounds[self::TYPE][0]
-                        * \count($memoriesAndValues)),
-                    round($this->influenceBounds[self::TYPE][1]
-                        * \count($memoriesAndValues)),
-                    true
-                ))
-            ];
+            return $this->formatResults($regex, $memoriesAndValues);
         }
     }
 }

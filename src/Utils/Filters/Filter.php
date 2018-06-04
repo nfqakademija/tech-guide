@@ -8,16 +8,14 @@ use App\Entity\Regex;
 use App\Entity\ShopCategory;
 use App\Repository\InfluenceAreaRepository;
 use App\Repository\RegexRepository;
-use App\Utils\FilterUsageCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 
 abstract class Filter
 {
-    /**
-     * @var InfluenceArea[] $influenceAreas
-     */
-    protected $influenceAreas;
+    protected $influenceArea;
     protected $influenceBounds;
+    protected $type;
+    protected $isUsed;
 
     /**
      * @var RegexRepository $regexRepository
@@ -34,7 +32,7 @@ abstract class Filter
      * @param EntityManagerInterface $entityManager
      * @param array                  $influenceBounds
      */
-    public function __construct(EntityManagerInterface $entityManager, array $influenceBounds)
+    public function __construct(EntityManagerInterface $entityManager, array $influenceBounds, string $type)
     {
         $this->influenceAreaRepository = $entityManager
             ->getRepository(InfluenceArea::class);
@@ -42,24 +40,19 @@ abstract class Filter
             ->getRepository(Regex::class);
 
         $this->influenceBounds = $influenceBounds;
+        $this->type = $type;
+        $this->influenceArea = $this->findInfluenceArea($type);
     }
-
 
     /**
-     * @param array $contents
+     * @param string $content
      *
-     * @return array
+     * @return InfluenceArea
      */
-    protected function findInfluenceAreas(array $contents) : array
+    protected function findInfluenceArea(string $content) : InfluenceArea
     {
-        $influenceAreas = [[]];
-        foreach ($contents as $content) {
-            $influenceAreas[] = $this->influenceAreaRepository->findBy(['content' => $content]);
-        }
-
-        return array_merge(...$influenceAreas);
+        return $this->influenceAreaRepository->findBy(['content' => $content])[0];
     }
-
 
     /**
      * @param ShopCategory  $shopCategory
@@ -84,15 +77,94 @@ abstract class Filter
     }
 
     /**
-     * @param string                $pageContent
-     * @param ShopCategory          $shopCategory
-     * @param FilterUsageCalculator $filterUsageCalculator
+     * @param Regex $regex
+     * @param array $data
      *
      * @return array
      */
-    abstract public function filter(
-        string $pageContent,
-        ShopCategory $shopCategory,
-        FilterUsageCalculator $filterUsageCalculator
-    ) : array;
+    protected function formatResults(Regex $regex, array $data) : array
+    {
+        asort($data);
+        $count = \count($data);
+        $this->isUsed = true;
+
+        return [
+            $regex->getUrlParameter(),
+            array_keys(\array_slice(
+                $data,
+                round($this->influenceBounds[$this->type][0] * $count),
+                round($this->influenceBounds[$this->type][1] * $count),
+                true
+            ))
+        ];
+    }
+
+    protected function reduceHtml(Regex $regex, $pageContent) : ?string
+    {
+        preg_match($regex->getHtmlReducingRegex(), $pageContent, $match);
+
+        if (isset($match[1])) {
+            return $match[1];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $regex
+     * @param string $pageContent
+     * @param float  $multiply
+     *
+     * @return array
+     */
+    protected function fetchFilterValues(string $regex, string $pageContent, float $multiply = 1) : array
+    {
+        $filtersAndValues = [];
+        preg_match_all($regex, $pageContent, $matches);
+        for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
+            $filtersAndValues[$matches[1][$i]] = $matches[2][$i] * $multiply;
+        }
+
+        return $filtersAndValues;
+    }
+
+    protected function checkUsage(Category $category) : void
+    {
+        $this->checkInfluenceAreaUsage($category, $this->influenceArea);
+    }
+
+    protected function checkInfluenceAreaUsage(Category $category, InfluenceArea $influenceArea) : void
+    {
+        if ($this->influenceAreaRepository->getInfluenceAreaCountByCategory($category, $influenceArea) > 0) {
+            $this->isUsed = false;
+        }
+    }
+
+    /**
+     * @param string       $pageContent
+     * @param ShopCategory $shopCategory
+     *
+     * @return array
+     */
+    abstract public function filter(string $pageContent, ShopCategory $shopCategory) : array;
+
+    /**
+     * @return bool|null
+     */
+    public function isUsed(): ?bool
+    {
+        return $this->isUsed;
+    }
+
+    /**
+     * @param bool $isUsed
+     *
+     * @return Filter
+     */
+    public function setIsUsed(bool $isUsed): self
+    {
+        $this->isUsed = $isUsed;
+
+        return $this;
+    }
 }
