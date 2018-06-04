@@ -36,7 +36,7 @@ const summary = (props) => {
                         <img className="progress-bar__info" src="images/information.svg" />
                     </div>
                 </div>
-                <a className="provider__link" href={providerInfo.url} target="_blank">Į parduotuvę ({providerInfo.count})</a>
+                <a className="provider__link" href={providerInfo.url} target="_blank">To Shop ({providerInfo.count})</a>
             </div>
         );
     } )

@@ -109,24 +109,26 @@ class MobileLayout extends Component {
         });
             
         return (
-            <div className="mobile-main" style={{height: `${this.props.height}`}}>
-                <Slider ref={slider => (this.slider = slider)} {...settings} >
-                    <div className="mobile-savedQuizes"><SavedQuizes cookies={this.props.cookies}/></div>
-                    <div className="mobile-landing"><Home /></div>
-                    <div className="mobile-quiz">
-                        { this.props.showGuidebot ?                  
-                            <Quiz /> 
+            <Hoc>
+                <div className="mobile-main" style={{height: this.props.height*0.9}}>
+                    <Slider ref={slider => (this.slider = slider)} {...settings} >
+                        <div className="mobile-savedQuizes"><SavedQuizes cookies={this.props.cookies}/></div>
+                        <div className="mobile-landing"><Home /></div>
+                        <div className="mobile-quiz">
+                            { this.props.showGuidebot ?                  
+                                <Quiz /> 
+                            : null}
+                        </div>
+                        {this.props.providersSet ?
+                        <Summary />
                         : null}
-                    </div>
-                    {this.props.providersSet ?
-                      <Summary />
-                    : null}
-                    {this.props.providersSet ? 
-                      generatedResults
-                    : null}
-                </Slider>
-                <MobileNavigation clickedBack={() => this.slider.slickPrev()} clickedNext={() => this.slider.slickNext()} next={navigationSteps.next} back={navigationSteps.back} />
-            </div>
+                        {this.props.providersSet ? 
+                        generatedResults
+                        : null}
+                    </Slider>
+                </div>
+                <MobileNavigation style={this.props.height} clickedBack={() => this.slider.slickPrev()} clickedNext={() => this.slider.slickNext()} next={navigationSteps.next} back={navigationSteps.back} />
+            </Hoc>
         );
     }
 }

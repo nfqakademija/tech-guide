@@ -40,6 +40,16 @@
     @media (min-width: 1800px) { @content };
   }
 
+  @if $breakpoint == phone-land {
+    @media only screen 
+      and (min-device-width: 480px) 
+      and (max-device-width: 900px) 
+      and (orientation: landscape)
+      and (-webkit-min-device-pixel-ratio: 1.5) {
+          @content        
+      };
+  }
+
   @if $breakpoint == ipad-port {
     @media only screen 
       and (min-device-width: 1024px) 
@@ -58,15 +68,6 @@
       and (-webkit-min-device-pixel-ratio: 1.5) {
         @content
     };
-  }
-
-  @if $breakpoint == phone-land {
-    @media only screen 
-      and (min-device-width: 480px) 
-      and (max-device-width: 900px) 
-      and (orientation: landscape) {
-          @content        
-      };
   }
   
 }
