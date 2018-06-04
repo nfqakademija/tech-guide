@@ -24,13 +24,35 @@ const sideDrawer = (props) => {
                 <a className="sidedrawer__navigation" onClick={() => activateButton( index+3 )} href="#" >{provider}</a>
             </li>
         );
-    } )
+    } );
+
+
+    let activeProvider = {
+        url: "/",
+        logo: "",
+    };
+    if (props.currentPage > 2) {
+        activeProvider = props.providersInfo[props.currentPage-3];
+    }
 
     return (
         <div className="sideDrawer">
             <div className="sideDrawer__navigation" >
                 <div className="sideDrawer__navigation--section sideDrawer__navigation--currentSlide" >
-                    <img className="sideDrawer__logo" src={props.activeProviderLogo} />
+                    { props.currentPage > 2 ? 
+                        <Hoc>
+                            <a className="sideDrawer__logo" href={activeProvider.url} target="_blank">
+                                <img src={activeProvider.logo} />
+                            </a>
+                            <a className="sideDrawer__link" href={activeProvider.url} target="_blank">
+                                To Shop ({activeProvider.count})
+                            </a> 
+                        </Hoc>
+                    : 
+                        <div className="sideDrawer__default-logo">
+                            <span className="sideDrawer__default-logo--main">Techguide</span>
+                        </div>
+                    }
                 </div>
                 <div className="sideDrawer__navigation--section">
                     <h2>Main</h2>

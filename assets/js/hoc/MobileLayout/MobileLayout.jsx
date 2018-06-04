@@ -19,13 +19,16 @@ class MobileLayout extends Component {
         super();
         this.state = {
             numberOfSlides: 3,
+            navigationHeight: null,
         }
     }
 
     componentDidUpdate() {
+
         if (this.props.providersSet) {
-            this.slider.slickNext();
+            this.slider.slickGoTo(this.props.currentPage);
         }
+
         let numberOfSlides;
         numberOfSlides = document.querySelectorAll('.slick-slide').length;
         if (numberOfSlides !== this.state.numberOfSlides) {
@@ -106,7 +109,7 @@ class MobileLayout extends Component {
         });
             
         return (
-            <div className="mobile-main">
+            <div className="mobile-main" style={{height: `${this.props.height}`}}>
                 <Slider ref={slider => (this.slider = slider)} {...settings} >
                     <div className="mobile-savedQuizes"><SavedQuizes cookies={this.props.cookies}/></div>
                     <div className="mobile-landing"><Home /></div>

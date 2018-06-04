@@ -5,6 +5,7 @@
         padding: 2rem;
         color: #7F8C9A;
         font-size: 1.2rem;
+        overflow: scroll;
 
         &__record {
             height: auto;
@@ -27,16 +28,53 @@
         .record__category {
             float:left;
             width: 33%;
+            text-align: center;
+
+            @include respond(ipad-port) {
+                font-size: 2.5rem;
+            }
+
+            @include respond(phone-tab) {
+                font-size: 2.5rem;
+            }
+
+            @include respond(ipad-land) {
+                font-size: 2.5rem;
+            }
+
+            @include respond(phone-land) {
+                font-size: 1.6rem;
+            }
+
+            @include respond(phone) {
+                font-size: 1.6rem;
+            }
+
+            a {
+                color: #bf4349;
+                cursor: pointer;
+
+            }
         }
 
         &__not-found {
             position: absolute;
-            width: 50%;
-            max-width: 40rem;
-            min-width: 25rem;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
+            width: 45%;
+
+            @include respond(phone) {
+                width: 65%;
+            }
+
+            @include respond(phone-land) {
+                width: 33.3%;
+            }
+
+            @include respond(ipad-land) {
+                width: 33.3%;
+            }
         }
     }
 }

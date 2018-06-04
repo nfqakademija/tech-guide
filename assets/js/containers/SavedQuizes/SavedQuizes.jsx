@@ -10,7 +10,11 @@ const savedQuizes = (props) => {
 
     const setProvidersInfo = (providersInfo) => {
         props.onSetProviders(providersInfo);
-        props.onSetCurrentPage(2);
+        if ( isMobile ) {
+            props.onSetCurrentPage(3);
+        } else {
+            props.onSetCurrentPage(2);
+        }
     }
 
     let visualiseCookie = props.cookies.map( (record, index) => {
