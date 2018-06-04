@@ -5,8 +5,6 @@ namespace App\Repository;
 use App\Entity\Html;
 use App\Entity\Shop;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class HtmlRepository extends ServiceEntityRepository

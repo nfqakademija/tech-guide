@@ -2,9 +2,6 @@
 
 namespace App\Utils\Filters;
 
-use App\Entity\Regex;
-use App\Entity\ShopCategory;
-use App\Repository\RegexRepository;
 use App\Utils\InfluenceCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 

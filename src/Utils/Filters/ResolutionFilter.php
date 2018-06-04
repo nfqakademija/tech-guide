@@ -4,7 +4,6 @@ namespace App\Utils\Filters;
 
 use App\Entity\Regex;
 use App\Entity\ShopCategory;
-use App\Utils\FilterUsageCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ResolutionFilter extends Filter

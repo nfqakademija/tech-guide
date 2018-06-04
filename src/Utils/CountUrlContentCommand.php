@@ -3,11 +3,9 @@
 namespace App\Utils;
 
 use App\Entity\FilterUsage;
-use App\Entity\Html;
 use App\Entity\Regex;
 use App\Entity\ShopCategory;
 use App\Repository\FilterUsageRepository;
-use App\Repository\HtmlRepository;
 use App\Repository\RegexRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;

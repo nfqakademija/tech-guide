@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\AnswerHistory;
 use App\Entity\FilterUsage;
 use App\Entity\Html;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

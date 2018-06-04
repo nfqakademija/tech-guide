@@ -5,7 +5,6 @@ namespace App\Utils\Filters;
 use App\Entity\Answer;
 use App\Entity\Regex;
 use App\Entity\ShopCategory;
-use App\Utils\FilterUsageCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 use Stichoza\GoogleTranslate\TranslateClient;
 

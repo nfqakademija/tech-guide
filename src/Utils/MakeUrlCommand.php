@@ -2,10 +2,8 @@
 
 namespace App\Utils;
 
-use App\Entity\Html;
 use App\Entity\Shop;
 use App\Entity\ShopCategory;
-use App\Repository\HtmlRepository;
 use App\Utils\Filters\Filter;
 use App\Utils\Filters\Filters;
 use Doctrine\ORM\EntityManagerInterface;
