@@ -8,27 +8,6 @@
     z-index: 500;
     transition: height .4s;
 
-    // @include respond(phone-tab) {
-    //     height: 5.5rem;
-    // }
-
-    // @include respond(phone-land) {
-    //     font-size: 2rem;
-    //     height: 5rem;
-    // }
-
-    // @include respond(phone) {
-    //     height: 5rem;
-    // }
-
-    // @include respond(ipad-land) {
-    //     height: 5rem;
-    //   }
-
-    //   @include respond(ipad-port) {
-    //     height: 5rem;
-    // }
-
         &__button {
             width: 50%;
             height: 100%;
