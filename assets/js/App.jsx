@@ -27,6 +27,11 @@ class App extends Component {
 
   componentWillMount() {
       this.updateDimensions();
+      document.body.style.height = this.state.height + 'px';
+  }
+
+  componentDidUpdate() {
+    document.body.style.height = this.state.height + 'px';
   }
 
   componentWillUnmount() {
