@@ -19,11 +19,7 @@
             outline: none !important;
             color: #333;
     
-            @include respond(phone) {
-                font-size: 2rem;
-            }
-
-            @include respond(phone-land) {
+            @include respond(phone-tab) {
                 font-size: 2rem;
             }
         }
