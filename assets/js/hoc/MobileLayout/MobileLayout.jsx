@@ -19,12 +19,7 @@ class MobileLayout extends Component {
         super();
         this.state = {
             numberOfSlides: 3,
-            navigationHeight: null,
         }
-    }
-
-    componentDidMount() {
-        document.body.style.overflow = "hidden";
     }
 
     componentDidUpdate() {
@@ -114,7 +109,7 @@ class MobileLayout extends Component {
             
         return (
             <Hoc>
-                <div className="mobile-main" style={{height: this.props.height*0.9}}>
+                <div className="mobile-main">
                     <Slider ref={slider => (this.slider = slider)} {...settings} >
                         <div className="mobile-savedQuizes"><SavedQuizes cookies={this.props.cookies}/></div>
                         <div className="mobile-landing"><Home /></div>
