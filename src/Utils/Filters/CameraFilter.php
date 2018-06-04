@@ -9,8 +9,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CameraFilter extends Filter
 {
-    private const TYPE = 'Camera';
-
     /**
      * PriceFilter constructor.
      *
@@ -19,8 +17,7 @@ class CameraFilter extends Filter
      */
     public function __construct(EntityManagerInterface $entityManager, array $influenceBounds)
     {
-        parent::__construct($entityManager, $influenceBounds);
-        $this->influenceAreas = $this->findInfluenceAreas([self::TYPE]);
+        parent::__construct($entityManager, $influenceBounds, 'Camera');
     }
 
 
@@ -39,39 +36,23 @@ class CameraFilter extends Filter
         /**
          * @var Regex[] $regexes
          */
-        $regexes = $this->retrieveRegexes($shopCategory, $this->influenceAreas[0]);
+        $regexes = $this->retrieveRegexes($shopCategory, $this->influenceArea);
         
         $cameraFilters = [];
         foreach ($regexes as $regex) {
-            preg_match($regex->getHtmlReducingRegex(), $pageContent, $match);
+            $pageContent = $this->reduceHtml($regex, $pageContent);
             $filterUsageCalculator->addValue(true);
-            if (isset($match[0])) {
-                $mpxAndValues = [];
-                $pageContent = $match[0];
-                preg_match_all($regex->getContentRegex(), $pageContent, $matches);
+            if ($pageContent !== null) {
+                $cameraFilters = array_merge(
+                    $cameraFilters,
+                    $this->formatResults($regex, $this->fetchFilterValues($regex->getContentRegex(), $pageContent)));
             }
-
-            for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
-                $mpxAndValues[$matches[1][$i]] = $matches[2][$i];
-            }
-
-            asort($mpxAndValues);
-
-            $cameraFilters[] = $regex->getUrlParameter();
-            $cameraFilters[] =
-                array_keys(\array_slice(
-                    $mpxAndValues,
-                    round($this->influenceBounds[self::TYPE][0]
-                        * \count($mpxAndValues)),
-                    round($this->influenceBounds[self::TYPE][1]
-                        * \count($mpxAndValues)),
-                    true
-                ));
         }
-        
-        if (\count($regexes) === 0) {
+
+        for ($i = 0; $i < 2 - \count($regexes); $i++) {
             $filterUsageCalculator->addValue(
-                !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[0])
+                !$this->categoryFilterExists($shopCategory->getCategory(),
+                    $this->influenceArea)
             );
         }
 

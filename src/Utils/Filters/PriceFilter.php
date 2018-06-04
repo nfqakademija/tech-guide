@@ -9,8 +9,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class PriceFilter extends Filter
 {
-    private const TYPE = 'Price';
-
     /**
      * PriceFilter constructor.
      *
@@ -19,8 +17,7 @@ class PriceFilter extends Filter
      */
     public function __construct(EntityManagerInterface $entityManager, array $influenceBounds)
     {
-        parent::__construct($entityManager, $influenceBounds);
-        $this->influenceAreas = $this->findInfluenceAreas([self::TYPE]);
+        parent::__construct($entityManager, $influenceBounds, 'Price');
     }
 
 
@@ -37,14 +34,14 @@ class PriceFilter extends Filter
         FilterUsageCalculator $filterUsageCalculator
     ) : array {
 
-        if ($this->influenceBounds[self::TYPE][0] === $this->influenceBounds[self::TYPE][1]) {
+        if ($this->influenceBounds[$this->type][0] === $this->influenceBounds[$this->type][1]) {
             return [null, []];
         }
 
         /**
          * @var Regex[] $regexes
          */
-        $regexes = $this->retrieveRegexes($shopCategory, $this->influenceAreas[0]);
+        $regexes = $this->retrieveRegexes($shopCategory, $this->influenceArea);
 
         if (\count($regexes) > 0) {
             $filterUsageCalculator->addValue(true);
@@ -56,9 +53,9 @@ class PriceFilter extends Filter
                 );
 
                 $value = round($matches[1][0]
-                        * $this->influenceBounds[self::TYPE][0]) . $shopCategory->getShop()->getPriceSeparator()
+                        * $this->influenceBounds[$this->type][0]) . $shopCategory->getShop()->getPriceSeparator()
                     . round($matches[1][0]
-                        * $this->influenceBounds[self::TYPE][1]);
+                        * $this->influenceBounds[$this->type][1]);
 
                 return [$regexes[0]->getUrlParameter(), [$value]];
             }
@@ -76,9 +73,9 @@ class PriceFilter extends Filter
                 );
 
                 $minValue = round($max[1][0]
-                    * $this->influenceBounds[self::TYPE][0] + $min[1][0]);
+                    * $this->influenceBounds[$this->type][0] + $min[1][0]);
                 $maxValue = round($max[1][0]
-                    * $this->influenceBounds[self::TYPE][1]);
+                    * $this->influenceBounds[$this->type][1]);
 
                 return [
                     $regexes[0]->getUrlParameter(), [$minValue],
@@ -88,7 +85,7 @@ class PriceFilter extends Filter
         }
 
         $filterUsageCalculator->addValue(
-            !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[0])
+            !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceArea)
         );
         return [null, []];
     }

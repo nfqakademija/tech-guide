@@ -13,11 +13,9 @@ use Doctrine\ORM\EntityManagerInterface;
 
 abstract class Filter
 {
-    /**
-     * @var InfluenceArea[] $influenceAreas
-     */
-    protected $influenceAreas;
+    protected $influenceArea;
     protected $influenceBounds;
+    protected $type;
 
     /**
      * @var RegexRepository $regexRepository
@@ -34,7 +32,7 @@ abstract class Filter
      * @param EntityManagerInterface $entityManager
      * @param array                  $influenceBounds
      */
-    public function __construct(EntityManagerInterface $entityManager, array $influenceBounds)
+    public function __construct(EntityManagerInterface $entityManager, array $influenceBounds, string $type)
     {
         $this->influenceAreaRepository = $entityManager
             ->getRepository(InfluenceArea::class);
@@ -42,24 +40,19 @@ abstract class Filter
             ->getRepository(Regex::class);
 
         $this->influenceBounds = $influenceBounds;
+        $this->type = $type;
+        $this->influenceArea = $this->findInfluenceArea($type);
     }
-
 
     /**
-     * @param array $contents
+     * @param string $content
      *
-     * @return array
+     * @return InfluenceArea
      */
-    protected function findInfluenceAreas(array $contents) : array
+    protected function findInfluenceArea(string $content) : InfluenceArea
     {
-        $influenceAreas = [[]];
-        foreach ($contents as $content) {
-            $influenceAreas[] = $this->influenceAreaRepository->findBy(['content' => $content]);
-        }
-
-        return array_merge(...$influenceAreas);
+        return $this->influenceAreaRepository->findBy(['content' => $content])[0];
     }
-
 
     /**
      * @param ShopCategory  $shopCategory
@@ -81,6 +74,52 @@ abstract class Filter
     protected function categoryFilterExists(Category $category, InfluenceArea $influenceArea) : bool
     {
         return $this->influenceAreaRepository->getInfluenceAreaCountByCategory($category, $influenceArea) > 0;
+    }
+
+    /**
+     * @param Regex $regex
+     * @param array $data
+     *
+     * @return array
+     */
+    protected function formatResults(Regex $regex, array $data) : array
+    {
+        asort($data);
+        $count = \count($data);
+
+        return [
+            $regex->getUrlParameter(),
+            array_keys(\array_slice(
+                $data,
+                round($this->influenceBounds[$this->type][0] * $count),
+                round($this->influenceBounds[$this->type][1] * $count),
+                true
+            ))
+        ];
+    }
+
+    protected function reduceHtml(Regex $regex, $pageContent) : string
+    {
+        preg_match($regex->getHtmlReducingRegex(), $pageContent, $match);
+        return $match[0];
+    }
+
+    /**
+     * @param string $regex
+     * @param string $pageContent
+     * @param float  $multiply
+     *
+     * @return array
+     */
+    protected function fetchFilterValues(string $regex, string $pageContent, float $multiply = 1) : array
+    {
+        $filtersAndValues = [];
+        preg_match_all($regex, $pageContent, $matches);
+        for ($i = 0, $iMax = \count($matches[0]); $i < $iMax; $i++) {
+            $filtersAndValues[$matches[1][$i]] = $matches[2][$i] * $multiply;
+        }
+
+        return $filtersAndValues;
     }
 
     /**

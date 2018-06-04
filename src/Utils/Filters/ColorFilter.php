@@ -11,7 +11,6 @@ use Stichoza\GoogleTranslate\TranslateClient;
 
 class ColorFilter extends Filter
 {
-    private const TYPE = 'Color';
     private $translator;
 
     /**
@@ -24,8 +23,7 @@ class ColorFilter extends Filter
      */
     public function __construct(EntityManagerInterface $entityManager, array $influenceBounds)
     {
-        parent::__construct($entityManager, $influenceBounds);
-        $this->influenceAreas = $this->findInfluenceAreas([self::TYPE]);
+        parent::__construct($entityManager, $influenceBounds, 'Color');
 
         $this->translator = new TranslateClient();
         $this->translator->setSource('en')->setTarget('lt');
@@ -47,16 +45,16 @@ class ColorFilter extends Filter
         /**
          * @var Regex[] $regexes
          */
-        $regexes = $this->retrieveRegexes($shopCategory, $this->influenceAreas[0]);
+        $regexes = $this->retrieveRegexes($shopCategory, $this->influenceArea);
 
-        if (isset($this->influenceBounds[self::TYPE][0])) {
+        if (isset($this->influenceBounds[$this->type][0])) {
             if (\count($regexes) > 0) {
                 $filterUsageCalculator->addValue(true);
                 $answers
-                    = $this->influenceAreas[0]->getQuestions()[0]->getAnswers()
+                    = $this->influenceArea->getQuestions()[0]->getAnswers()
                     ->filter(function (Answer $answer) {
                         return $answer->getValue()
-                            === $this->influenceBounds[self::TYPE][0];
+                            === $this->influenceBounds[$this->type][0];
                     });
 
                 $colorName = '';
@@ -81,7 +79,7 @@ class ColorFilter extends Filter
             }
 
             $filterUsageCalculator->addValue(
-                !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceAreas[0])
+                !$this->categoryFilterExists($shopCategory->getCategory(), $this->influenceArea)
             );
         }
 
