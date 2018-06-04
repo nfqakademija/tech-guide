@@ -103,8 +103,8 @@ abstract class Filter
     {
         preg_match($regex->getHtmlReducingRegex(), $pageContent, $match);
 
-        if (isset($match[0])) {
-            return $match[0];
+        if (isset($match[1])) {
+            return $match[1];
         }
 
         return null;

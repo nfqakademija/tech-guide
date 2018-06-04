@@ -33,17 +33,16 @@ class CameraFilter extends Filter
          */
         $regexes = $this->retrieveRegexes($shopCategory, $this->influenceArea);
         
-        $cameraFilters = [];
+        $cameraFilters = [[]];
         foreach ($regexes as $regex) {
-            $pageContent = $this->reduceHtml($regex, $pageContent);
-            if ($pageContent !== null) {
-                $cameraFilters = array_merge(
-                    $cameraFilters,
-                    $this->formatResults($regex, $this->fetchFilterValues($regex->getContentRegex(), $pageContent)));
+            $content = $this->reduceHtml($regex, $pageContent);
+            if ($content !== null) {
+                $cameraFilters[] = $this->formatResults($regex, $this->fetchFilterValues($regex->getContentRegex(), $content));
             }
         }
 
         $this->checkUsage($shopCategory->getCategory());
-        return $cameraFilters;
+
+        return array_merge(...$cameraFilters);
     }
 }

@@ -79,21 +79,19 @@ class CountUrlContentCommand extends ContainerAwareCommand
 
         $articles = $this->htmlTools->fetchArticles($shopCategory->getShop(), $this->urlBuilder);
         if (count($articles) === 0) {
-            $filters = $this->regexRepository->getRegexesByPriority($shopCategory);
-            do {
-                array_splice($filters, 0, 1);
-                if ($this->urlBuilder->removeFilter($filters[0]['urlParameter'])) {
+            foreach ($this->regexRepository->getRegexesByPriority($shopCategory) as $filter) {
+                if ($this->urlBuilder->removeFilter($filter['urlParameter'])) {
                     $this->filterUsageCalculator->replaceWithFalse();
                 }
+
                 $articles = $this->htmlTools->fetchArticles($shopCategory->getShop(), $this->urlBuilder);
-            } while (count($articles) === 0);
+                if (count($articles) > 0) {
+                    break;
+                }
+            }
         }
 
-        /** change this later */
         $html = $this->htmlTools->fetchHtmlCode($shopCategory->getShop(), $this->urlBuilder->getUrl());
-
-
-
 
         $filterUsage = $this->filterUsageCalculator->calculate();
         $this->filterUsageRepository->add($html, $filterUsage);
