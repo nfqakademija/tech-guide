@@ -15,6 +15,10 @@ import data from '../../data.json';
 
 class Layout extends Component {
 
+  componentDidMount() {
+    document.body.style.overflow = "auto";
+  }
+
   componentDidUpdate() {
     if (this.props.providersSet) {
       this.slider.slickGoTo(this.props.currentPage);
