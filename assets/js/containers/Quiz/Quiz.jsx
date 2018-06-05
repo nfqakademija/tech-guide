@@ -36,7 +36,7 @@ class Quiz extends Component {
           hideHeader="true"
           steps={this.props.messages}
           width="100%"
-          botDelay="100"
+          botDelay="900"
           hideSubmitButton="true"
           handleEnd={( values ) => this.handleEnd(values)}
           className="rsc-root"
