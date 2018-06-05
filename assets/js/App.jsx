@@ -17,31 +17,10 @@ class App extends Component {
     this.state = {
       cookies: [],
     }
-    this.updateDimensions = this.updateDimensions.bind(this);
-  }
-
-  updateDimensions() {
-      document.body.style.height = window.innerHeight + 'px';
-      window.scrollTo(0, 0);
-  }
-
-  componentWillMount() {
-      document.body.style.height = window.innerHeight + 'px';
-      window.scrollTo(0, 0);
-  }
-
-  componentDidUpdate() {
-    document.body.style.height = window.innerHeight + 'px';
-    window.scrollTo(0, 0);
-  }
-
-  componentWillUnmount() {
-      window.removeEventListener("resize", this.updateDimensions );
   }
 
   componentDidMount() {
     this.props.onFetchGuidebotData();
-    window.addEventListener("resize", this.updateDimensions );
 
     let cookies = this.getCookie('answers');
     if (cookies === null) {
