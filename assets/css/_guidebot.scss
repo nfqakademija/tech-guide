@@ -31,7 +31,7 @@
   }
 
   .rsc-os-option {
-    color: $color-white;
+    color: white;
 
     &-element {
       background-color: #f49569;
@@ -45,6 +45,7 @@
 
   .rsc-os-option-element {
     border-radius: 1.4rem;
+    color: white;
   }
 
   .rsc-os-option-element, .rsc-ts-bubble {

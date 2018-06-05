@@ -46,14 +46,6 @@
         text-transform: uppercase;
     }
 
-    &--open {
-        display: visible;
-    }
-
-    &--close {
-        display:none;
-    }
-
     &__navigation {
         height: 100%;
 
@@ -84,13 +76,13 @@
                         color: #A5B6C3;
                     }
                 }
+
+                .active {
+                    border-left: .4rem solid #bf4349;
+                    background-color: #343C48;
+                    color: white; 
+                 }
             }
         }
     }
-}
-
-.active {
-   border-left: .4rem solid #bf4349;
-   background-color: #343C48;
-   color: white; 
 }

@@ -4,8 +4,8 @@ a:hover {
 }
 
 .main-button {
-  background-color: $color-primary;
-  color: $color-white;
+  background-color: #F64C72;
+  color: white;
   margin: 2rem 0 0 0;
   transition: all .2s;
   padding: 1.4rem 5rem;
@@ -21,8 +21,8 @@ a:hover {
 
   &:hover {
     animation: none;
-    background-color: $color-primary;
-    color: $color-white;
+    background-color: #F64C72;
+    color: white;
   }
 }
 

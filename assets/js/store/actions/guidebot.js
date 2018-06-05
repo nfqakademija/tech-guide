@@ -52,17 +52,3 @@ export const showGuidebot = () => {
         showGuidebot: true,
     }
 }
-
-export const onShowLoader = () => {
-    return {
-        type: actionTypes.SHOW_LOADER,
-        showLoader: true,
-    }
-}
-
-export const onHideLoader = () => {
-    return {
-        type: actionTypes.HIDE_LOADER,
-        showLoader: false,
-    }
-}

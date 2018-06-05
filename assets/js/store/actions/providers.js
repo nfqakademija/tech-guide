@@ -45,16 +45,3 @@ export const providersHistorySet = ( cookies ) => {
     providersHistory: cookies,
   }
 }
-
-export const toggleProvidersHistory = () => {
-  return {
-    type: actionTypes.TOGGLE_PROVIDERS_HISTORY,
-  }
-}
-
-export const loadProviders = ( providersInfo ) => {
-  return {
-    type: actionTypes.LOAD_PROVIDERS,
-    providersInfo: providersInfo,
-  }
-}

@@ -5,81 +5,28 @@ import Slider from 'react-slick';
 import Hoc from '../Hoc/Hoc';
 import MobileNavigation from '../../components/Navigation/MobileNavigation/MobileNavigation';
 import Home from '../../containers/Home/Home';
-import SavedQuizes from '../../containers/SavedQuizes/SavedQuizes';
+import SavedQuizes from '../../components/SavedQuizes/SavedQuizes';
 import Summary from '../../components/Providers/Results/Summary/Summary';
-import Quiz from '../../containers/Quiz/Quiz';
+import Quiz from '../../components/Quiz/Quiz';
 import Product from '../../components/Providers/Product/Product';
 import Results from '../../components/Providers/Results/Results';
 import * as guidebotActionCreators from '../../store/actions/guidebot';
 import * as navigationActionCreators from '../../store/actions/navigation';
-import data from '../../data.json';
 
 class MobileLayout extends Component {
-    constructor() {
-        super();
-        this.state = {
-            numberOfSlides: 3,
-        }
-    }
 
     componentDidMount() {
         document.documentElement.style.background = 'none';
     }
 
     componentDidUpdate() {
-
         if (this.props.providersSet) {
             this.slider.slickGoTo(this.props.currentPage);
-        }
-
-        let numberOfSlides;
-        numberOfSlides = document.querySelectorAll('.slick-slide').length;
-        if (numberOfSlides !== this.state.numberOfSlides) {
-            this.setState({ numberOfSlides: numberOfSlides });
         }
     }
 
     render() {
-        let navigationSteps;
-        if (this.props.currentPage === 0) {
-            navigationSteps = {
-                back: "",
-                next: "Home",
-            }
-        } else if ( this.props.currentPage === 1 && !this.props.showGuidebot) {
-            navigationSteps = {
-                back: "History",
-                next: "Start quiz!",
-            }
-        } else if ( this.props.currentPage === 1  && this.props.showGuidebot ) {
-            navigationSteps = {
-                back: "History",
-                next: "Chat",
-            }
-        } else if (this.props.currentPage === 2) {
-            navigationSteps = {
-                back: "Back",
-                next: "",
-            }
 
-            if (this.props.providersSet) {
-                navigationSteps.next = "Results"
-            }
-        } else {
-            if (this.state.numberOfSlides-1 === this.props.currentPage) {
-                navigationSteps = {
-                    back: "Back",
-                    next: "",
-                }
-            } else {
-                navigationSteps = {
-                    back: "Back",
-                    next: "Next",
-                }
-            }
-        }
-
-        let show;
         const settings = {
             dots: true,
             infinite: false,
@@ -131,22 +78,26 @@ class MobileLayout extends Component {
                 </div>
                 <div className="mobile-main">
                     <Slider ref={slider => (this.slider = slider)} {...settings} >
-                        <div className="mobile-savedQuizes"><SavedQuizes cookies={this.props.cookies}/></div>
-                        <div className="mobile-landing"><Home /></div>
+                        <div className="mobile-savedQuizes">
+                            <SavedQuizes />
+                        </div>
+                        <div className="mobile-landing">
+                            <Home />
+                        </div>
                         <div className="mobile-quiz">
                             { this.props.showGuidebot ?                  
                                 <Quiz /> 
                             : null}
                         </div>
-                        {this.props.providersSet ?
-                        <Summary />
-                        : null}
-                        {this.props.providersSet ? 
-                        generatedResults
-                        : null}
+                            {this.props.providersSet ?
+                                <Summary />
+                            : null}
+                            {this.props.providersSet ? 
+                                generatedResults
+                            : null}
                     </Slider>
                 </div>
-                <MobileNavigation style={this.props.height} clickedBack={() => this.slider.slickPrev()} clickedNext={() => this.slider.slickNext()} next={navigationSteps.next} back={navigationSteps.back} />
+                <MobileNavigation clickedBack={() => this.slider.slickPrev()} clickedNext={() => this.slider.slickNext()} />
             </Hoc>
         );
     }
@@ -154,16 +105,12 @@ class MobileLayout extends Component {
 
 const mapStateToProps = state => {
     return {
-      loadingGuidebotData: state.guidebot.loadingGuidebotData,
-      guidebotDataSet: state.guidebot.guidebotDataSet,
       showGuidebot: state.guidebot.showGuidebot,
-      loadingProviders: state.providers.loadingProviders,
       providersSet: state.providers.providersSet,
       providersInfo: state.providers.providersInfo,
-      providersHistorySet: state.providers.providersHistorySet,
       currentPage: state.navigation.currentPage,
     }
-  }
+}
 
 const mapDispatchToProps = dispatch => {
     return {
