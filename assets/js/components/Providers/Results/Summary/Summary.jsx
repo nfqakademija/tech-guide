@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { isMobile } from "react-device-detect";
 
 const summary = (props) => {
 
@@ -31,10 +32,13 @@ const summary = (props) => {
                                 <span>{providerInfo.filterUsage}%</span>
                             </div>
                         </div>
-                    </div>
-                    <div className="info" data-info="Progress bar shows the percentage of your given answers that were used to generate offers just for you.">
+                        { !isMobile? <div className="info" data-info="Progress bar shows the percentage of your given answers that were used to generate offers just for you.">
                         <img className="progress-bar__info" src="images/information.svg" />
+                        </div> : null}
                     </div>
+                    { isMobile? <div className="info" data-info="Progress bar shows the percentage of your given answers that were used to generate offers just for you.">
+                        <img className="progress-bar__info" src="images/information.svg" />
+                    </div> : null}
                 </div>
                 <a className="provider__link" href={providerInfo.url} target="_blank">To Shop ({providerInfo.count})</a>
             </div>
