@@ -19,18 +19,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class GuidebotController extends Controller
 {
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @Route("/guidebot", name="guidebot")
-     */
-    public function index()
-    {
-        return $this->render('guidebot/index.html.twig', [
-            'controller_name' => 'GuidebotController',
-        ]);
-    }
-
-    /**
      * @param string           $apiKey
      * @param Guidebot         $guidebot
      * @param SessionInterface $session
