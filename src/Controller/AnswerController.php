@@ -13,16 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class AnswerController extends Controller
 {
     /**
-     * @Route("/answer", name="answer")
-     */
-    public function index()
-    {
-        return $this->render('answer/index.html.twig', [
-            'controller_name' => 'AnswerController',
-        ]);
-    }
-
-    /**
      * @param AnswerHistory $answerHistory
      * @param HtmlTools     $htmlTools
      * @param Request       $request

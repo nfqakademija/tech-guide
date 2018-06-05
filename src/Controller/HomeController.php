@@ -10,7 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class HomeController extends Controller
 {
     /**
-     * @param EntityManagerInterface $entityManager
      * @param SessionInterface       $session
      *
      * @return \Symfony\Component\HttpFoundation\Response
