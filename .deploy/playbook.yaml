@@ -60,11 +60,6 @@
         args:
             chdir: "{{ deploy_helper.new_release_path }}"
 
-      - name: Add fixtures
-        shell: bin/console doctrine:fixtures:load --no-interaction --env=prod --no-debug
-        args:
-            chdir: "{{ deploy_helper.new_release_path }}"
-
       - name: Warm up application cache
         shell: bin/console cache:warmup --env=prod --no-debug
         args:

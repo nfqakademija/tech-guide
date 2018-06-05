@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\AnswerHistory;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,13 +11,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class HomeController extends Controller
 {
     /**
+     * @param EntityManagerInterface $entityManager
      * @param SessionInterface       $session
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @Route("/", name="home")
      */
-    public function index(SessionInterface $session)
+    public function index(EntityManagerInterface $entityManager, SessionInterface $session)
     {
         if ($session->get('api_key') === null) {
             $session->set('api_key', uniqid('', false));
@@ -28,6 +30,10 @@ class HomeController extends Controller
                 if ((new \DateTime($value['expireTime']))->diff(new \DateTime('now'))->invert
                     === 0
                 ) {
+                    unset($data[$key]);
+                }
+
+                if ($entityManager->getRepository(AnswerHistory::class)->find($value['id']) === null) {
                     unset($data[$key]);
                 }
             }
