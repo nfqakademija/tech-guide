@@ -38,10 +38,11 @@ export const fetchProviders = ( values ) => {
     }
 }
 
-export const providersHistorySet = () => {
+export const providersHistorySet = ( cookies ) => {
   return {
     type: actionTypes.PROVIDERS_HISTORY_SET,
     providersHistorySet: true,
+    providersHistory: cookies,
   }
 }
 

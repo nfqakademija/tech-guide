@@ -6,6 +6,7 @@
         color: #7F8C9A;
         font-size: 1.2rem;
         height: 90%;
+        overflow: scroll;
 
         &__record {
             height: auto;
@@ -35,15 +36,11 @@
             }
 
             @include respond(phone-tab) {
-                font-size: 2.5rem;
+                font-size: 1.6rem;
             }
 
             @include respond(ipad-land) {
                 font-size: 2.5rem;
-            }
-
-            @include respond(phone-land) {
-                font-size: 1.6rem;
             }
 
             @include respond(phone) {
@@ -64,16 +61,14 @@
             transform: translate(-50%, -50%);
             width: 45%;
 
-            @include respond(phone) {
-                width: 65%;
-            }
-
-            @include respond(phone-land) {
-                width: 33.3%;
+            @include respond(phone-tab) {
+                height: 20rem;
+                width: auto;
             }
 
             @include respond(ipad-land) {
                 width: 33.3%;
+                height: auto;
             }
         }
     }
