@@ -46,10 +46,15 @@ class MobileLayout extends Component {
                 back: "",
                 next: "Home",
             }
-        } else if ( this.props.currentPage === 1 ) {
+        } else if ( this.props.currentPage === 1 && !this.props.showGuidebot) {
             navigationSteps = {
                 back: "History",
                 next: "Start quiz!",
+            }
+        } else if ( this.props.currentPage === 1  && this.props.showGuidebot ) {
+            navigationSteps = {
+                back: "History",
+                next: "Chat",
             }
         } else if (this.props.currentPage === 2) {
             navigationSteps = {
@@ -110,9 +115,20 @@ class MobileLayout extends Component {
               />
             );
         });
+
+        let activeProvider = {
+            url: "/",
+            logo: "",
+        };
+        if (this.props.currentPage > 3) {
+            activeProvider = this.props.providersInfo[this.props.currentPage-4];
+        }
             
         return (
             <Hoc>
+                <div className="mobile-header">
+                    <a href={activeProvider.url} target="_blank"><img className="mobile-header__logo" src={activeProvider.logo} /></a>
+                </div>
                 <div className="mobile-main">
                     <Slider ref={slider => (this.slider = slider)} {...settings} >
                         <div className="mobile-savedQuizes"><SavedQuizes cookies={this.props.cookies}/></div>

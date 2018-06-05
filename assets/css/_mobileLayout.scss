@@ -1,3 +1,12 @@
+.mobile-header {
+
+    &__logo {
+        position: absolute;
+        right: 0;
+        height: 7rem;
+        z-index: 100;
+    }
+}
 
 .mobile-main {
     overflow: hidden;
@@ -91,7 +100,7 @@
                         font-size: 2rem;
 
                         @include respond(phone-tab) {
-                            font-size: 2rem;
+                            font-size: 1.6rem;
                         }
 
                         @include respond(phone) {
@@ -128,7 +137,8 @@
         }
     
         .mobile-quiz {
-            height: 90%;
+            height: 100%;
+            padding-bottom: 3rem;
     
             div {
                 height: auto;
@@ -226,6 +236,10 @@
                   display: none;
                 }
               }
+        }
+
+        .provider {
+            padding-bottom: 3rem;
         }
     
         .results__provider {

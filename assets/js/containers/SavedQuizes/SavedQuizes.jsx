@@ -50,6 +50,12 @@ const savedQuizes = (props) => {
     );
 }
 
+const mapStateToProps = state => {
+    return {
+        providersHistory: state.providers.providersHistory,
+    }
+}
+
 const mapDispatchToProps = dispatch => {
     return {
         onSetProviders: ( providersInfo ) => dispatch(providersActionCreators.setProviders( providersInfo )), 
@@ -57,4 +63,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(savedQuizes);
+export default connect(mapStateToProps, mapDispatchToProps)(savedQuizes);

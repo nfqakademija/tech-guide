@@ -2,13 +2,24 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import { isMobile } from "react-device-detect";
+import axios from 'axios';
 import ChatBot from 'react-simple-chatbot';
 
 import Hoc from '../../hoc/Hoc/Hoc';
+import * as guidebotActionCreators from '../../store/actions/guidebot';
 import * as providersActionCreators from '../../store/actions/providers';
 import * as navigationActionCreators from '../../store/actions/navigation';
 
 class Quiz extends Component {
+
+  handleEnd = ( values ) => {
+    this.props.onGetResults(values);
+    if ( isMobile ) {
+      this.props.onSetCurrentPage(3);
+    } else {
+      this.props.onSetCurrentPage(2);
+    }
+  }
 
   render() {
     const theme = {
@@ -18,15 +29,6 @@ class Quiz extends Component {
       userFontColor: 'white',
     }
 
-    const handleEnd = ( values ) => {
-      this.props.onGetResults(values);
-      if ( isMobile ) {
-        this.props.onSetCurrentPage(3);
-      } else {
-        this.props.onSetCurrentPage(2);
-      }
-    }
-
     return (
     <Hoc>
       <ThemeProvider theme={theme}>
@@ -34,9 +36,9 @@ class Quiz extends Component {
           hideHeader="true"
           steps={this.props.messages}
           width="100%"
-          botDelay="900"
+          botDelay="100"
           hideSubmitButton="true"
-          handleEnd={( values ) => handleEnd(values)}
+          handleEnd={( values ) => this.handleEnd(values)}
           className="rsc-root"
           botAvatar= "images/chatbot-icon.svg"
           hideUserAvatar= "true"
@@ -57,6 +59,8 @@ const mapDispatchToProps = dispatch => {
   return {
     onGetResults: ({ values }) => dispatch(providersActionCreators.fetchProviders( values )),
     onSetCurrentPage: ( index ) => dispatch(navigationActionCreators.setCurrentPage( index )),
+    onFetchGuidebotData: () => dispatch(guidebotActionCreators.fetchGuidebotData()),
+    onProvidersHistorySet: ( cookies ) => dispatch(providersActionCreators.providersHistorySet( cookies )),
   }
 }
 

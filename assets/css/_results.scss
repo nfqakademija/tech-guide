@@ -254,20 +254,12 @@
       height: 30%;
 
       @include respond(phone-tab) {
-        height: 25%
+        height: 12rem;
       }
 
       @include respond(ipad-port) {
         height: 25%
-      }
-
-      @include respond(phone) {
-        height: 12rem;
       } 
-
-      @include respond(phone-land) {
-        height: 12rem;
-      }   
     }
 
     .provider__logo {
@@ -295,14 +287,15 @@
       top: 50%;
       width: 30%;
       right: 2rem;
-      left: unset;
-      bottom: unset;
+      left: auto;
+      bottom: auto;
       transform: translate(0, -50%);
       font-size: 2.2rem;
 
       @include respond(phone-tab) {
         font-size: 1.8rem;
         padding: .6rem;
+        right: 1rem;
       }
 
       @include respond(phone) {

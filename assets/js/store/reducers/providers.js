@@ -7,6 +7,7 @@ const initialState = {
   loadingProviders: false,
   error: false,
   providersHistorySet: false,
+  providersHistory: [],
 };
 
 const getResults = ( state, action ) => {
@@ -36,6 +37,7 @@ const providersHistSet = ( state, action ) => {
   return {
     ...state,
     providersHistorySet: true,
+    providersHistory: action.providersHistory,
   }
 }
 

@@ -43,7 +43,7 @@ class App extends Component {
       })
     }).then(() => {
       this.setState({ cookies: storedCookies });
-      this.props.onProvidersHistorySet();
+      this.props.onProvidersHistorySet( storedCookies );
     })
   }
 
@@ -118,7 +118,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onFetchGuidebotData: () => dispatch(guidebotActionCreators.fetchGuidebotData()),
-    onProvidersHistorySet: () => dispatch(providersActionCreators.providersHistorySet()),
+    onProvidersHistorySet: ( cookies ) => dispatch(providersActionCreators.providersHistorySet( cookies )),
   }
 }
 
