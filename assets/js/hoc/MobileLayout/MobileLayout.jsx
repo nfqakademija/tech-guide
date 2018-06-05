@@ -22,6 +22,10 @@ class MobileLayout extends Component {
         }
     }
 
+    componentDidMount() {
+        document.documentElement.style.background = 'none';
+    }
+
     componentDidUpdate() {
 
         if (this.props.providersSet) {
