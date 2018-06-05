@@ -139,6 +139,7 @@
         .mobile-quiz {
             height: 100%;
             padding-bottom: 3rem;
+            outline: none;
     
             div {
                 height: auto;
@@ -175,7 +176,7 @@
                 }
               
                 .rsc-os-option {
-                  color: $color-white;
+                  color: white;
               
                   &-element {
               

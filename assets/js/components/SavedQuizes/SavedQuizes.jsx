@@ -17,7 +17,7 @@ const savedQuizes = (props) => {
         }
     }
 
-    let visualiseCookie = props.cookies.map( (record, index) => {
+    let visualiseCookie = props.providersHistory.map( (record, index) => {
         let date;
         let categoryLabel;
         let providersInfo = [];
@@ -46,7 +46,7 @@ const savedQuizes = (props) => {
     })
 
     return (
-        <div className="quiz-history" >{props.cookies.length === 0 ? <img className="quiz-history__not-found" src="images/noHistory.svg" /> : visualiseCookie}</div>
+        <div className="quiz-history" >{props.providersHistory.length === 0 ? <img className="quiz-history__not-found" src="images/noHistory.svg" /> : visualiseCookie}</div>
     );
 }
 

@@ -24,7 +24,7 @@ class App extends Component {
 
     let cookies = this.getCookie('answers');
     if (cookies === null) {
-      return this.props.onProvidersHistorySet();
+      return this.props.onProvidersHistorySet( [] );
     }
     let parsedCookies = JSON.parse(cookies);
 
@@ -63,9 +63,9 @@ class App extends Component {
   render() {
 
     let loaderTitle;
-    if (this.props.loadingGuidebotData || (this.props.showLoader && this.props.guidebotDataSet) || !this.props.providersHistorySet ) {
+    if ( this.props.loadingGuidebotData || !this.props.providersHistorySet ) {
       loaderTitle = 'GUIDEBOT IS COMING...';
-    } else if (this.props.loadingProviders || this.props.showLoader && this.props.providersSet) {
+    } else if ( this.props.loadingProviders ) {
       loaderTitle = 'PREPARING RESULTS...'
     }
 
@@ -98,7 +98,7 @@ class App extends Component {
             />
           )}
         </Transition>
-        { isMobile ? <MobileLayout cookies={this.state.cookies}/> : <Layout cookies={this.state.cookies} /> }
+        { isMobile ? <MobileLayout /> : <Layout /> }
       </Hoc>
     );
   }
@@ -106,11 +106,8 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    guidebotDataSet: state.guidebot.guidebotDataSet,
-    providersSet: state.providers.providersSet,
     loadingProviders: state.providers.loadingProviders,
     loadingGuidebotData: state.guidebot.loadingGuidebotData,
-    showLoader: state.guidebot.showLoader,
     providersHistorySet: state.providers.providersHistorySet,
   }
 }

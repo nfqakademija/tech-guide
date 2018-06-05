@@ -6,48 +6,21 @@
 
     .provider {
       position: relative;
-    
-      &__header {
-        position: relative;
-        width: 100%;
-        height: 15%;
-        z-index: 100;
-        box-shadow: 0 1rem 5rem rgba(0, 0, 0, .2);
-    
-        &--logo, &--efficiency {
-          position: relative;
-        }
-    
-        .provider-logo {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-        }
-      }
-    
-      &__results {
-        position: relative;
-        width:100%;
-        height:100%;
-
-      }
-    }
-
-    .provider {
       width: 100%;
       padding: 1rem;
       overflow-y: scroll;
       overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
-  
+    
       &__results {
-        height: 100%;
+        position: relative;
+        width:100%;
+        height:100%;
         overflow-y: scroll;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
       }
-    
+
       &__product {
         width: 25%;
         height: auto;
@@ -202,13 +175,6 @@
         top: 3rem;
         right: 1rem;
       }  
-
-      @include respond(phone-land) {
-        width: 23rem;
-        font-size: 1.3rem;
-        top: 3rem;
-        right: 1rem;
-      }
     }
     .info::before {
       content: '';
@@ -226,11 +192,6 @@
         top: 2rem;
         right: 1rem;
       }  
-
-      @include respond(phone-land) {
-        top: 2rem;
-        right: 1rem;
-      }
     }
     
     .info:hover {
@@ -350,10 +311,6 @@
       
       img {
 
-        @include respond(phone-land) {
-          width: 2rem;
-        }  
-
         @include respond(phone) {
           width: 1.8rem;
         }  
@@ -448,22 +405,11 @@
       font-size: 11rem;
     }
 
-    @include respond(phone-land) {
-      height: 10rem;
-    }
-
     img {
       position: absolute;
       top: 50%;
       transform: translate(0, -50%);
       width: 100%;
-
-      @include respond(phone-land) {
-        position: relative;
-        width: auto;
-        height: 100%;
-        margin: 0 auto;
-      }
     }
   }
 

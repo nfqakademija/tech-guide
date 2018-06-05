@@ -1,16 +1,14 @@
 import * as actionTypes from '../actions/actions';
-import { setCurrentPage, resulstsOpenedToggle, resultsShow, resultsHide } from '../actions/navigation';
+import { setCurrentPage } from '../actions/navigation';
 
 const initialState = {
     currentPage: 1,
-    activeProviderLogo: "",
 };
 
 const getCurrentPage = ( state, action ) => {
     return {
         ...state,
         currentPage: action.currentPage,
-        activeProviderLogo: action.activeProviderLogo,
     }
 }
 
