@@ -35,11 +35,11 @@ class QuizCest
         }
 
         $I->see('It was great to talk to you. I hope you`ll like our offers!');
-        $I->waitForElement('.results-summary', 30);
+        $I->waitForElement('.results-summary', 60);
         $I->canSee('Topocentras', '.sidedrawer__navigation');
         $I->click('Topocentras');
-        $I->canSee('1a', '.sidedrawer__navigation');
-        $I->click('1a');
+        $I->canSee('1A', '.sidedrawer__navigation');
+        $I->click('1A');
         $I->canSee('Technorama', '.sidedrawer__navigation');
         $I->click('Technorama');
     }
